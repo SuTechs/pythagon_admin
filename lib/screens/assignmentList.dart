@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:pythagon_admin/constants.dart';
+import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 
 class AssignmentList extends StatelessWidget {
@@ -12,9 +15,20 @@ class AssignmentList extends StatelessWidget {
 }
 
 class AssignmentListTile extends StatelessWidget {
+  final bool isSelected;
+  final void Function() onTap;
+
+  const AssignmentListTile(
+      {Key key, this.isSelected = false, @required this.onTap})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
+      selected: isSelected,
+      selectedTileColor: Provider.of<User>(context).isDarkMode
+          ? kDarkModeSecondaryColor
+          : kLightModeSecondaryColor,
       leading: CircleAvatar(child: FlutterLogo()),
       title: Text('Long Long assignment'),
       subtitle: Text('Su'),
@@ -31,6 +45,7 @@ class _HideShowListViewState extends State<HideShowListView> {
   ScrollController _scrollViewController;
   bool _showAppbar = true;
   bool _isScrollingDown = false;
+  int _selectedIndex;
 
   @override
   void initState() {
@@ -73,7 +88,9 @@ class _HideShowListViewState extends State<HideShowListView> {
                   padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24.0),
-                    color: const Color(0xffededed),
+                    color: Provider.of<User>(context).isDarkMode
+                        ? kDarkModeSecondaryColor
+                        : kLightModeSecondaryColor,
                   ),
                   child: Text('Search'),
                 ),
@@ -88,12 +105,24 @@ class _HideShowListViewState extends State<HideShowListView> {
           child: ListView.separated(
             controller: _scrollViewController,
             itemBuilder: (context, index) {
-              return AssignmentListTile();
+              return AssignmentListTile(
+                isSelected: index == _selectedIndex,
+                onTap: () {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+              );
             },
             separatorBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(left: 70),
-                child: Container(height: 0.1, color: const Color(0xffF2F2F2)),
+                child: Container(
+                  height: 0.1,
+                  color: Provider.of<User>(context).isDarkMode
+                      ? kDarkModeSecondaryColor
+                      : kLightModeSecondaryColor,
+                ),
               );
             },
             itemCount: 200,

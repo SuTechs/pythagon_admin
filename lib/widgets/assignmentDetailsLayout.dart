@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pythagon_admin/constants.dart';
+import 'package:pythagon_admin/data/utils/modal/user.dart';
 
 class AssignmentDetailsLayout extends StatelessWidget {
   final Widget details;
@@ -51,7 +54,10 @@ class CustomContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.0), color: Colors.white,
+        borderRadius: BorderRadius.circular(16.0),
+        color: Provider.of<User>(context).isDarkMode
+            ? kDarkModePrimaryColor
+            : kLightModePrimaryColor,
         // gradient: LinearGradient(
         //   begin: Alignment(0.1, 1.0),
         //   end: Alignment(0.09, -1.0),
