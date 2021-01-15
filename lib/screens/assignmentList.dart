@@ -102,30 +102,32 @@ class _HideShowListViewState extends State<HideShowListView> {
           ),
         ),
         Expanded(
-          child: ListView.separated(
-            controller: _scrollViewController,
-            itemBuilder: (context, index) {
-              return AssignmentListTile(
-                isSelected: index == _selectedIndex,
-                onTap: () {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
-              );
-            },
-            separatorBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 70),
-                child: Container(
-                  height: 0.1,
-                  color: Provider.of<User>(context).isDarkMode
-                      ? kDarkModeSecondaryColor
-                      : kLightModeSecondaryColor,
-                ),
-              );
-            },
-            itemCount: 200,
+          child: Scrollbar(
+            child: ListView.separated(
+              controller: _scrollViewController,
+              itemBuilder: (context, index) {
+                return AssignmentListTile(
+                  isSelected: index == _selectedIndex,
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                  },
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 70),
+                  child: Container(
+                    height: 0.1,
+                    color: Provider.of<User>(context).isDarkMode
+                        ? kDarkModeSecondaryColor
+                        : kLightModeSecondaryColor,
+                  ),
+                );
+              },
+              itemCount: 200,
+            ),
           ),
         ),
       ],
