@@ -187,7 +187,7 @@ class DescriptionTextField extends StatelessWidget {
             contentPadding: EdgeInsets.all(0),
             border: InputBorder.none,
             isDense: true,
-            hintText: 'Assignment details',
+            hintText: 'Assignment description',
           ),
         ),
       ),
@@ -202,41 +202,65 @@ class AttachmentList extends StatefulWidget {
 
 class _AttachmentListState extends State<AttachmentList> {
   int _selectedIndex;
+  int _length = 3;
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: ListView.builder(
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return ListTile(
-            onTap: () {
+    return Stack(
+      children: [
+        Scrollbar(
+          child: ListView.builder(
+            itemCount: _length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                onTap: () {
+                  setState(() {
+                    if (_selectedIndex == index)
+                      _selectedIndex = null;
+                    else
+                      _selectedIndex = index;
+                  });
+                },
+                title: Text('filename_$index.pdf'),
+                leading: CircleAvatar(child: Icon(Icons.picture_as_pdf)),
+                trailing: _selectedIndex == index
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.download_outlined),
+                            onPressed: () {},
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.clear),
+                            onPressed: () {
+                              setState(() {
+                                if (_length > 0) {
+                                  _length -= 1;
+                                  _selectedIndex = null;
+                                }
+                              });
+                            },
+                          ),
+                        ],
+                      )
+                    : null,
+              );
+            },
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: IconButton(
+            onPressed: () {
               setState(() {
-                if (_selectedIndex == index)
-                  _selectedIndex = null;
-                else
-                  _selectedIndex = index;
+                _length += 1;
               });
             },
-            title: Text('filename.pdf'),
-            leading: CircleAvatar(child: Icon(Icons.picture_as_pdf)),
-            trailing: _selectedIndex == index
-                ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.download_outlined),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.clear),
-                        onPressed: () {},
-                      ),
-                    ],
-                  )
-                : null,
-          );
-        },
-      ),
+            icon: Icon(Icons.upload_outlined),
+            splashRadius: 16,
+          ),
+        )
+      ],
     );
   }
 }
