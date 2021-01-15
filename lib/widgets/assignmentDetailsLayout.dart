@@ -8,9 +8,12 @@ class AssignmentDetailsLayout extends StatelessWidget {
   final Widget payment;
   final Widget teacher;
 
-  const AssignmentDetailsLayout(
-      {Key key, this.details, this.payment, this.teacher})
-      : super(key: key);
+  const AssignmentDetailsLayout({
+    Key key,
+    @required this.details,
+    @required this.payment,
+    @required this.teacher,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
