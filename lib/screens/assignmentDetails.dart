@@ -11,8 +11,23 @@ class AssignmentDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: Drawer(
-        child: Center(child: Text('hello')),
+      drawerScrimColor: Colors.transparent,
+      key: SideSheet.scaffoldKey,
+      endDrawerEnableOpenDragGesture: false,
+      endDrawer: Container(
+        color: Provider.of<User>(context).isDarkMode
+            ? kDarkModeSecondaryColor
+            : kLightModeSecondaryColor,
+        width: MediaQuery.of(context).size.width * 0.3,
+        child: ConstrainedBox(
+          constraints: BoxConstraints.expand(
+            width: MediaQuery.of(context).size.width * 0.3,
+          ),
+          child: Material(
+              color: Colors.transparent,
+              elevation: 16,
+              child: Provider.of<SideSheet>(context).sideChild),
+        ),
       ),
       body: AssignmentDetailsLayout(
         details: Padding(
@@ -33,8 +48,18 @@ class AssignmentInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AssignmentInfoLayout(
-      studentInfo: StudentInfoRow(),
-      nameAndSubject: AssignmentNameAndSubject(),
+      studentInfo: GestureDetector(
+        child: StudentInfoRow(),
+        onTap: () {
+          SideSheet().openDrawer(child: Text('hello'));
+        },
+      ),
+      nameAndSubject: GestureDetector(
+        child: AssignmentNameAndSubject(),
+        onTap: () {
+          SideSheet().openDrawer(child: Text('hello noob'));
+        },
+      ),
       timeAndType: AssignmentTimeAndType(),
       description: DescriptionTextField(),
       attachments: AttachmentList(),
@@ -127,19 +152,17 @@ class _TeacherCardState extends State<TeacherCard> {
     return Stack(
       children: [
         /// list
-        Expanded(
-          child: Scrollbar(
-            child: ListView.builder(
-              controller: _scrollViewController,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: CircleAvatar(child: FlutterLogo()),
-                  title: Text('Uchit Chakma'),
-                  subtitle: Text('Rs 500/-'),
-                );
-              },
-              itemCount: 7,
-            ),
+        Scrollbar(
+          child: ListView.builder(
+            controller: _scrollViewController,
+            itemBuilder: (context, index) {
+              return ListTile(
+                leading: CircleAvatar(child: FlutterLogo()),
+                title: Text('Uchit Chakma'),
+                subtitle: Text('Rs 500/-'),
+              );
+            },
+            itemCount: 7,
           ),
         ),
 
@@ -216,5 +239,25 @@ class _TeacherCardState extends State<TeacherCard> {
     _scrollViewController.dispose();
     _scrollViewController.removeListener(() {});
     super.dispose();
+  }
+}
+
+class SideSheet extends ChangeNotifier {
+  static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+  static final SideSheet _singleton = SideSheet._internal();
+  factory SideSheet() {
+    return _singleton;
+  }
+  SideSheet._internal();
+
+  Widget _sideChild;
+
+  Widget get sideChild => _sideChild;
+
+  void openDrawer({Widget child}) {
+    _sideChild = child;
+    notifyListeners();
+
+    scaffoldKey.currentState.openEndDrawer();
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:pythagon_admin/constants.dart';
+import 'package:pythagon_admin/screens/assignmentDetails.dart';
 import 'package:pythagon_admin/screens/assignmentHome.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'data/utils/modal/user.dart';
@@ -23,8 +24,11 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => User(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => User()),
+        ChangeNotifierProvider(create: (_) => SideSheet()),
+      ],
       builder: (context, _) {
         return MaterialApp(
           theme: Provider.of<User>(context).isDarkMode

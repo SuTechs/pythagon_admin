@@ -11,6 +11,7 @@ class AssignmentHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Provider.of<User>(context).isDarkMode
             ? kDarkModeSecondaryColor
             : kLightModeSecondaryColor,
