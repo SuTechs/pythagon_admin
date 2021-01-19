@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/assignmentInfoComponents.dart';
+import 'package:pythagon_admin/widgets/roundedTextField.dart';
 
 import '../constants.dart';
 
@@ -120,8 +121,6 @@ class _TeacherCardState extends State<TeacherCard> {
   bool _showAppbar = true;
   bool _isScrollingDown = false;
 
-  final TextEditingController _priceController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -182,24 +181,7 @@ class _TeacherCardState extends State<TeacherCard> {
                 ),
                 SizedBox(width: 12),
                 Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24.0),
-                      color: Provider.of<User>(context).isDarkMode
-                          ? kDarkModeSecondaryColor
-                          : kLightModeSecondaryColor,
-                    ),
-                    child: TextField(
-                      controller: _priceController,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(0),
-                        border: InputBorder.none,
-                        isDense: true,
-                        hintText: 'Enter amount',
-                      ),
-                    ),
-                  ),
+                  child: RoundedTextField(hintText: 'Enter amount'),
                 ),
                 SizedBox(width: 12),
 

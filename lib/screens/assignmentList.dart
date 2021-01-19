@@ -4,12 +4,16 @@ import 'package:provider/provider.dart';
 import 'package:pythagon_admin/constants.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
+import 'package:pythagon_admin/widgets/roundedTextField.dart';
 
 class AssignmentList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-      child: HideShowListView(),
+      child: Navigator(
+        onGenerateRoute: (settings) =>
+            MaterialPageRoute(builder: (_) => HideShowListView()),
+      ),
     );
   }
 }
@@ -84,19 +88,20 @@ class _HideShowListViewState extends State<HideShowListView> {
             children: [
               SizedBox(width: 12),
               Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24.0),
-                    color: Provider.of<User>(context).isDarkMode
-                        ? kDarkModeSecondaryColor
-                        : kLightModeSecondaryColor,
-                  ),
-                  child: Text('Search'),
-                ),
+                child: RoundedTextField(hintText: 'Search'),
               ),
               SizedBox(width: 12),
-              CircleAvatar(child: FlutterLogo()),
+              FloatingActionButton(
+                mini: true,
+                child: FlutterLogo(),
+                onPressed: () {
+                  // setState(() {
+                  //   _isSelectStudentScreen = true;
+                  // });
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => StudentList()));
+                },
+              ),
               SizedBox(width: 12),
             ],
           ),
@@ -139,5 +144,68 @@ class _HideShowListViewState extends State<HideShowListView> {
     _scrollViewController.dispose();
     _scrollViewController.removeListener(() {});
     super.dispose();
+  }
+}
+
+/// students list or select student
+
+class StudentList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Row(
+            children: [
+              SizedBox(width: 12),
+              FloatingActionButton(
+                mini: true,
+                child: Icon(Icons.clear),
+                onPressed: () => Navigator.pop(context),
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: RoundedTextField(
+                  hintText: 'Search student...',
+                  autoFocus: true,
+                ),
+              ),
+              SizedBox(width: 12),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Scrollbar(
+            child: ListView.separated(
+              itemBuilder: (context, index) {
+                /// new student
+                if (index == 0)
+                  return ListTile(
+                    leading: CircleAvatar(child: Icon(Icons.add)),
+                    title: Text('New Student'),
+                  );
+
+                return AssignmentListTile(
+                  onTap: () {},
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 70),
+                  child: Container(
+                    height: 0.1,
+                    color: Provider.of<User>(context).isDarkMode
+                        ? kDarkModeSecondaryColor
+                        : kLightModeSecondaryColor,
+                  ),
+                );
+              },
+              itemCount: 200,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
