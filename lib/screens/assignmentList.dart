@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pythagon_admin/constants.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
+import 'package:pythagon_admin/widgets/iconTextField.dart';
 import 'package:pythagon_admin/widgets/roundedTextField.dart';
 
 class AssignmentList extends StatelessWidget {
@@ -95,9 +96,6 @@ class _HideShowListViewState extends State<HideShowListView> {
                 mini: true,
                 child: FlutterLogo(),
                 onPressed: () {
-                  // setState(() {
-                  //   _isSelectStudentScreen = true;
-                  // });
                   Navigator.push(context,
                       MaterialPageRoute(builder: (_) => StudentList()));
                 },
@@ -184,6 +182,10 @@ class StudentList extends StatelessWidget {
                   return ListTile(
                     leading: CircleAvatar(child: Icon(Icons.add)),
                     title: Text('New Student'),
+                    onTap: () {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (_) => NewStudent()));
+                    },
                   );
 
                 return AssignmentListTile(
@@ -201,9 +203,117 @@ class StudentList extends StatelessWidget {
                   ),
                 );
               },
-              itemCount: 200,
+              itemCount: 20,
             ),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+/// new student
+
+class NewStudent extends StatelessWidget {
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _college = TextEditingController();
+  final TextEditingController _course = TextEditingController();
+  final TextEditingController _gender = TextEditingController();
+  final TextEditingController _dob = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Row(
+            children: [
+              SizedBox(width: 12),
+              IconButton(
+                icon: Icon(Icons.clear),
+                onPressed: () => Navigator.pop(context),
+              ),
+              Spacer(),
+              IconButton(
+                icon: Icon(Icons.done),
+                onPressed: () => Navigator.pop(context),
+              ),
+              SizedBox(width: 12),
+            ],
+          ),
+        ),
+
+        /// profile pic
+        Center(
+          child: CircleAvatar(
+            child: FlutterLogo(),
+            radius: 64,
+          ),
+        ),
+
+        SizedBox(height: 32),
+
+        /// name
+        IconTextField(
+          labelText: 'Name',
+          icon: Icons.person,
+          controller: _name,
+        ),
+
+        /// phone
+        IconTextField(
+          labelText: 'Phone',
+          icon: Icons.phone,
+          controller: _phone,
+        ),
+
+        /// course
+        IconTextField(
+          labelText: 'Course',
+          icon: Icons.book,
+          controller: _course,
+          readOnly: true,
+          onTap: () {
+            _course.text = 'CSE';
+            print('Hello');
+          },
+        ),
+
+        /// college
+        IconTextField(
+          labelText: 'College',
+          icon: Icons.school,
+          controller: _college,
+          readOnly: true,
+          onTap: () {},
+        ),
+
+        /// date of birth
+        IconTextField(
+          labelText: 'Date of birth',
+          icon: Icons.date_range,
+          controller: _dob,
+          readOnly: true,
+          onTap: () {},
+        ),
+
+        /// gender
+        IconTextField(
+          labelText: 'Gender',
+          icon: Icons.wc,
+          controller: _gender,
+          readOnly: true,
+          onTap: () {},
+        ),
+
+        /// email
+        IconTextField(
+          labelText: 'Email',
+          icon: Icons.email,
+          controller: _email,
+          textInputAction: TextInputAction.done,
         ),
       ],
     );
