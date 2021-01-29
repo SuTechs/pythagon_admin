@@ -51,11 +51,13 @@ class AssignmentDetailsLayout extends StatelessWidget {
 
 class CustomContainer extends StatelessWidget {
   final Widget child;
+  final double width;
 
-  const CustomContainer({Key key, this.child}) : super(key: key);
+  const CustomContainer({Key key, this.child, this.width}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
         color: Provider.of<User>(context).isDarkMode

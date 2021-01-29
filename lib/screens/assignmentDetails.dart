@@ -7,6 +7,9 @@ import 'package:pythagon_admin/widgets/assignmentInfoComponents.dart';
 import 'package:pythagon_admin/widgets/roundedTextField.dart';
 
 import '../constants.dart';
+import 'assignmentDetails/selectSubject.dart';
+import 'assignmentDetails/selectTeacher.dart';
+import 'assignmentList.dart';
 
 class AssignmentDetails extends StatelessWidget {
   @override
@@ -15,19 +18,22 @@ class AssignmentDetails extends StatelessWidget {
       drawerScrimColor: Colors.transparent,
       key: SideSheet.scaffoldKey,
       endDrawerEnableOpenDragGesture: false,
-      endDrawer: Container(
-        color: Provider.of<User>(context).isDarkMode
-            ? kDarkModeSecondaryColor
-            : kLightModeSecondaryColor,
-        width: MediaQuery.of(context).size.width * 0.3,
-        child: ConstrainedBox(
-          constraints: BoxConstraints.expand(
-            width: MediaQuery.of(context).size.width * 0.3,
+      endDrawer: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          side: BorderSide(
+            color: Provider.of<User>(context).isDarkMode
+                ? kDarkModeSecondaryColor
+                : kLightModeSecondaryColor,
           ),
-          child: Material(
-              color: Colors.transparent,
-              elevation: 16,
-              child: Provider.of<SideSheet>(context).sideChild),
+        ),
+        child: CustomContainer(
+          child: ConstrainedBox(
+            constraints: BoxConstraints.expand(
+              width: MediaQuery.of(context).size.width * 0.3,
+            ),
+            child: Provider.of<SideSheet>(context).sideChild,
+          ),
         ),
       ),
       body: AssignmentDetailsLayout(
@@ -52,13 +58,13 @@ class AssignmentInfo extends StatelessWidget {
       studentInfo: GestureDetector(
         child: StudentInfoRow(),
         onTap: () {
-          SideSheet().openDrawer(child: Text('hello'));
+          SideSheet().openDrawer(child: NewStudent());
         },
       ),
       nameAndSubject: GestureDetector(
         child: AssignmentNameAndSubject(),
         onTap: () {
-          SideSheet().openDrawer(child: Text('hello noob'));
+          SideSheet().openDrawer(child: SelectSubject());
         },
       ),
       timeAndType: AssignmentTimeAndType(),
@@ -196,7 +202,7 @@ class _TeacherCardState extends State<TeacherCard> {
                 ),
                 SizedBox(width: 12),
 
-                /// Send
+                /// select
                 SizedBox(
                   height: 38,
                   child: FlatButton(
@@ -204,7 +210,9 @@ class _TeacherCardState extends State<TeacherCard> {
                     textColor: Colors.white,
                     shape: StadiumBorder(),
                     child: Text('Select'),
-                    onPressed: () {},
+                    onPressed: () {
+                      SideSheet().openDrawer(child: SelectTeacher());
+                    },
                   ),
                 ),
                 SizedBox(width: 12),

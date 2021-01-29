@@ -19,28 +19,6 @@ class AssignmentList extends StatelessWidget {
   }
 }
 
-class AssignmentListTile extends StatelessWidget {
-  final bool isSelected;
-  final void Function() onTap;
-
-  const AssignmentListTile(
-      {Key key, this.isSelected = false, @required this.onTap})
-      : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      selected: isSelected,
-      selectedTileColor: Provider.of<User>(context).isDarkMode
-          ? kDarkModeSecondaryColor
-          : kLightModeSecondaryColor,
-      leading: CircleAvatar(child: FlutterLogo()),
-      title: Text('Long Long assignment'),
-      subtitle: Text('Su'),
-    );
-  }
-}
-
 class HideShowListView extends StatefulWidget {
   @override
   _HideShowListViewState createState() => _HideShowListViewState();
@@ -142,6 +120,28 @@ class _HideShowListViewState extends State<HideShowListView> {
     _scrollViewController.dispose();
     _scrollViewController.removeListener(() {});
     super.dispose();
+  }
+}
+
+class AssignmentListTile extends StatelessWidget {
+  final bool isSelected;
+  final void Function() onTap;
+
+  const AssignmentListTile(
+      {Key key, this.isSelected = false, @required this.onTap})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      selected: isSelected,
+      selectedTileColor: Provider.of<User>(context).isDarkMode
+          ? kDarkModeSecondaryColor
+          : kLightModeSecondaryColor,
+      leading: CircleAvatar(child: FlutterLogo()),
+      title: Text('Long Long assignment'),
+      subtitle: Text('Su'),
+    );
   }
 }
 
