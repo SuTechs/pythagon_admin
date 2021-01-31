@@ -19,8 +19,10 @@ class AssignmentHome extends StatelessWidget {
         actions: [
           IconButton(
               icon: Icon(
-                Icons.wb_sunny_outlined,
-                color: Provider.of<User>(context).isDarkMode
+                !Provider.of<User>(context).isDarkMode
+                    ? Icons.wb_sunny_outlined
+                    : Icons.wb_sunny,
+                color: !Provider.of<User>(context).isDarkMode
                     ? kDarkModeBackgroundColor
                     : kLightModeBackgroundColor,
               ),

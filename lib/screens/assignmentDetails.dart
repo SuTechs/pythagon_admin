@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
+import 'package:pythagon_admin/screens/assignmentDetails/teacherInfo.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/assignmentInfoComponents.dart';
 import 'package:pythagon_admin/widgets/roundedTextField.dart';
-
 import '../constants.dart';
 import 'assignmentDetails/selectSubject.dart';
 import 'assignmentDetails/selectTeacher.dart';
@@ -162,6 +162,9 @@ class _TeacherCardState extends State<TeacherCard> {
             controller: _scrollViewController,
             itemBuilder: (context, index) {
               return ListTile(
+                onTap: () {
+                  SideSheet().openDrawer(child: TeacherInfo());
+                },
                 leading: CircleAvatar(child: FlutterLogo()),
                 title: Text('Uchit Chakma'),
                 subtitle: Text('Rs 500/-'),
