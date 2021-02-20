@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,8 @@ import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/iconTextField.dart';
 import 'package:pythagon_admin/widgets/roundedTextField.dart';
+import 'package:pythagon_admin/widgets/selectFromBottomSheet.dart';
+import 'package:pythagon_admin/widgets/showRoundedBottomSheet.dart';
 
 class AssignmentList extends StatelessWidget {
   @override
@@ -82,6 +85,9 @@ class _HideShowListViewState extends State<HideShowListView> {
             ],
           ),
         ),
+
+        /// assignments list
+
         Expanded(
           child: Scrollbar(
             child: ListView.separated(
@@ -140,7 +146,26 @@ class AssignmentListTile extends StatelessWidget {
           : kLightModeSecondaryColor,
       leading: CircleAvatar(child: FlutterLogo()),
       title: Text('Long Long assignment'),
-      subtitle: Text('Su'),
+      subtitle: Padding(
+        padding: const EdgeInsets.only(top: 4),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.calendar_today_rounded,
+              size: 11,
+            ),
+
+            /// time
+            Text(
+              ' Feb 19 10AM',
+              style: TextStyle(fontSize: 11),
+            ),
+          ],
+        ),
+      ),
+      //trailing: Icon(Icons.lightbulb_outline),
     );
   }
 }
@@ -188,8 +213,11 @@ class StudentList extends StatelessWidget {
                     },
                   );
 
-                return AssignmentListTile(
-                  onTap: () {},
+                /// student
+                return ListTile(
+                  leading: CircleAvatar(child: FlutterLogo()),
+                  title: Text('Name'),
+                  subtitle: Text('+91 7556325559'),
                 );
               },
               separatorBuilder: (context, index) {
@@ -276,8 +304,20 @@ class NewStudent extends StatelessWidget {
           controller: _course,
           readOnly: true,
           onTap: () {
-            _course.text = 'CSE';
-            print('Hello');
+            showRoundedBottomSheet(
+              context: context,
+              child: SelectFromList<String>(
+                items: [
+                  ListItem('CSE', 'CSE'),
+                ],
+                onNewItemSelect: (newItem) {
+                  _course.text = newItem;
+                },
+                onSelect: (value) {
+                  _course.text = value;
+                },
+              ),
+            );
           },
         ),
 
@@ -287,7 +327,23 @@ class NewStudent extends StatelessWidget {
           icon: Icons.school,
           controller: _college,
           readOnly: true,
-          onTap: () {},
+          onTap: () {
+            showRoundedBottomSheet(
+              context: context,
+              child: SelectFromList<String>(
+                items: [
+                  ListItem('Hello', 'Hello'),
+                  ListItem('Hello Noob', 'Hello Noob'),
+                ],
+                onNewItemSelect: (newItem) {
+                  _college.text = newItem;
+                },
+                onSelect: (value) {
+                  _college.text = value;
+                },
+              ),
+            );
+          },
         ),
 
         /// date of birth
@@ -305,7 +361,24 @@ class NewStudent extends StatelessWidget {
           icon: Icons.wc,
           controller: _gender,
           readOnly: true,
-          onTap: () {},
+          onTap: () {
+            showRoundedBottomSheet(
+              context: context,
+              child: SelectFromList<String>(
+                items: [
+                  ListItem('Male', 'Male'),
+                  ListItem('Female', 'Female'),
+                  ListItem('Other', 'Other'),
+                ],
+                onNewItemSelect: (newItem) {
+                  _gender.text = newItem;
+                },
+                onSelect: (value) {
+                  _gender.text = value;
+                },
+              ),
+            );
+          },
         ),
 
         /// email
