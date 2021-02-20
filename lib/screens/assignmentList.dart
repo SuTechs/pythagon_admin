@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -352,7 +351,17 @@ class NewStudent extends StatelessWidget {
           icon: Icons.date_range,
           controller: _dob,
           readOnly: true,
-          onTap: () {},
+          onTap: () async {
+            final DateTime? pickedDate = await showDatePicker(
+              useRootNavigator: false,
+              context: context,
+              initialDate: DateTime(2000),
+              lastDate: DateTime.now(),
+              firstDate: DateTime(1980),
+            );
+            if (pickedDate != null)
+              _dob.text = pickedDate.toString().substring(0, 10);
+          },
         ),
 
         /// gender
