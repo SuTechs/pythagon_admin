@@ -71,9 +71,9 @@ class SelectSubject extends StatelessWidget {
 }
 
 class SubjectTile extends StatelessWidget {
-  final void Function() onTap;
+  final void Function()? onTap;
 
-  const SubjectTile({Key key, this.onTap}) : super(key: key);
+  const SubjectTile({Key? key, this.onTap}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListTile(

@@ -6,14 +6,14 @@ class IconTextField extends StatelessWidget {
   final IconData icon;
   final bool readOnly;
   final TextEditingController controller;
-  final void Function() onTap;
+  final void Function()? onTap;
   final TextInputAction textInputAction;
 
   const IconTextField({
-    Key key,
-    @required this.labelText,
-    @required this.icon,
-    @required this.controller,
+    Key? key,
+    required this.labelText,
+    required this.icon,
+    required this.controller,
     this.hintText = '',
     this.readOnly = false,
     this.textInputAction = TextInputAction.next,

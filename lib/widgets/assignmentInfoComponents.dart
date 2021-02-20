@@ -11,12 +11,12 @@ class AssignmentInfoLayout extends StatelessWidget {
   final Widget attachments;
 
   const AssignmentInfoLayout(
-      {Key key,
-      @required this.studentInfo,
-      @required this.nameAndSubject,
-      @required this.timeAndType,
-      @required this.description,
-      @required this.attachments})
+      {Key? key,
+      required this.studentInfo,
+      required this.nameAndSubject,
+      required this.timeAndType,
+      required this.description,
+      required this.attachments})
       : super(key: key);
 
   @override
@@ -138,7 +138,7 @@ class AssignmentTimeAndType extends StatefulWidget {
 }
 
 class _AssignmentTimeAndTypeState extends State<AssignmentTimeAndType> {
-  String _value;
+  String? _value;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -201,7 +201,7 @@ class AttachmentList extends StatefulWidget {
 }
 
 class _AttachmentListState extends State<AttachmentList> {
-  int _selectedIndex;
+  int? _selectedIndex;
   int _length = 3;
   @override
   Widget build(BuildContext context) {

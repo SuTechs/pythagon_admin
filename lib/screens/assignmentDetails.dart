@@ -85,7 +85,7 @@ class PaymentCard extends StatelessWidget {
           'Due',
           style: Theme.of(context)
               .textTheme
-              .headline6
+              .headline6!
               .copyWith(fontWeight: FontWeight.normal, color: Colors.red),
         ),
         Text(
@@ -99,8 +99,10 @@ class PaymentCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             /// settle
-            OutlineButton(
-              shape: StadiumBorder(),
+            OutlinedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(StadiumBorder()),
+              ),
               child: Text('Settle'),
               onPressed: () {},
             ),
@@ -123,7 +125,7 @@ class TeacherCard extends StatefulWidget {
 }
 
 class _TeacherCardState extends State<TeacherCard> {
-  ScrollController _scrollViewController;
+  late ScrollController _scrollViewController;
   bool _showAppbar = true;
   bool _isScrollingDown = false;
 
@@ -196,9 +198,12 @@ class _TeacherCardState extends State<TeacherCard> {
 
                 /// Float
                 SizedBox(
-                  height: 38,
-                  child: OutlineButton(
-                    shape: StadiumBorder(),
+                  width: 36 * 2,
+                  height: 36,
+                  child: OutlinedButton(
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(StadiumBorder()),
+                    ),
                     child: Text('Float'),
                     onPressed: () {},
                   ),
@@ -207,11 +212,15 @@ class _TeacherCardState extends State<TeacherCard> {
 
                 /// select
                 SizedBox(
-                  height: 38,
-                  child: FlatButton(
-                    color: Colors.green,
-                    textColor: Colors.white,
-                    shape: StadiumBorder(),
+                  width: 36 * 2,
+                  height: 36,
+                  child: TextButton(
+                    style: ButtonStyle(
+                        shape: MaterialStateProperty.all(StadiumBorder()),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.green),
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.white)),
                     child: Text('Select'),
                     onPressed: () {
                       SideSheet().openDrawer(child: SelectTeacher());
@@ -243,14 +252,14 @@ class SideSheet extends ChangeNotifier {
   }
   SideSheet._internal();
 
-  Widget _sideChild;
+  Widget? _sideChild;
 
-  Widget get sideChild => _sideChild;
+  Widget? get sideChild => _sideChild;
 
-  void openDrawer({Widget child}) {
+  void openDrawer({required Widget child}) {
     _sideChild = child;
     notifyListeners();
 
-    scaffoldKey.currentState.openEndDrawer();
+    scaffoldKey.currentState!.openEndDrawer();
   }
 }

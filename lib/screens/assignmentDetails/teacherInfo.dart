@@ -4,8 +4,7 @@ import 'package:pythagon_admin/widgets/ratingStar.dart';
 class TeacherInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
       children: [
         /// teacher info
         ExpansionTile(
@@ -27,7 +26,8 @@ class TeacherInfo extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Text(
             'Assignments',
-            style: Theme.of(context).textTheme.subtitle1.copyWith(fontSize: 12),
+            style:
+                Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 12),
           ),
         ),
 
@@ -49,17 +49,24 @@ class TeacherInfo extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      OutlineButton(
-                        color: Colors.red,
+                      OutlinedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.red),
+                          side: MaterialStateProperty.all(
+                              BorderSide(color: Color(0xffdbdbdb))),
+                          shape: MaterialStateProperty.all(StadiumBorder()),
+                        ),
                         child: Text("Reject"),
-                        borderSide: BorderSide(color: Color(0xffdbdbdb)),
-                        shape: StadiumBorder(),
                         onPressed: () {},
                       ),
                       SizedBox(width: 10),
-                      RaisedButton(
-                        color: Colors.green,
-                        shape: StadiumBorder(),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.green),
+                          shape: MaterialStateProperty.all(StadiumBorder()),
+                        ),
                         onPressed: () {},
                         child: Text(
                           "Allow",
@@ -107,17 +114,24 @@ class TeacherInfo extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      OutlineButton(
-                        color: Colors.red,
+                      OutlinedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.red),
+                          side: MaterialStateProperty.all(
+                              BorderSide(color: Color(0xffdbdbdb))),
+                          shape: MaterialStateProperty.all(StadiumBorder()),
+                        ),
                         child: Text("Reject"),
-                        borderSide: BorderSide(color: Color(0xffdbdbdb)),
-                        shape: StadiumBorder(),
                         onPressed: () {},
                       ),
                       SizedBox(width: 10),
-                      RaisedButton(
-                        color: Colors.green,
-                        shape: StadiumBorder(),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.green),
+                          shape: MaterialStateProperty.all(StadiumBorder()),
+                        ),
                         onPressed: () {},
                         child: Text(
                           "Allow",
@@ -149,17 +163,24 @@ class TeacherInfo extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      OutlineButton(
-                        color: Colors.red,
+                      OutlinedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.red),
+                          side: MaterialStateProperty.all(
+                              BorderSide(color: Color(0xffdbdbdb))),
+                          shape: MaterialStateProperty.all(StadiumBorder()),
+                        ),
                         child: Text("Reject"),
-                        borderSide: BorderSide(color: Color(0xffdbdbdb)),
-                        shape: StadiumBorder(),
                         onPressed: () {},
                       ),
                       SizedBox(width: 10),
-                      RaisedButton(
-                        color: Colors.green,
-                        shape: StadiumBorder(),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.green),
+                          shape: MaterialStateProperty.all(StadiumBorder()),
+                        ),
                         onPressed: () {},
                         child: Text(
                           "Allow",

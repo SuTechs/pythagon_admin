@@ -10,10 +10,10 @@ class User extends ChangeNotifier {
 
   User._internal();
 
-  bool _isDarkMode;
+  late bool _isDarkMode;
 
   void init() {
-    _isDarkMode = Data.boolBox.get('isVerified', defaultValue: false);
+    _isDarkMode = Data.boolBox.get('isVerified', defaultValue: false) ?? false;
   }
 
   bool get isDarkMode => _isDarkMode;

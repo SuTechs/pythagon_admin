@@ -5,12 +5,16 @@ class RatingStar extends StatelessWidget {
   final double size;
   final double rating;
 
-  const RatingStar({Key key, this.color, this.size, @required this.rating})
+  const RatingStar(
+      {Key? key,
+      this.color = Colors.yellow,
+      this.size = 16,
+      required this.rating})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return IconTheme(
-      data: IconThemeData(color: color ?? Colors.yellow, size: size ?? 16),
+      data: IconThemeData(color: color, size: size),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [for (int i = 1; i <= 5; i++) getStar(rating - i + 1)],

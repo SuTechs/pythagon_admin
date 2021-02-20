@@ -9,7 +9,7 @@ class RoundedTextField extends StatelessWidget {
   final bool autoFocus;
 
   const RoundedTextField(
-      {Key key, @required this.hintText, this.autoFocus = false})
+      {Key? key, required this.hintText, this.autoFocus = false})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

@@ -5,10 +5,8 @@ class HomeLayout extends StatelessWidget {
   final Widget moreWidthChild;
 
   const HomeLayout(
-      {Key key, @required this.lessWidthChild, @required this.moreWidthChild})
-      : assert(lessWidthChild != null && moreWidthChild != null,
-            'Child should not be null'),
-        super(key: key);
+      {Key? key, required this.lessWidthChild, required this.moreWidthChild})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(

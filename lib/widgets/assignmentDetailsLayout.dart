@@ -9,10 +9,10 @@ class AssignmentDetailsLayout extends StatelessWidget {
   final Widget teacher;
 
   const AssignmentDetailsLayout({
-    Key key,
-    @required this.details,
-    @required this.payment,
-    @required this.teacher,
+    Key? key,
+    required this.details,
+    required this.payment,
+    required this.teacher,
   }) : super(key: key);
 
   @override
@@ -51,9 +51,10 @@ class AssignmentDetailsLayout extends StatelessWidget {
 
 class CustomContainer extends StatelessWidget {
   final Widget child;
-  final double width;
+  final double? width;
 
-  const CustomContainer({Key key, this.child, this.width}) : super(key: key);
+  const CustomContainer({Key? key, required this.child, this.width})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

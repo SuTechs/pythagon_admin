@@ -25,15 +25,15 @@ class HideShowListView extends StatefulWidget {
 }
 
 class _HideShowListViewState extends State<HideShowListView> {
-  ScrollController _scrollViewController;
+  late ScrollController _scrollViewController;
   bool _showAppbar = true;
   bool _isScrollingDown = false;
-  int _selectedIndex;
+  int? _selectedIndex;
 
   @override
   void initState() {
     super.initState();
-    _scrollViewController = new ScrollController();
+    _scrollViewController = ScrollController();
     _scrollViewController.addListener(() {
       if (_scrollViewController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -128,7 +128,7 @@ class AssignmentListTile extends StatelessWidget {
   final void Function() onTap;
 
   const AssignmentListTile(
-      {Key key, this.isSelected = false, @required this.onTap})
+      {Key? key, this.isSelected = false, required this.onTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
