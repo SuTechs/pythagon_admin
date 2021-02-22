@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,9 @@ void main() async {
   await Hive.openBox<String>('string');
   await Hive.openBox<double>('double');
   await Hive.openBox<int>('int');
+  await Firebase.initializeApp().catchError((e) {
+    print('Firebase init error = $e');
+  });
 
   User().init();
 
