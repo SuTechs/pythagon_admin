@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pythagon_admin/data/utils/modal/collectionRef.dart';
+
 class College {
   final String collegeName;
   final String collegeId;
@@ -13,6 +16,24 @@ class College {
         collegeName: json['collegeName'],
         collegeId: json['collegeId'],
       );
+
+  Future<void> addCollege() async {
+    await CollectionRef.colleges.doc(collegeId).set(toJson()).catchError((e) {
+      print('Error #2526 $e');
+    });
+  }
+
+  static Future<List<College>> getColleges() async {
+    final List<College> colleges = [];
+
+    final data = await CollectionRef.colleges.get();
+
+    for (QueryDocumentSnapshot snapshot in data.docs)
+      if (snapshot.data() != null)
+        colleges.add(College.fromJson(snapshot.data()!));
+
+    return colleges;
+  }
 }
 
 class Course {
@@ -22,14 +43,29 @@ class Course {
   Course({required this.courseName, required this.courseId});
 
   Map<String, dynamic> toJson() => {
-        'collegeName': courseName,
-        'collegeId': courseId,
+        'courseName': courseName,
+        'courseId': courseId,
       };
 
   factory Course.fromJson(Map<String, dynamic> json) => Course(
         courseName: json['courseName'],
-        courseId: json['collegeId'],
+        courseId: json['courseId'],
       );
+
+  Future<void> addCourse() async {
+    await CollectionRef.courses.doc(courseId).set(toJson());
+  }
+
+  static Future<List<Course>> getCourses() async {
+    final List<Course> courses = [];
+    final data = await CollectionRef.courses.get();
+
+    for (QueryDocumentSnapshot snapshot in data.docs)
+      if (snapshot.data() != null)
+        courses.add(Course.fromJson(snapshot.data()!));
+
+    return courses;
+  }
 }
 
 class Student {

@@ -94,7 +94,7 @@ class _SelectFromListState<T> extends State<SelectFromList<T>> {
                       widget.onSelect(listItems[index].value);
                       Navigator.pop(context);
                     },
-                    title: Text(listItems[index].title),
+                    title: Text('${listItems[index].title}'),
                   );
                 },
                 separatorBuilder: (context, index) {

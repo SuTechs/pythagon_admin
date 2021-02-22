@@ -22,6 +22,10 @@ void main() async {
 
   User().init();
 
+  // CollectionRef.colleges.snapshots().listen((event) {
+  //   print('Data = ${event.docs.first.data()}');
+  // });
+
   runApp(MyApp());
 }
 

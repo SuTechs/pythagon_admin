@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:pythagon_admin/constants.dart';
+import 'package:pythagon_admin/data/database.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/iconTextField.dart';
@@ -305,17 +306,30 @@ class NewStudent extends StatelessWidget {
           onTap: () {
             showRoundedBottomSheet(
               context: context,
-              child: SelectFromList<String>(
-                items: [
-                  ListItem('CSE', 'CSE'),
-                ],
-                onNewItemSelect: (newItem) {
-                  _course.text = newItem;
-                },
-                onSelect: (value) {
-                  _course.text = value;
-                },
-              ),
+              child: FutureBuilder<List<Course>>(
+                  future: Course.getCourses(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error = ${snapshot.error}'));
+                    }
+
+                    if (snapshot.hasData)
+                      return SelectFromList<Course>(
+                        items: snapshot.data!
+                            .map((e) => ListItem<Course>(e, e.courseName))
+                            .toList(),
+                        onNewItemSelect: (newItem) {
+                          Course(courseId: newItem, courseName: newItem)
+                              .addCourse();
+                          _course.text = newItem;
+                        },
+                        onSelect: (value) {
+                          _course.text = value.courseName;
+                        },
+                      );
+
+                    return Center(child: CircularProgressIndicator());
+                  }),
             );
           },
         ),
@@ -328,20 +342,31 @@ class NewStudent extends StatelessWidget {
           readOnly: true,
           onTap: () {
             showRoundedBottomSheet(
-              context: context,
-              child: SelectFromList<String>(
-                items: [
-                  ListItem('Hello', 'Hello'),
-                  ListItem('Hello Noob', 'Hello Noob'),
-                ],
-                onNewItemSelect: (newItem) {
-                  _college.text = newItem;
-                },
-                onSelect: (value) {
-                  _college.text = value;
-                },
-              ),
-            );
+                context: context,
+                child: FutureBuilder<List<College>>(
+                    future: College.getColleges(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error = ${snapshot.error}'));
+                      }
+
+                      if (snapshot.hasData)
+                        return SelectFromList<College>(
+                          items: snapshot.data!
+                              .map((e) => ListItem<College>(e, e.collegeName))
+                              .toList(),
+                          onNewItemSelect: (newItem) {
+                            College(collegeId: newItem, collegeName: newItem)
+                                .addCollege();
+                            _college.text = newItem;
+                          },
+                          onSelect: (value) {
+                            _college.text = value.collegeName;
+                          },
+                        );
+
+                      return Center(child: CircularProgressIndicator());
+                    }));
           },
         ),
 
