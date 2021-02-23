@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pythagon_admin/data/database.dart';
 
 /// assignment info components
 
@@ -72,6 +73,9 @@ class AssignmentInfoLayout extends StatelessWidget {
 }
 
 class StudentInfoRow extends StatelessWidget {
+  final Student student;
+
+  const StudentInfoRow({Key? key, required this.student}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -79,19 +83,19 @@ class StudentInfoRow extends StatelessWidget {
       children: [
         /// name
         Text(
-          'Su Mit',
+          '${student.name}',
           style: Theme.of(context).textTheme.caption,
         ),
 
         /// college
         Text(
-          'Dark College of Eng.',
+          '${student.college.collegeName}',
           style: Theme.of(context).textTheme.caption,
         ),
 
         /// phone
         Text(
-          '+91766732338',
+          '${student.phone}',
           style: Theme.of(context).textTheme.caption,
         ),
       ],

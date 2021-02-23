@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pythagon_admin/constants.dart';
+import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
+import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/homeLayout.dart';
 import 'assignmentDetails.dart';
 import 'assignmentList.dart';
@@ -42,7 +44,14 @@ class AssignmentHome extends StatelessWidget {
       ),
       body: HomeLayout(
         lessWidthChild: AssignmentList(),
-        moreWidthChild: AssignmentDetails(),
+        moreWidthChild:
+            Provider.of<CurrentAssignmentBloc>(context).currentStudent != null
+                ? AssignmentDetails()
+                : CustomContainer(
+                    child: Center(
+                      child: Text('Add some illustration here!'),
+                    ),
+                  ),
       ),
     );
   }

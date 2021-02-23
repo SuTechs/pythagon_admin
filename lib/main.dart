@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:pythagon_admin/constants.dart';
-import 'package:pythagon_admin/screens/assignmentDetails.dart';
 import 'package:pythagon_admin/screens/assignmentHome.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'data/bloc/currentAssignmentBloc.dart';
 import 'data/utils/modal/user.dart';
 
 void main() async {
@@ -22,8 +22,8 @@ void main() async {
 
   User().init();
 
-  // CollectionRef.colleges.snapshots().listen((event) {
-  //   print('Data = ${event.docs.first.data()}');
+  // CollectionRef.colleges.get().then((value) {
+  //   print('data = ${value.docs.first.data()}');
   // });
 
   runApp(MyApp());
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => User()),
-        ChangeNotifierProvider(create: (_) => SideSheet()),
+        ChangeNotifierProvider(create: (_) => CurrentAssignmentBloc()),
       ],
       builder: (context, _) {
         return MaterialApp(

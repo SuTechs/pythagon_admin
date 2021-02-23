@@ -7,9 +7,13 @@ import '../constants.dart';
 class RoundedTextField extends StatelessWidget {
   final String hintText;
   final bool autoFocus;
+  final void Function(String)? onChanged;
 
   const RoundedTextField(
-      {Key? key, required this.hintText, this.autoFocus = false})
+      {Key? key,
+      required this.hintText,
+      this.autoFocus = false,
+      this.onChanged})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -24,6 +28,7 @@ class RoundedTextField extends StatelessWidget {
               : kLightModeSecondaryColor,
         ),
         child: TextField(
+          onChanged: onChanged,
           autofocus: autoFocus,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(0),

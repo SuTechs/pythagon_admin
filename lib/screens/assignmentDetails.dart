@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/screens/assignmentDetails/teacherInfo.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
@@ -32,7 +33,12 @@ class AssignmentDetails extends StatelessWidget {
             constraints: BoxConstraints.expand(
               width: MediaQuery.of(context).size.width * 0.3,
             ),
-            child: Provider.of<SideSheet>(context).sideChild,
+            child: Navigator(
+              onGenerateRoute: (settings) => MaterialPageRoute(
+                // builder: (_) => (Provider.of<SideSheet>(context).sideChild)!,
+                builder: (_) => SideSheet().sideChild!,
+              ),
+            ),
           ),
         ),
       ),
@@ -56,9 +62,19 @@ class AssignmentInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return AssignmentInfoLayout(
       studentInfo: GestureDetector(
-        child: StudentInfoRow(),
+        child: StudentInfoRow(
+          student:
+              (Provider.of<CurrentAssignmentBloc>(context).currentStudent)!,
+        ),
         onTap: () {
-          SideSheet().openDrawer(child: NewStudent());
+          SideSheet().openDrawer(
+            child: NewOrEditStudent(
+              isEdit: true,
+              student:
+                  Provider.of<CurrentAssignmentBloc>(context, listen: false)
+                      .currentStudent,
+            ),
+          );
         },
       ),
       nameAndSubject: GestureDetector(
@@ -244,8 +260,9 @@ class _TeacherCardState extends State<TeacherCard> {
   }
 }
 
-class SideSheet extends ChangeNotifier {
-  static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+class SideSheet {
+  static final GlobalKey<ScaffoldState> scaffoldKey =
+      GlobalKey<ScaffoldState>();
   static final SideSheet _singleton = SideSheet._internal();
   factory SideSheet() {
     return _singleton;
@@ -258,8 +275,10 @@ class SideSheet extends ChangeNotifier {
 
   void openDrawer({required Widget child}) {
     _sideChild = child;
-    notifyListeners();
-
     scaffoldKey.currentState!.openEndDrawer();
+  }
+
+  static void closeDrawer() {
+    scaffoldKey.currentState!.openDrawer();
   }
 }

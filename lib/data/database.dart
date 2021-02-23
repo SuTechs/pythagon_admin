@@ -99,8 +99,8 @@ class Student {
         'email': email,
         'dateOfBirth': dateOfBirth,
         'gender': gender,
-        'college': college,
-        'course': course,
+        'college': college.collegeName,
+        'course': course.courseId,
       };
 
   factory Student.fromJson(Map<String, dynamic> json) {
@@ -112,10 +112,45 @@ class Student {
       email: json['email'],
       dateOfBirth: json['dateOfBirth'],
       gender: json['gender'],
-      college: College.fromJson(json['college']),
-      course: Course.fromJson(json['course']),
+      college:
+          College(collegeId: json['college'], collegeName: json['college']),
+      course: Course(courseId: json['course'], courseName: json['course']),
     );
   }
+
+  Future<void> addOrUpdateStudent() async {
+    print('update student');
+    await CollectionRef.students.doc(studentId).set(toJson());
+  }
+
+  static Future<List<Student>> getStudents() async {
+    final List<Student> students = [];
+    final data = await CollectionRef.students.get();
+
+    for (QueryDocumentSnapshot snapshot in data.docs)
+      if (snapshot.data() != null)
+        students.add(Student.fromJson(snapshot.data()!));
+
+    return students;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is Student &&
+            runtimeType == other.runtimeType &&
+            studentId == other.studentId &&
+            name == other.name &&
+            phone == other.phone &&
+            college.collegeId == other.college.collegeId &&
+            course.courseId == other.course.courseId &&
+            dateOfBirth == other.dateOfBirth &&
+            gender == other.gender &&
+            email == other.email;
+  }
+
+  @override
+  int get hashCode => studentId.hashCode ^ name.hashCode;
 }
 
 class Subject {
