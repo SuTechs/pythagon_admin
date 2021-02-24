@@ -281,8 +281,8 @@ class _FetchedStudentsListState extends State<FetchedStudentsList> {
                   title: Text('${studentsList[index - 1].name}'),
                   subtitle: Text('${studentsList[index - 1].phone}'),
                   onTap: () {
-                    CurrentAssignmentBloc().currentStudent =
-                        studentsList[index - 1];
+                    CurrentAssignmentBloc()
+                        .newAssignment(studentsList[index - 1]);
                     Navigator.pop(context);
                   },
                 );
@@ -563,6 +563,9 @@ class _NewOrEditStudentState extends State<NewOrEditStudent> {
 
     if (widget.student != student) student.addOrUpdateStudent();
 
-    CurrentAssignmentBloc().currentStudent = student;
+    if (widget.isEdit && widget.student != student)
+      CurrentAssignmentBloc().onStudentDetailsUpdated(student);
+    else
+      CurrentAssignmentBloc().newAssignment(student);
   }
 }

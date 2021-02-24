@@ -154,6 +154,7 @@ class Student {
 }
 
 class Subject {
+  static final List<Subject> _subjects = [];
   final String id;
   final String name;
   final String image;
@@ -173,6 +174,18 @@ class Subject {
       image: json['image'],
     );
   }
+
+  static Future<List<Subject>> getSubjects() async {
+    if (_subjects.isNotEmpty) return _subjects;
+
+    final data = await CollectionRef.subjects.get();
+
+    for (QueryDocumentSnapshot snapshot in data.docs)
+      if (snapshot.data() != null)
+        _subjects.add(Subject.fromJson(snapshot.data()!));
+
+    return _subjects;
+  }
 }
 
 enum AssignmentType { Session, Assignment }
@@ -184,37 +197,37 @@ const _AssignmentTypeEnumMap = {
 
 class Assignment {
   final String id;
-  final Student student;
-  final String name;
-  final String description;
-  final Subject subject;
-  final AssignmentType assignmentType;
-  final DateTime time;
-  final List<String> referenceFiles;
-  final double totalAmount;
-  final double paidAmount;
+  Student student;
+  String? name;
+  String? description;
+  Subject? subject;
+  AssignmentType? assignmentType;
+  DateTime? time;
+  List<String>? referenceFiles;
+  double? totalAmount;
+  double? paidAmount;
 
   Assignment({
     required this.id,
     required this.student,
-    required this.name,
-    required this.description,
-    required this.subject,
-    required this.assignmentType,
-    required this.time,
-    required this.referenceFiles,
-    required this.totalAmount,
-    required this.paidAmount,
+    this.name,
+    this.description,
+    this.subject,
+    this.assignmentType,
+    this.time,
+    this.referenceFiles,
+    this.totalAmount,
+    this.paidAmount,
   });
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'student': student.toJson(),
+        'student': student.studentId,
         'name': name,
         'description': description,
-        'subject': subject.toJson(),
+        'subject': subject!.id,
         'assignmentType': _AssignmentTypeEnumMap[assignmentType],
-        'time': time.toIso8601String(),
+        'time': time!.toIso8601String(),
         'referenceFiles': referenceFiles,
         'totalAmount': totalAmount,
         'paidAmount': paidAmount,

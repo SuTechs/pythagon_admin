@@ -104,24 +104,51 @@ class StudentInfoRow extends StatelessWidget {
 }
 
 class AssignmentNameAndSubject extends StatelessWidget {
+  final void Function() onSubjectTap;
+  final String? initialName;
+  final Subject? subject;
+  final void Function(String) onNameChanged;
+
+  const AssignmentNameAndSubject(
+      {Key? key,
+      required this.onSubjectTap,
+      required this.subject,
+      required this.initialName,
+      required this.onNameChanged})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onSubjectTap,
       contentPadding: EdgeInsets.all(0),
 
       /// subject logo
-      leading: FlutterLogo(
-        size: 48,
+      leading: CircleAvatar(
+        backgroundImage: subject != null ? NetworkImage(subject!.image) : null,
+        child: subject != null
+            ? null
+            : FlutterLogo(
+                size: 48,
+              ),
       ),
 
       /// subject name
       subtitle: Text(
-        'Subject',
+        subject != null ? subject!.name : 'Subject',
         style: TextStyle(height: 2),
       ),
 
       /// assignment name
       title: TextFormField(
+        initialValue: initialName,
+        onChanged: (v) {
+          if (v.trim().length > 0 && v.trim() != initialName)
+            onNameChanged(v.trim());
+        },
+        validator: (v) {
+          if (v != null && v.trim().length < 1) return 'Name is required';
+        },
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         inputFormatters: [
           LengthLimitingTextInputFormatter(60),
         ],
@@ -173,7 +200,13 @@ class _AssignmentTimeAndTypeState extends State<AssignmentTimeAndType> {
 }
 
 class DescriptionTextField extends StatelessWidget {
+  final String? initialDesc;
+  final void Function(String) onDescChanged;
   final _focus = FocusNode();
+
+  DescriptionTextField(
+      {Key? key, this.initialDesc, required this.onDescChanged})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -185,6 +218,16 @@ class DescriptionTextField extends StatelessWidget {
       },
       child: Scrollbar(
         child: TextFormField(
+          onChanged: (v) {
+            if (v.trim().length > 0 && v.trim() != initialDesc)
+              onDescChanged(v.trim());
+          },
+          validator: (v) {
+            if (v != null && v.trim().length < 1)
+              return 'Description is required';
+          },
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          initialValue: initialDesc,
           focusNode: _focus,
           maxLines: null,
           decoration: InputDecoration(

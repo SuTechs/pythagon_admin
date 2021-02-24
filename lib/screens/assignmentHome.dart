@@ -31,21 +31,12 @@ class AssignmentHome extends StatelessWidget {
               onPressed: () {
                 User().isDarkMode = !User().isDarkMode;
               }),
-
-          /// on new assignment click
-          // IconButton(
-          //     icon: Icon(
-          //       Icons.wb_sunny_outlined,
-          //     ),
-          //     onPressed: () {
-          //       while (Navigator.canPop(context)) Navigator.pop(context);
-          //     }),
         ],
       ),
       body: HomeLayout(
         lessWidthChild: AssignmentList(),
         moreWidthChild:
-            Provider.of<CurrentAssignmentBloc>(context).currentStudent != null
+            Provider.of<CurrentAssignmentBloc>(context).assignment != null
                 ? AssignmentDetails()
                 : CustomContainer(
                     child: Center(

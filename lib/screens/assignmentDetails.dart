@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
+import 'package:pythagon_admin/data/database.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/screens/assignmentDetails/teacherInfo.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
@@ -19,6 +20,14 @@ class AssignmentDetails extends StatelessWidget {
       drawerScrimColor: Colors.transparent,
       key: SideSheet.scaffoldKey,
       endDrawerEnableOpenDragGesture: false,
+      floatingActionButton: Visibility(
+        visible: Provider.of<CurrentAssignmentBloc>(context).canUpdate,
+        child: FloatingActionButton(
+          onPressed: () {
+            CurrentAssignmentBloc().canUpdate = false;
+          },
+        ),
+      ),
       endDrawer: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
@@ -64,7 +73,7 @@ class AssignmentInfo extends StatelessWidget {
       studentInfo: GestureDetector(
         child: StudentInfoRow(
           student:
-              (Provider.of<CurrentAssignmentBloc>(context).currentStudent)!,
+              Provider.of<CurrentAssignmentBloc>(context).assignment!.student,
         ),
         onTap: () {
           SideSheet().openDrawer(
@@ -72,19 +81,52 @@ class AssignmentInfo extends StatelessWidget {
               isEdit: true,
               student:
                   Provider.of<CurrentAssignmentBloc>(context, listen: false)
-                      .currentStudent,
+                      .assignment!
+                      .student,
             ),
           );
         },
       ),
-      nameAndSubject: GestureDetector(
-        child: AssignmentNameAndSubject(),
-        onTap: () {
-          SideSheet().openDrawer(child: SelectSubject());
+      nameAndSubject: AssignmentNameAndSubject(
+        subject:
+            Provider.of<CurrentAssignmentBloc>(context).assignment!.subject,
+        initialName:
+            Provider.of<CurrentAssignmentBloc>(context).assignment!.name,
+        onSubjectTap: () {
+          SideSheet().openDrawer(
+            child: FutureBuilder<List<Subject>>(
+                future: Subject.getSubjects(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error = ${snapshot.error}'));
+                  }
+
+                  if (snapshot.hasData)
+                    return SelectSubject(
+                      fetchedSubjects: snapshot.data ?? [],
+                      onSubjectChange: (s) {
+                        CurrentAssignmentBloc().onSubjectSelect(s);
+                      },
+                    );
+
+                  return Center(child: CircularProgressIndicator());
+                }),
+          );
+        },
+        onNameChanged: (name) {
+          CurrentAssignmentBloc().assignment!.name = name;
+          CurrentAssignmentBloc().canUpdate = true;
         },
       ),
       timeAndType: AssignmentTimeAndType(),
-      description: DescriptionTextField(),
+      description: DescriptionTextField(
+        initialDesc:
+            Provider.of<CurrentAssignmentBloc>(context).assignment!.description,
+        onDescChanged: (desc) {
+          CurrentAssignmentBloc().assignment!.description = desc;
+          CurrentAssignmentBloc().canUpdate = true;
+        },
+      ),
       attachments: AttachmentList(),
     );
   }
@@ -111,24 +153,9 @@ class PaymentCard extends StatelessWidget {
 
         Spacer(),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            /// settle
-            OutlinedButton(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(StadiumBorder()),
-              ),
-              child: Text('Settle'),
-              onPressed: () {},
-            ),
-
-            /// total
-            Text(
-              'Total: 10000/-',
-              style: Theme.of(context).textTheme.headline5,
-            ),
-          ],
+        Text(
+          'Total: 10000/-',
+          style: Theme.of(context).textTheme.headline5,
         )
       ],
     );
