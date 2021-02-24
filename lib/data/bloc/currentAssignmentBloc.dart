@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pythagon_admin/data/database.dart';
 
 class CurrentAssignmentBloc extends ChangeNotifier {
+  String textFieldKey = UniqueKey().toString();
+
   static final CurrentAssignmentBloc _singleton =
       CurrentAssignmentBloc._internal();
 
@@ -28,20 +31,15 @@ class CurrentAssignmentBloc extends ChangeNotifier {
   Assignment? get assignment => _assignment;
 
   void newAssignment(Student student) {
-    // _assignment = null;
-    // notifyListeners();
-    //
-    // await Future.delayed(Duration(seconds: 1));
     _assignment = Assignment(
-        student: student,
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        name: 'This is assign',
-        description: 'Lol sumits');
+        student: student, id: DateTime.now().millisecondsSinceEpoch.toString());
+    textFieldKey = UniqueKey().toString();
     notifyListeners();
   }
 
   void changeAssignment(Assignment assignment) {
     _assignment = assignment;
+    textFieldKey = UniqueKey().toString();
     notifyListeners();
   }
 

@@ -90,8 +90,7 @@ class AssignmentInfo extends StatelessWidget {
       nameAndSubject: AssignmentNameAndSubject(
         subject:
             Provider.of<CurrentAssignmentBloc>(context).assignment!.subject,
-        initialName:
-            Provider.of<CurrentAssignmentBloc>(context).assignment!.name,
+        initialName: CurrentAssignmentBloc().assignment!.name,
         onSubjectTap: () {
           SideSheet().openDrawer(
             child: FutureBuilder<List<Subject>>(
@@ -120,8 +119,7 @@ class AssignmentInfo extends StatelessWidget {
       ),
       timeAndType: AssignmentTimeAndType(),
       description: DescriptionTextField(
-        initialDesc:
-            Provider.of<CurrentAssignmentBloc>(context).assignment!.description,
+        initialDesc: CurrentAssignmentBloc().assignment!.description,
         onDescChanged: (desc) {
           CurrentAssignmentBloc().assignment!.description = desc;
           CurrentAssignmentBloc().canUpdate = true;

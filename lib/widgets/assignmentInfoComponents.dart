@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
 import 'package:pythagon_admin/data/database.dart';
 
 /// assignment info components
@@ -140,6 +141,7 @@ class AssignmentNameAndSubject extends StatelessWidget {
 
       /// assignment name
       title: TextFormField(
+        key: Key('${CurrentAssignmentBloc().textFieldKey}'),
         initialValue: initialName,
         onChanged: (v) {
           if (v.trim().length > 0 && v.trim() != initialName)
@@ -211,13 +213,14 @@ class DescriptionTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RawKeyboardListener(
-      focusNode: FocusNode(),
+      focusNode: _focus,
       onKey: (key) {
         if (key.isShiftPressed && key.isKeyPressed(LogicalKeyboardKey.enter))
           _focus.unfocus();
       },
       child: Scrollbar(
         child: TextFormField(
+          key: Key('${CurrentAssignmentBloc().textFieldKey}'),
           onChanged: (v) {
             if (v.trim().length > 0 && v.trim() != initialDesc)
               onDescChanged(v.trim());
@@ -228,7 +231,6 @@ class DescriptionTextField extends StatelessWidget {
           },
           autovalidateMode: AutovalidateMode.onUserInteraction,
           initialValue: initialDesc,
-          focusNode: _focus,
           maxLines: null,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(0),
