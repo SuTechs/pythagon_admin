@@ -10,6 +10,7 @@ class College {
   Map<String, dynamic> toJson() => {
         'collegeName': collegeName,
         'collegeId': collegeId,
+        'createdAt': Timestamp.now(),
       };
 
   factory College.fromJson(Map<String, dynamic> json) => College(
@@ -45,6 +46,7 @@ class Course {
   Map<String, dynamic> toJson() => {
         'courseName': courseName,
         'courseId': courseId,
+        'createdAt': Timestamp.now(),
       };
 
   factory Course.fromJson(Map<String, dynamic> json) => Course(
@@ -91,7 +93,7 @@ class Student {
     required this.course,
   });
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson(bool isEdit) => {
         'studentId': studentId,
         'name': name,
         'phone': phone,
@@ -101,6 +103,7 @@ class Student {
         'gender': gender,
         'college': college.collegeName,
         'course': course.courseId,
+        isEdit ? 'updatedAt' : 'createdAt': Timestamp.now(),
       };
 
   factory Student.fromJson(Map<String, dynamic> json) {
@@ -118,9 +121,9 @@ class Student {
     );
   }
 
-  Future<void> addOrUpdateStudent() async {
+  Future<void> addOrUpdateStudent(bool isEdit) async {
     print('update student');
-    await CollectionRef.students.doc(studentId).set(toJson());
+    await CollectionRef.students.doc(studentId).set(toJson(isEdit));
   }
 
   static Future<List<Student>> getStudents() async {
@@ -190,7 +193,7 @@ class Subject {
 
 enum AssignmentType { Session, Assignment }
 
-const _AssignmentTypeEnumMap = {
+const kAssignmentTypeEnumMap = {
   AssignmentType.Assignment: 'Assignment',
   AssignmentType.Session: 'Session',
 };
@@ -226,7 +229,7 @@ class Assignment {
         'name': name,
         'description': description,
         'subject': subject!.id,
-        'assignmentType': _AssignmentTypeEnumMap[assignmentType],
+        'assignmentType': kAssignmentTypeEnumMap[assignmentType],
         'time': time!.toIso8601String(),
         'referenceFiles': referenceFiles,
         'totalAmount': totalAmount,
@@ -240,7 +243,7 @@ class Assignment {
       name: json['name'] as String,
       description: json['description'] as String,
       subject: Subject.fromJson(json['subject'] as Map<String, dynamic>),
-      assignmentType: _AssignmentTypeEnumMap.entries
+      assignmentType: kAssignmentTypeEnumMap.entries
           .singleWhere((element) => element.value == json['assignmentType'])
           .key,
       time: DateTime.parse(json['time'] as String),

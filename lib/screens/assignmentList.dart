@@ -561,7 +561,7 @@ class _NewOrEditStudentState extends State<NewOrEditStudent> {
           courseName: _course.text.trim(), courseId: _course.text.trim()),
     );
 
-    if (widget.student != student) student.addOrUpdateStudent();
+    if (widget.student != student) student.addOrUpdateStudent(widget.isEdit);
 
     if (widget.isEdit && widget.student != student)
       CurrentAssignmentBloc().onStudentDetailsUpdated(student);
