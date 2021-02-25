@@ -22,18 +22,21 @@ class College {
     await CollectionRef.colleges.doc(collegeId).set(toJson()).catchError((e) {
       print('Error #2526 $e');
     });
+    _colleges.add(this);
   }
 
+  static final List<College> _colleges = [];
+
   static Future<List<College>> getColleges() async {
-    final List<College> colleges = [];
+    if (_colleges.isNotEmpty) return _colleges;
 
     final data = await CollectionRef.colleges.get();
 
     for (QueryDocumentSnapshot snapshot in data.docs)
       if (snapshot.data() != null)
-        colleges.add(College.fromJson(snapshot.data()!));
+        _colleges.add(College.fromJson(snapshot.data()!));
 
-    return colleges;
+    return _colleges;
   }
 }
 
@@ -55,18 +58,22 @@ class Course {
       );
 
   Future<void> addCourse() async {
+    _courses.add(this);
     await CollectionRef.courses.doc(courseId).set(toJson());
   }
 
+  static final List<Course> _courses = [];
+
   static Future<List<Course>> getCourses() async {
-    final List<Course> courses = [];
+    if (_courses.isNotEmpty) return _courses;
+
     final data = await CollectionRef.courses.get();
 
     for (QueryDocumentSnapshot snapshot in data.docs)
       if (snapshot.data() != null)
-        courses.add(Course.fromJson(snapshot.data()!));
+        _courses.add(Course.fromJson(snapshot.data()!));
 
-    return courses;
+    return _courses;
   }
 }
 
@@ -124,17 +131,20 @@ class Student {
   Future<void> addOrUpdateStudent(bool isEdit) async {
     print('update student');
     await CollectionRef.students.doc(studentId).set(toJson(isEdit));
+    _students.clear();
   }
 
+  static final List<Student> _students = [];
+
   static Future<List<Student>> getStudents() async {
-    final List<Student> students = [];
+    if (_students.isNotEmpty) return _students;
     final data = await CollectionRef.students.get();
 
     for (QueryDocumentSnapshot snapshot in data.docs)
       if (snapshot.data() != null)
-        students.add(Student.fromJson(snapshot.data()!));
+        _students.add(Student.fromJson(snapshot.data()!));
 
-    return students;
+    return _students;
   }
 
   @override
