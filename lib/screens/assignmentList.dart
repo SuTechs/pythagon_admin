@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pythagon_admin/constants.dart';
 import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
 import 'package:pythagon_admin/data/database.dart';
+import 'package:pythagon_admin/data/utils/Utils.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/iconTextField.dart';
@@ -150,10 +151,10 @@ class AssignmentListTile extends StatelessWidget {
       leading: CircleAvatar(child: FlutterLogo()),
       title: Text('Long Long assignment'),
       subtitle: Padding(
-        padding: const EdgeInsets.only(top: 4),
+        padding: const EdgeInsets.only(top: 2),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               Icons.calendar_today_rounded,
@@ -161,9 +162,12 @@ class AssignmentListTile extends StatelessWidget {
             ),
 
             /// time
-            Text(
-              ' Feb 19 10AM',
-              style: TextStyle(fontSize: 11),
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Text(
+                ' ${getFormattedTime(DateTime.now())}',
+                style: TextStyle(fontSize: 11),
+              ),
             ),
           ],
         ),

@@ -24,7 +24,7 @@ class AssignmentDetails extends StatelessWidget {
         visible: Provider.of<CurrentAssignmentBloc>(context).canUpdate,
         child: FloatingActionButton(
           onPressed: () {
-            CurrentAssignmentBloc().canUpdate = false;
+            CurrentAssignmentBloc().updateAssignment();
           },
         ),
       ),
@@ -44,7 +44,6 @@ class AssignmentDetails extends StatelessWidget {
             ),
             child: Navigator(
               onGenerateRoute: (settings) => MaterialPageRoute(
-                // builder: (_) => (Provider.of<SideSheet>(context).sideChild)!,
                 builder: (_) => SideSheet().sideChild!,
               ),
             ),
@@ -114,7 +113,7 @@ class AssignmentInfo extends StatelessWidget {
         },
         onNameChanged: (name) {
           CurrentAssignmentBloc().assignment!.name = name;
-          CurrentAssignmentBloc().canUpdate = true;
+          CurrentAssignmentBloc().notifyAssignmentUpdate();
         },
       ),
       timeAndType: AssignmentTimeAndType(),
@@ -122,7 +121,7 @@ class AssignmentInfo extends StatelessWidget {
         initialDesc: CurrentAssignmentBloc().assignment!.description,
         onDescChanged: (desc) {
           CurrentAssignmentBloc().assignment!.description = desc;
-          CurrentAssignmentBloc().canUpdate = true;
+          CurrentAssignmentBloc().notifyAssignmentUpdate();
         },
       ),
       attachments: AttachmentList(),

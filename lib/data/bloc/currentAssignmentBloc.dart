@@ -15,30 +15,40 @@ class CurrentAssignmentBloc extends ChangeNotifier {
   CurrentAssignmentBloc._internal();
 
   /// can create or update assignment
-  bool _canUpdate = false;
 
-  bool get canUpdate => _canUpdate;
-
-  set canUpdate(bool value) {
-    _canUpdate = value;
+  bool get canUpdate => _initialAssignment != _assignment;
+  void notifyAssignmentUpdate() {
     notifyListeners();
   }
 
   /// assignments
 
+  Assignment? _initialAssignment;
   Assignment? _assignment;
 
   Assignment? get assignment => _assignment;
 
   void newAssignment(Student student) {
     _assignment = Assignment(
-        student: student, id: DateTime.now().millisecondsSinceEpoch.toString());
+      student: student,
+      id: DateTime.now().millisecondsSinceEpoch.toString() +
+          student.studentId.substring(4) +
+          textFieldKey.substring(2, 7),
+    );
+    _initialAssignment = Assignment(
+      student: student,
+      id: DateTime.now().millisecondsSinceEpoch.toString() +
+          student.studentId.substring(4) +
+          textFieldKey.substring(2, 7),
+    );
+
     textFieldKey = UniqueKey().toString();
     notifyListeners();
   }
 
   void changeAssignment(Assignment assignment) {
     _assignment = assignment;
+    _initialAssignment = assignment;
     textFieldKey = UniqueKey().toString();
     notifyListeners();
   }
@@ -60,8 +70,24 @@ class CurrentAssignmentBloc extends ChangeNotifier {
         (_assignment!.subject != null &&
             _assignment!.subject!.id != subject.id)) {
       _assignment!.subject = subject;
-      _canUpdate = true;
       notifyListeners();
     }
+  }
+
+  void updateAssignment() {
+    print('AssignmentId = ${_assignment!.id}');
+    _initialAssignment = Assignment(
+      id: _assignment!.id,
+      student: _assignment!.student,
+      name: _assignment!.name,
+      description: _assignment!.description,
+      subject: _assignment!.subject,
+      assignmentType: _assignment!.assignmentType,
+      time: _assignment!.time,
+      referenceFiles: _assignment!.referenceFiles,
+      totalAmount: _assignment!.totalAmount,
+      paidAmount: _assignment!.paidAmount,
+    );
+    notifyListeners();
   }
 }

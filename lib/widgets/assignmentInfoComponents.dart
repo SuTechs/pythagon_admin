@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
 import 'package:pythagon_admin/data/database.dart';
+import 'package:pythagon_admin/data/utils/Utils.dart';
 
 /// assignment info components
 
@@ -144,8 +146,7 @@ class AssignmentNameAndSubject extends StatelessWidget {
         key: Key('${CurrentAssignmentBloc().textFieldKey}'),
         initialValue: initialName,
         onChanged: (v) {
-          if (v.trim().length > 0 && v.trim() != initialName)
-            onNameChanged(v.trim());
+          if (v.trim().length > 0) onNameChanged(v.trim());
         },
         validator: (v) {
           if (v != null && v.trim().length < 1) return 'Name is required';
@@ -165,39 +166,81 @@ class AssignmentNameAndSubject extends StatelessWidget {
   }
 }
 
-class AssignmentTimeAndType extends StatefulWidget {
-  @override
-  _AssignmentTimeAndTypeState createState() => _AssignmentTimeAndTypeState();
-}
-
-class _AssignmentTimeAndTypeState extends State<AssignmentTimeAndType> {
-  String? _value;
+class AssignmentTimeAndType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('Due By: 23/08/2021'),
+        Icon(Icons.calendar_today_rounded,
+            size: 14,
+            color:
+                Provider.of<CurrentAssignmentBloc>(context).assignment!.time ==
+                        null
+                    ? Colors.grey
+                    : null),
+        InkWell(
+          onTap: () {
+            selectDateTime(context);
+          },
+          child: Text(
+            ' ${Provider.of<CurrentAssignmentBloc>(context).assignment!.time != null ? getFormattedTime(Provider.of<CurrentAssignmentBloc>(context).assignment!.time!) : 'Select Time'}',
+            style: TextStyle(
+              color: Provider.of<CurrentAssignmentBloc>(context)
+                          .assignment!
+                          .time ==
+                      null
+                  ? Colors.grey
+                  : null,
+            ),
+          ),
+        ),
         SizedBox(width: 32),
-        DropdownButton<String>(
-          value: _value,
+        DropdownButton<AssignmentType>(
+          value: Provider.of<CurrentAssignmentBloc>(context)
+              .assignment!
+              .assignmentType,
           hint: Text('Assignment Type'),
-          items: <String>['Assignment', 'Quiz'].map((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-          onChanged: (value) {
-            setState(() {
-              _value = value;
-            });
+          items: AssignmentType.values
+              .map(
+                (e) => DropdownMenuItem<AssignmentType>(
+                  child: Text('${kAssignmentTypeEnumMap[e]}'),
+                  value: e,
+                ),
+              )
+              .toList(),
+          onChanged: (v) {
+            CurrentAssignmentBloc().assignment!.assignmentType = v;
+            CurrentAssignmentBloc().notifyAssignmentUpdate();
           },
           underline: SizedBox.shrink(),
           icon: SizedBox.shrink(),
         ),
       ],
     );
+  }
+
+  void selectDateTime(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      useRootNavigator: false,
+      context: context,
+      initialDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 120)),
+      firstDate: DateTime.now(),
+    );
+    if (pickedDate == null) return;
+
+    final TimeOfDay? timeOfDay =
+        await showTimePicker(context: context, initialTime: TimeOfDay.now());
+
+    if (timeOfDay == null) return;
+
+    final pickedDateAndTime = pickedDate
+        .add(Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute));
+
+    // print('time = ${getFormattedTime(pickedDateAndTime)}');
+    CurrentAssignmentBloc().assignment!.time = pickedDateAndTime;
+    CurrentAssignmentBloc().notifyAssignmentUpdate();
   }
 }
 
@@ -222,8 +265,7 @@ class DescriptionTextField extends StatelessWidget {
         child: TextFormField(
           key: Key('${CurrentAssignmentBloc().textFieldKey}'),
           onChanged: (v) {
-            if (v.trim().length > 0 && v.trim() != initialDesc)
-              onDescChanged(v.trim());
+            if (v.trim().length > 0) onDescChanged(v.trim());
           },
           validator: (v) {
             if (v != null && v.trim().length < 1)

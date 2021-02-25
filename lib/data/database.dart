@@ -189,6 +189,15 @@ class Subject {
 
     return _subjects;
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is Subject && runtimeType == other.runtimeType && id == other.id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 enum AssignmentType { Session, Assignment }
@@ -254,4 +263,24 @@ class Assignment {
       paidAmount: (json['paidAmount'] as num).toDouble(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is Assignment &&
+            runtimeType == other.runtimeType &&
+            id == other.id &&
+            name == other.name &&
+            student == other.student &&
+            description == other.description &&
+            subject == other.subject &&
+            assignmentType == other.assignmentType &&
+            time == other.time &&
+            referenceFiles == other.referenceFiles &&
+            totalAmount == other.totalAmount &&
+            paidAmount == other.paidAmount;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }
