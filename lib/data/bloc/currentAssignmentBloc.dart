@@ -34,12 +34,14 @@ class CurrentAssignmentBloc extends ChangeNotifier {
       id: DateTime.now().millisecondsSinceEpoch.toString() +
           student.studentId.substring(4) +
           textFieldKey.substring(2, 7),
+      totalAmount: 500,
     );
     _initialAssignment = Assignment(
       student: student,
       id: DateTime.now().millisecondsSinceEpoch.toString() +
           student.studentId.substring(4) +
           textFieldKey.substring(2, 7),
+      totalAmount: 500,
     );
 
     textFieldKey = UniqueKey().toString();
@@ -88,6 +90,13 @@ class CurrentAssignmentBloc extends ChangeNotifier {
       totalAmount: _assignment!.totalAmount,
       paidAmount: _assignment!.paidAmount,
     );
+    notifyListeners();
+  }
+
+  Future<void> settleUp(double amount) async {
+    await Future.delayed(Duration(seconds: 1));
+    _assignment!.paidAmount += amount;
+    _initialAssignment!.paidAmount += amount;
     notifyListeners();
   }
 }

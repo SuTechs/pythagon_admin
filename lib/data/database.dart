@@ -227,7 +227,11 @@ class Assignment {
   DateTime? time;
   List<String>? referenceFiles;
   double? totalAmount;
-  double? paidAmount;
+  double paidAmount;
+  double? get dueAmount {
+    if (totalAmount == null) return null;
+    return totalAmount! - paidAmount;
+  }
 
   Assignment({
     required this.id,
@@ -239,7 +243,7 @@ class Assignment {
     this.time,
     this.referenceFiles,
     this.totalAmount,
-    this.paidAmount,
+    this.paidAmount = 0,
   });
 
   Map<String, dynamic> toJson() => {

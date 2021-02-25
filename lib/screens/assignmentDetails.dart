@@ -7,6 +7,7 @@ import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/screens/assignmentDetails/teacherInfo.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/assignmentInfoComponents.dart';
+import 'package:pythagon_admin/widgets/priceTextField.dart';
 import 'package:pythagon_admin/widgets/roundedTextField.dart';
 import '../constants.dart';
 import 'assignmentDetails/selectSubject.dart';
@@ -135,25 +136,30 @@ class PaymentCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /// due
-        Text(
-          'Due',
-          style: Theme.of(context)
-              .textTheme
-              .headline6!
-              .copyWith(fontWeight: FontWeight.normal, color: Colors.red),
-        ),
-        Text(
-          '5000/-',
-          style: Theme.of(context).textTheme.headline5,
+        DueAmountAndSettleUp(
+          dueAmount: CurrentAssignmentBloc().assignment!.dueAmount,
+          onSettleUp: CurrentAssignmentBloc().settleUp,
         ),
 
         Spacer(),
 
-        Text(
-          'Total: 10000/-',
-          style: Theme.of(context).textTheme.headline5,
-        )
+        /// total amount
+        Row(
+          children: [
+            Text('Total: ', style: Theme.of(context).textTheme.headline5),
+            Expanded(
+              child: PriceTextField(
+                textStyle: Theme.of(context).textTheme.headline5,
+                hintText: 'Enter Total Amount',
+                initialPrice: CurrentAssignmentBloc().assignment!.totalAmount,
+                onPriceChanged: (totalAmount) {
+                  CurrentAssignmentBloc().assignment!.totalAmount = totalAmount;
+                  CurrentAssignmentBloc().notifyAssignmentUpdate();
+                },
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
