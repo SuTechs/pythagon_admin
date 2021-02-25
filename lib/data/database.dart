@@ -225,7 +225,7 @@ class Assignment {
   Subject? subject;
   AssignmentType? assignmentType;
   DateTime? time;
-  List<String>? referenceFiles;
+  List<String> referenceFiles;
   double? totalAmount;
   double paidAmount;
   double? get dueAmount {
@@ -241,7 +241,7 @@ class Assignment {
     this.subject,
     this.assignmentType,
     this.time,
-    this.referenceFiles,
+    required this.referenceFiles,
     this.totalAmount,
     this.paidAmount = 0,
   });

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
 import 'package:pythagon_admin/data/database.dart';
 import 'package:pythagon_admin/data/utils/Utils.dart';
+import 'package:pythagon_admin/widgets/fileIcons.dart';
 
 /// assignment info components
 
@@ -287,71 +288,108 @@ class DescriptionTextField extends StatelessWidget {
 }
 
 class AttachmentList extends StatefulWidget {
+  final List<String> files;
+
+  final void Function({required bool isDelete, required String url})
+      updateFiles;
+
+  const AttachmentList(
+      {Key? key, required this.files, required this.updateFiles})
+      : super(key: key);
+
   @override
   _AttachmentListState createState() => _AttachmentListState();
 }
 
 class _AttachmentListState extends State<AttachmentList> {
   int? _selectedIndex;
-  int _length = 3;
+  bool _isUploading = false;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Scrollbar(
-          child: ListView.builder(
-            itemCount: _length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                onTap: () {
-                  setState(() {
-                    if (_selectedIndex == index)
-                      _selectedIndex = null;
-                    else
-                      _selectedIndex = index;
-                  });
-                },
-                title: Text('filename_$index.pdf'),
-                leading: CircleAvatar(child: Icon(Icons.picture_as_pdf)),
-                trailing: _selectedIndex == index
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.download_outlined),
-                            onPressed: () {},
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.clear),
-                            onPressed: () {
-                              setState(() {
-                                if (_length > 0) {
-                                  _length -= 1;
+        if (widget.files.isEmpty)
+          Center(
+            child: Text('Upload Reference files!'),
+          )
+        else
+          Scrollbar(
+            child: ListView.builder(
+              itemCount: widget.files.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  onTap: () {
+                    setState(() {
+                      if (_selectedIndex == index)
+                        _selectedIndex = null;
+                      else
+                        _selectedIndex = index;
+                    });
+                  },
+                  title: Text(widget.files[index].split('/').last),
+                  leading: CircleAvatar(
+                    child: FileIcon(widget.files[index].split('/').last),
+                  ),
+                  trailing: _selectedIndex == index
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.download_outlined),
+                              onPressed: () {
+                                // ToDo: implement URL launcher
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.clear),
+                              onPressed: () {
+                                setState(() {
                                   _selectedIndex = null;
-                                }
-                              });
-                            },
-                          ),
-                        ],
-                      )
-                    : null,
-              );
-            },
+                                });
+                                widget.updateFiles(
+                                    isDelete: true, url: widget.files[index]);
+
+                                // ToDo: implement delete file here
+                              },
+                            ),
+                          ],
+                        )
+                      : null,
+                );
+              },
+            ),
           ),
-        ),
+
+        /// upload file
         Align(
           alignment: Alignment.bottomRight,
-          child: IconButton(
-            onPressed: () {
-              setState(() {
-                _length += 1;
-              });
-            },
-            icon: Icon(Icons.upload_outlined),
-            splashRadius: 16,
-          ),
+          child: _isUploading
+              ? CircularProgressIndicator()
+              : IconButton(
+                  onPressed: () async {
+                    setState(() {
+                      _isUploading = true;
+                    });
+
+                    // ToDo: file picker
+                    // ToDo: upload and add file
+
+                    await Future.delayed(Duration(seconds: 2));
+
+                    setState(() {
+                      _isUploading = false;
+                    });
+
+                    widget.updateFiles(isDelete: false, url: _kFileName);
+                  },
+                  icon: Icon(Icons.upload_outlined),
+                  splashRadius: 16,
+                ),
         )
       ],
     );
   }
 }
+
+const _kFileName = 'https://suMit.com/su8298w/su.pdf';

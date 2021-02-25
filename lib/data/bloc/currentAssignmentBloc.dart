@@ -30,6 +30,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
 
   void newAssignment(Student student) {
     _assignment = Assignment(
+      referenceFiles: [],
       student: student,
       id: DateTime.now().millisecondsSinceEpoch.toString() +
           student.studentId.substring(4) +
@@ -37,6 +38,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
       totalAmount: 500,
     );
     _initialAssignment = Assignment(
+      referenceFiles: [],
       student: student,
       id: DateTime.now().millisecondsSinceEpoch.toString() +
           student.studentId.substring(4) +
@@ -94,9 +96,9 @@ class CurrentAssignmentBloc extends ChangeNotifier {
   }
 
   Future<void> settleUp(double amount) async {
-    await Future.delayed(Duration(seconds: 1));
     _assignment!.paidAmount += amount;
     _initialAssignment!.paidAmount += amount;
     notifyListeners();
+    await Future.delayed(Duration(seconds: 1));
   }
 }

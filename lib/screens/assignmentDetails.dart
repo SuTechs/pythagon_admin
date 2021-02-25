@@ -125,7 +125,17 @@ class AssignmentInfo extends StatelessWidget {
           CurrentAssignmentBloc().notifyAssignmentUpdate();
         },
       ),
-      attachments: AttachmentList(),
+      attachments: AttachmentList(
+        files: CurrentAssignmentBloc().assignment!.referenceFiles,
+        updateFiles: ({required bool isDelete, required String url}) {
+          if (isDelete)
+            CurrentAssignmentBloc().assignment!.referenceFiles.remove(url);
+          else
+            CurrentAssignmentBloc().assignment!.referenceFiles.add(url);
+
+          CurrentAssignmentBloc().notifyAssignmentUpdate();
+        },
+      ),
     );
   }
 }
@@ -137,6 +147,7 @@ class PaymentCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DueAmountAndSettleUp(
+          key: Key('${CurrentAssignmentBloc().textFieldKey}'),
           dueAmount: CurrentAssignmentBloc().assignment!.dueAmount,
           onSettleUp: CurrentAssignmentBloc().settleUp,
         ),
