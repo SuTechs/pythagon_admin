@@ -11,6 +11,7 @@ class AssignmentListBloc extends ChangeNotifier {
 
   final List<Assignment> _assignments = [];
   String _searchText = '';
+  bool _isFetching = false;
 
   List<Assignment> get assignments => _assignments.where((e) {
         return e.name!.toLowerCase().contains(_searchText) ||
@@ -26,6 +27,9 @@ class AssignmentListBloc extends ChangeNotifier {
   }
 
   void onDataUpdate(QuerySnapshot snapshot) async {
+    if (_isFetching) return;
+    _isFetching = true;
+
     _assignments.clear();
     for (QueryDocumentSnapshot v in snapshot.docs) {
       try {
@@ -37,5 +41,7 @@ class AssignmentListBloc extends ChangeNotifier {
         continue;
       }
     }
+
+    _isFetching = false;
   }
 }
