@@ -63,7 +63,20 @@ class CurrentAssignmentBloc extends ChangeNotifier {
 
   void changeAssignment(Assignment assignment) {
     _isEdit = true;
-    _assignment = assignment;
+
+    _assignment = Assignment(
+      id: assignment.id,
+      student: assignment.student,
+      name: assignment.name,
+      description: assignment.description,
+      subject: assignment.subject,
+      assignmentType: assignment.assignmentType,
+      time: assignment.time,
+      referenceFiles: List<String>.from(assignment.referenceFiles),
+      totalAmount: assignment.totalAmount,
+      paidAmount: assignment.paidAmount,
+    );
+
     _copyAssignment();
     textFieldKey = UniqueKey().toString();
     notifyListeners();
