@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:pythagon_admin/constants.dart';
 import 'package:pythagon_admin/screens/assignmentHome.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'data/bloc/assignmentListBloc.dart';
 import 'data/bloc/currentAssignmentBloc.dart';
 import 'data/utils/modal/user.dart';
 
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => User()),
         ChangeNotifierProvider(create: (_) => CurrentAssignmentBloc()),
+        ChangeNotifierProvider(create: (_) => AssignmentListBloc()),
       ],
       builder: (context, _) {
         return MaterialApp(

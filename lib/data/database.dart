@@ -260,25 +260,32 @@ class Assignment {
         'referenceFiles': referenceFiles,
         'totalAmount': totalAmount,
         'paidAmount': paidAmount,
-        isEdit ? 'updatedAt' : 'createdAt': Timestamp.now(),
+        if (isEdit) 'createdAt': Timestamp.now(),
+        'updatedAt': Timestamp.now(),
       };
 
-  factory Assignment.fromJson(Map<String, dynamic> json) {
+  static Future<Assignment> getAssignmentFromData(
+      Map<String, dynamic> json) async {
+    final students = await Student.getStudents();
+    final subjects = await Subject.getSubjects();
+
     return Assignment(
-      id: json['id'] as String,
-      student: Student.fromJson(json['student'] as Map<String, dynamic>),
-      name: json['name'] as String,
-      description: json['description'] as String,
-      subject: Subject.fromJson(json['subject'] as Map<String, dynamic>),
+      id: json['id'],
+      student: students
+          .where((element) => element.studentId == json['student'])
+          .first,
+      name: json['name'],
+      description: json['description'],
+      subject: subjects.where((element) => element.id == json['subject']).first,
       assignmentType: kAssignmentTypeEnumMap.entries
           .singleWhere((element) => element.value == json['assignmentType'])
           .key,
-      time: DateTime.parse(json['time'] as String),
+      time: (json['time'] as Timestamp).toDate(),
       referenceFiles: (json['referenceFiles'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      totalAmount: (json['totalAmount'] as num).toDouble(),
-      paidAmount: (json['paidAmount'] as num).toDouble(),
+      totalAmount: json['totalAmount'],
+      paidAmount: json['paidAmount'],
     );
   }
 

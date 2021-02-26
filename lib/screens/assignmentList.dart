@@ -1,10 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:pythagon_admin/constants.dart';
+import 'package:pythagon_admin/data/bloc/assignmentListBloc.dart';
 import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
 import 'package:pythagon_admin/data/database.dart';
 import 'package:pythagon_admin/data/utils/Utils.dart';
+import 'package:pythagon_admin/data/utils/modal/collectionRef.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/iconTextField.dart';
@@ -26,6 +29,8 @@ class AssignmentList extends StatelessWidget {
   }
 }
 
+/// assignments reactive list
+
 class HideShowListView extends StatefulWidget {
   @override
   _HideShowListViewState createState() => _HideShowListViewState();
@@ -35,7 +40,7 @@ class _HideShowListViewState extends State<HideShowListView> {
   late ScrollController _scrollViewController;
   bool _showAppbar = true;
   bool _isScrollingDown = false;
-  int? _selectedIndex;
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -60,69 +65,101 @@ class _HideShowListViewState extends State<HideShowListView> {
         }
       }
     });
+
+    /// assignment list stream
+
+    CollectionRef.assignments
+        .orderBy('updatedAt', descending: true)
+        .snapshots()
+        .listen((event) {
+      print('stream data');
+
+      AssignmentListBloc().onDataUpdate(event);
+      if (_isLoading)
+        setState(() {
+          _isLoading = false;
+        });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AnimatedContainer(
-          margin: EdgeInsets.only(top: _showAppbar ? 12 : 0),
-          height: _showAppbar ? kToolbarHeight - 10 : 0.0,
-          duration: Duration(milliseconds: 200),
-          child: Row(
+    return _isLoading
+        ? Center(child: CircularProgressIndicator())
+        : Column(
             children: [
-              SizedBox(width: 12),
+              AnimatedContainer(
+                margin: EdgeInsets.only(top: _showAppbar ? 12 : 0),
+                height: _showAppbar ? kToolbarHeight - 10 : 0.0,
+                duration: Duration(milliseconds: 200),
+                child: Row(
+                  children: [
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: RoundedTextField(
+                        hintText: 'Search',
+                        onChanged: (v) {
+                          AssignmentListBloc().onSearch(v.toLowerCase());
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    FloatingActionButton(
+                      mini: true,
+                      child: FlutterLogo(),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => StudentList()));
+                      },
+                    ),
+                    SizedBox(width: 12),
+                  ],
+                ),
+              ),
+
+              /// assignments list
+
               Expanded(
-                child: RoundedTextField(hintText: 'Search'),
-              ),
-              SizedBox(width: 12),
-              FloatingActionButton(
-                mini: true,
-                child: FlutterLogo(),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => StudentList()));
-                },
-              ),
-              SizedBox(width: 12),
-            ],
-          ),
-        ),
-
-        /// assignments list
-
-        Expanded(
-          child: Scrollbar(
-            child: ListView.separated(
-              controller: _scrollViewController,
-              itemBuilder: (context, index) {
-                return AssignmentListTile(
-                  isSelected: index == _selectedIndex,
-                  onTap: () {
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                  },
-                );
-              },
-              separatorBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 70),
-                  child: Container(
-                    height: 0.1,
-                    color: Provider.of<User>(context).isDarkMode
-                        ? kDarkModeSecondaryColor
-                        : kLightModeSecondaryColor,
+                child: Scrollbar(
+                  child: ListView.separated(
+                    controller: _scrollViewController,
+                    itemBuilder: (context, index) {
+                      return AssignmentListTile(
+                        assignment: Provider.of<AssignmentListBloc>(context)
+                            .assignments[index],
+                        isSelected:
+                            CurrentAssignmentBloc().assignment != null &&
+                                Provider.of<AssignmentListBloc>(context)
+                                        .assignments[index]
+                                        .id ==
+                                    CurrentAssignmentBloc().assignment!.id,
+                        onTap: () {
+                          CurrentAssignmentBloc().changeAssignment(
+                              Provider.of<AssignmentListBloc>(context,
+                                      listen: false)
+                                  .assignments[index]);
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 70),
+                        child: Container(
+                          height: 0.1,
+                          color: Provider.of<User>(context).isDarkMode
+                              ? kDarkModeSecondaryColor
+                              : kLightModeSecondaryColor,
+                        ),
+                      );
+                    },
+                    itemCount: Provider.of<AssignmentListBloc>(context)
+                        .assignments
+                        .length,
                   ),
-                );
-              },
-              itemCount: 200,
-            ),
-          ),
-        ),
-      ],
-    );
+                ),
+              ),
+            ],
+          );
   }
 
   @override
@@ -134,11 +171,15 @@ class _HideShowListViewState extends State<HideShowListView> {
 }
 
 class AssignmentListTile extends StatelessWidget {
+  final Assignment assignment;
   final bool isSelected;
   final void Function() onTap;
 
   const AssignmentListTile(
-      {Key? key, this.isSelected = false, required this.onTap})
+      {Key? key,
+      this.isSelected = false,
+      required this.onTap,
+      required this.assignment})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -148,8 +189,10 @@ class AssignmentListTile extends StatelessWidget {
       selectedTileColor: Provider.of<User>(context).isDarkMode
           ? kDarkModeSecondaryColor
           : kLightModeSecondaryColor,
-      leading: CircleAvatar(child: FlutterLogo()),
-      title: Text('Long Long assignment'),
+      leading: CircleAvatar(
+        backgroundImage: NetworkImage(assignment.subject!.image),
+      ),
+      title: Text(assignment.name ?? 'Assignment Name'),
       subtitle: Padding(
         padding: const EdgeInsets.only(top: 2),
         child: Row(
@@ -165,7 +208,7 @@ class AssignmentListTile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 2),
               child: Text(
-                ' ${getFormattedTime(DateTime.now())}',
+                ' ${assignment.time != null ? getFormattedTime(assignment.time!) : 'Time'}',
                 style: TextStyle(fontSize: 11),
               ),
             ),
