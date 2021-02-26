@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pythagon_admin/data/utils/modal/collectionRef.dart';
 
 class College {
@@ -246,17 +247,20 @@ class Assignment {
     this.paidAmount = 0,
   });
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson(bool isEdit) => {
         'id': id,
         'student': student.studentId,
         'name': name,
         'description': description,
-        'subject': subject!.id,
-        'assignmentType': kAssignmentTypeEnumMap[assignmentType],
-        'time': time!.toIso8601String(),
+        'subject': subject != null ? subject!.id : null,
+        'assignmentType': assignmentType != null
+            ? kAssignmentTypeEnumMap[assignmentType]
+            : null,
+        'time': time != null ? Timestamp.fromDate(time!) : null,
         'referenceFiles': referenceFiles,
         'totalAmount': totalAmount,
         'paidAmount': paidAmount,
+        isEdit ? 'updatedAt' : 'createdAt': Timestamp.now(),
       };
 
   factory Assignment.fromJson(Map<String, dynamic> json) {
@@ -280,21 +284,57 @@ class Assignment {
 
   @override
   bool operator ==(Object other) {
+    // if (other is Assignment) {
+    //   print('\n\nidentical = ${identical(this, other)}');
+    //   print('typeCast = ${other is Assignment}');
+    //   print('runTimeType = ${runtimeType == other.runtimeType}');
+    //   print('id = ${id == other.id}');
+    //   print('name = ${name == other.name}');
+    //   print('studentId = ${student.studentId == other.student.studentId}');
+    //   print('desc = ${description == other.description}');
+    //   print('subject = ${subject == other.subject}');
+    //   print('assignType = ${assignmentType == other.assignmentType}');
+    //   print('time = ${time == other.time}');
+    //   print('files = ${listEquals(referenceFiles, other.referenceFiles)}');
+    //   print('totalAmount = ${totalAmount == other.totalAmount}');
+    //   print('paidAmount = ${paidAmount == other.paidAmount}\n\n');
+    // }
+
     return identical(this, other) ||
         other is Assignment &&
             runtimeType == other.runtimeType &&
             id == other.id &&
             name == other.name &&
-            student == other.student &&
+            student.studentId == other.student.studentId &&
             description == other.description &&
             subject == other.subject &&
             assignmentType == other.assignmentType &&
             time == other.time &&
-            referenceFiles == other.referenceFiles &&
+            listEquals(referenceFiles, other.referenceFiles) &&
             totalAmount == other.totalAmount &&
             paidAmount == other.paidAmount;
   }
 
   @override
   int get hashCode => id.hashCode;
+
+  /// assignment logic
+  Future<void> addOrUpdateAssignment(bool isEdit) async {
+    print('${isEdit ? 'Update' : 'Create'} assignment');
+
+    if (isEdit)
+      await CollectionRef.assignments.doc(id).update(toJson(isEdit));
+    else
+      await CollectionRef.assignments.doc(id).set(toJson(isEdit));
+  }
+
+  Future<void> settleUp(double amount) async {
+    await CollectionRef.assignments.doc(id).update({
+      'paidAmount': paidAmount,
+      'updatedAt': Timestamp.now(),
+      'settleUps': FieldValue.arrayUnion([
+        {'amount': amount, 'time': Timestamp.now()}
+      ]),
+    });
+  }
 }

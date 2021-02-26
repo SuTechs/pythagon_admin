@@ -24,6 +24,7 @@ class AssignmentDetails extends StatelessWidget {
       floatingActionButton: Visibility(
         visible: Provider.of<CurrentAssignmentBloc>(context).canUpdate,
         child: FloatingActionButton(
+          child: Icon(Icons.done),
           onPressed: () {
             CurrentAssignmentBloc().updateAssignment();
           },

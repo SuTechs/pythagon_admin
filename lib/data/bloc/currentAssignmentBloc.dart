@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pythagon_admin/data/database.dart';
+import 'package:pythagon_admin/widgets/showToast.dart';
 
 class CurrentAssignmentBloc extends ChangeNotifier {
   String textFieldKey = UniqueKey().toString();
@@ -17,6 +18,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
   /// can create or update assignment
 
   bool get canUpdate => _initialAssignment != _assignment;
+
   void notifyAssignmentUpdate() {
     notifyListeners();
   }
@@ -25,34 +27,44 @@ class CurrentAssignmentBloc extends ChangeNotifier {
 
   Assignment? _initialAssignment;
   Assignment? _assignment;
+  bool _isEdit = false;
 
   Assignment? get assignment => _assignment;
 
-  void newAssignment(Student student) {
-    _assignment = Assignment(
-      referenceFiles: [],
-      student: student,
-      id: DateTime.now().millisecondsSinceEpoch.toString() +
-          student.studentId.substring(4) +
-          textFieldKey.substring(2, 7),
-      totalAmount: 500,
-    );
+  void _copyAssignment() {
     _initialAssignment = Assignment(
-      referenceFiles: [],
-      student: student,
+      id: _assignment!.id,
+      student: _assignment!.student,
+      name: _assignment!.name,
+      description: _assignment!.description,
+      subject: _assignment!.subject,
+      assignmentType: _assignment!.assignmentType,
+      time: _assignment!.time,
+      referenceFiles: List<String>.from(_assignment!.referenceFiles),
+      totalAmount: _assignment!.totalAmount,
+      paidAmount: _assignment!.paidAmount,
+    );
+  }
+
+  void newAssignment(Student student) {
+    _isEdit = false;
+    _assignment = Assignment(
       id: DateTime.now().millisecondsSinceEpoch.toString() +
           student.studentId.substring(4) +
           textFieldKey.substring(2, 7),
-      totalAmount: 500,
+      student: student,
+      referenceFiles: [],
     );
+    _copyAssignment();
 
     textFieldKey = UniqueKey().toString();
     notifyListeners();
   }
 
   void changeAssignment(Assignment assignment) {
+    _isEdit = true;
     _assignment = assignment;
-    _initialAssignment = assignment;
+    _copyAssignment();
     textFieldKey = UniqueKey().toString();
     notifyListeners();
   }
@@ -78,27 +90,66 @@ class CurrentAssignmentBloc extends ChangeNotifier {
     }
   }
 
-  void updateAssignment() {
-    print('AssignmentId = ${_assignment!.id}');
-    _initialAssignment = Assignment(
-      id: _assignment!.id,
-      student: _assignment!.student,
-      name: _assignment!.name,
-      description: _assignment!.description,
-      subject: _assignment!.subject,
-      assignmentType: _assignment!.assignmentType,
-      time: _assignment!.time,
-      referenceFiles: _assignment!.referenceFiles,
-      totalAmount: _assignment!.totalAmount,
-      paidAmount: _assignment!.paidAmount,
-    );
+  ///  logic
+
+  void updateAssignment() async {
+    if (!_canCreateOrUpdateAssignment()) return; // can not create or update
+
+    _copyAssignment();
     notifyListeners();
+    await _assignment!.addOrUpdateAssignment(_isEdit);
+    _isEdit = true;
   }
 
   Future<void> settleUp(double amount) async {
     _assignment!.paidAmount += amount;
     _initialAssignment!.paidAmount += amount;
     notifyListeners();
-    await Future.delayed(Duration(seconds: 1));
+    await _assignment!.settleUp(amount);
+  }
+
+  bool _canCreateOrUpdateAssignment() {
+    // name
+    if (assignment!.name == null || assignment!.name == '') {
+      showToast('Name is required!');
+      return false;
+    }
+
+    // subject
+    if (assignment!.subject == null) {
+      showToast('Subject is required!');
+      return false;
+    }
+
+    // time
+    if (assignment!.time == null) {
+      showToast('Time is required!');
+      return false;
+    }
+
+    // type
+    if (assignment!.assignmentType == null) {
+      showToast('Type is required!');
+      return false;
+    }
+
+    // description
+    if (assignment!.description == null || assignment!.description == '') {
+      showToast('Description is required!');
+      return false;
+    }
+
+    // total amount
+    if (assignment!.totalAmount == null) {
+      showToast('Total amount is required!');
+      return false;
+    }
+
+    if (assignment!.totalAmount! <= 100) {
+      showToast('Total amount should be greater than 100');
+      return false;
+    }
+
+    return true;
   }
 }
