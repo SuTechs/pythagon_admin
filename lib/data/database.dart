@@ -229,6 +229,7 @@ class Assignment {
   List<String> referenceFiles;
   double? totalAmount;
   double paidAmount;
+
   double? get dueAmount {
     if (totalAmount == null) return null;
     return totalAmount! - paidAmount;
@@ -345,3 +346,28 @@ class Assignment {
     });
   }
 }
+
+/// teachers
+enum TeacherAssignmentStatus {
+  Sent,
+  Interested,
+  NotInterested,
+  Assigned,
+  NotAssigned,
+  Completed,
+  Rejected,
+  Closed,
+  Rated
+}
+
+const kTeacherAssignmentStatusEnumMap = {
+  TeacherAssignmentStatus.Sent: 'Sent',
+  TeacherAssignmentStatus.Interested: 'Interested',
+  TeacherAssignmentStatus.NotInterested: 'Not Interested',
+  TeacherAssignmentStatus.Assigned: 'Assigned',
+  TeacherAssignmentStatus.NotAssigned: 'Not Assigned',
+  TeacherAssignmentStatus.Completed: 'Completed',
+  TeacherAssignmentStatus.Rejected: 'Rejected',
+  TeacherAssignmentStatus.Closed: 'Closed',
+  TeacherAssignmentStatus.Rated: 'Rated'
+};

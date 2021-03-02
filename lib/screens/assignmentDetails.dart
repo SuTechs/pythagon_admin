@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -8,11 +9,34 @@ import 'package:pythagon_admin/screens/assignmentDetails/teacherInfo.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/assignmentInfoComponents.dart';
 import 'package:pythagon_admin/widgets/priceTextField.dart';
-import 'package:pythagon_admin/widgets/roundedTextField.dart';
+import 'package:pythagon_admin/widgets/teacherAssignmentStatusIcon.dart';
 import '../constants.dart';
 import 'assignmentDetails/selectSubject.dart';
 import 'assignmentDetails/selectTeacher.dart';
 import 'assignmentList.dart';
+
+class SideSheet {
+  static final GlobalKey<ScaffoldState> scaffoldKey =
+      GlobalKey<ScaffoldState>();
+  static final SideSheet _singleton = SideSheet._internal();
+  factory SideSheet() {
+    return _singleton;
+  }
+  SideSheet._internal();
+
+  Widget? _sideChild;
+
+  Widget? get sideChild => _sideChild;
+
+  void openDrawer({required Widget child}) {
+    _sideChild = child;
+    scaffoldKey.currentState!.openEndDrawer();
+  }
+
+  static void closeDrawer() {
+    scaffoldKey.currentState!.openDrawer();
+  }
+}
 
 class AssignmentDetails extends StatelessWidget {
   @override
@@ -221,16 +245,9 @@ class _TeacherCardState extends State<TeacherCard> {
           child: ListView.builder(
             controller: _scrollViewController,
             itemBuilder: (context, index) {
-              return ListTile(
-                onTap: () {
-                  SideSheet().openDrawer(child: TeacherInfo());
-                },
-                leading: CircleAvatar(child: FlutterLogo()),
-                title: Text('Uchit Chakma'),
-                subtitle: Text('Rs 500/-'),
-              );
+              return TeacherAssignmentListTile(status: _kTeacherStatus[index]);
             },
-            itemCount: 7,
+            itemCount: _kTeacherStatus.length,
           ),
         ),
 
@@ -240,53 +257,22 @@ class _TeacherCardState extends State<TeacherCard> {
           child: AnimatedContainer(
             height: _showAppbar ? kToolbarHeight - 10 : 0.0,
             duration: Duration(milliseconds: 200),
-            child: Row(
-              children: [
-                SizedBox(width: 12),
-                FloatingActionButton(
-                  child: Icon(Icons.search),
-                  onPressed: () {},
-                  mini: true,
-                ),
-                SizedBox(width: 12),
-                Expanded(
-                  child: RoundedTextField(hintText: 'Enter amount'),
-                ),
-                SizedBox(width: 12),
-
-                /// Float
-                SizedBox(
-                  width: 36 * 2,
-                  height: 36,
-                  child: OutlinedButton(
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(StadiumBorder()),
-                    ),
-                    child: Text('Float'),
-                    onPressed: () {},
-                  ),
-                ),
-                SizedBox(width: 12),
-
-                /// select
-                SizedBox(
-                  width: 36 * 2,
-                  height: 36,
-                  child: TextButton(
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all(StadiumBorder()),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.green),
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.white)),
-                    child: Text('Select'),
+            child: Opacity(
+              opacity: _showAppbar ? 1 : 0,
+              child: Row(
+                children: [
+                  SizedBox(width: 12),
+                  Spacer(),
+                  FloatingActionButton(
+                    child: Icon(Icons.add),
                     onPressed: () {
                       SideSheet().openDrawer(child: SelectTeacher());
                     },
+                    mini: true,
                   ),
-                ),
-                SizedBox(width: 12),
-              ],
+                  SizedBox(width: 12),
+                ],
+              ),
             ),
           ),
         ),
@@ -302,25 +288,41 @@ class _TeacherCardState extends State<TeacherCard> {
   }
 }
 
-class SideSheet {
-  static final GlobalKey<ScaffoldState> scaffoldKey =
-      GlobalKey<ScaffoldState>();
-  static final SideSheet _singleton = SideSheet._internal();
-  factory SideSheet() {
-    return _singleton;
-  }
-  SideSheet._internal();
+class TeacherAssignmentListTile extends StatelessWidget {
+  final TeacherAssignmentStatus status;
 
-  Widget? _sideChild;
-
-  Widget? get sideChild => _sideChild;
-
-  void openDrawer({required Widget child}) {
-    _sideChild = child;
-    scaffoldKey.currentState!.openEndDrawer();
-  }
-
-  static void closeDrawer() {
-    scaffoldKey.currentState!.openDrawer();
+  const TeacherAssignmentListTile({Key? key, required this.status})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {
+        SideSheet().openDrawer(child: TeacherInfo());
+      },
+      leading: CircleAvatar(child: FlutterLogo()),
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('Uchit Chakma'),
+          SizedBox(width: 4),
+          if (status != TeacherAssignmentStatus.Sent)
+            TeacherAssignmentStatusIcon(
+              size: 16,
+              status: status,
+              rating: status == TeacherAssignmentStatus.Rated ? 3.6 : null,
+            ),
+        ],
+      ),
+      subtitle: Text('Rs 500/-'),
+      trailing: Text(
+        'Feb 28 7:45 PM',
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 10,
+        ),
+      ),
+    );
   }
 }
+
+const _kTeacherStatus = TeacherAssignmentStatus.values;
