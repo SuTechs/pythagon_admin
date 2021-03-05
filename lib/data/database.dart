@@ -168,7 +168,7 @@ class Student {
 }
 
 class Subject {
-  static final List<Subject> _subjects = [];
+  static final List<Subject> subjects = [];
   final String id;
   final String name;
   final String image;
@@ -190,15 +190,15 @@ class Subject {
   }
 
   static Future<List<Subject>> getSubjects() async {
-    if (_subjects.isNotEmpty) return _subjects;
+    if (subjects.isNotEmpty) return subjects;
 
     final data = await CollectionRef.subjects.get();
 
     for (QueryDocumentSnapshot snapshot in data.docs)
       if (snapshot.data() != null)
-        _subjects.add(Subject.fromJson(snapshot.data()!));
+        subjects.add(Subject.fromJson(snapshot.data()!));
 
-    return _subjects;
+    return subjects;
   }
 
   @override
@@ -371,3 +371,184 @@ const kTeacherAssignmentStatusEnumMap = {
   TeacherAssignmentStatus.Closed: 'Closed',
   TeacherAssignmentStatus.Rated: 'Rated'
 };
+
+class TeacherRating {
+  final double performance;
+  final double accuracy;
+  final double availability;
+
+  double get avgRating => (performance + accuracy + availability) / 3;
+
+  TeacherRating(
+      {required this.performance,
+      required this.accuracy,
+      required this.availability});
+
+  Map<String, dynamic> toJson() => {
+        'performance': performance,
+        'accuracy': accuracy,
+        'availability': availability,
+      };
+
+  factory TeacherRating.fromJson(Map<String, dynamic> json) {
+    return TeacherRating(
+        performance: json['performance'],
+        accuracy: json['accuracy'],
+        availability: json['availability']);
+  }
+}
+
+class Teacher {
+  static final List<Teacher> _teachers = [];
+  final String id;
+  final String name;
+  final String phone;
+  final String profilePic;
+  final String? email;
+  final TeacherRating? rating;
+  final List<String> subjectsIds;
+  final double? balance;
+
+  Teacher(
+      {required this.id,
+      required this.name,
+      required this.phone,
+      required this.profilePic,
+      this.email,
+      this.rating,
+      required this.subjectsIds,
+      this.balance = 0});
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'phone': phone,
+        'profilePic': profilePic,
+        'email': email,
+        'subjects': subjectsIds,
+        'rating': rating != null ? rating!.toJson() : null,
+        'balance': balance,
+        'createdAt': Timestamp.now(),
+      };
+
+  factory Teacher.fromJson(Map<String, dynamic> json) {
+    return Teacher(
+      id: json['id'],
+      name: json['name'],
+      phone: json['phone'],
+      balance: json['balance'] ?? 0,
+      profilePic: json['profilePic'],
+      subjectsIds:
+          (json['subjects'] as List<dynamic>).map((e) => e as String).toList(),
+      rating: json['rating'] != null
+          ? TeacherRating.fromJson(json['rating'])
+          : null,
+    );
+  }
+
+  static Future<List<Teacher>> getTeachers() async {
+    if (_teachers.isNotEmpty) return _teachers;
+
+    final data = await CollectionRef.teachers.get();
+
+    for (QueryDocumentSnapshot snapshot in data.docs)
+      if (snapshot.data() != null)
+        _teachers.add(Teacher.fromJson(snapshot.data()!));
+
+    return _teachers;
+  }
+
+  /// temporary
+  Future<void> addTeacher() async {
+    await CollectionRef.teachers.doc(id).set(toJson()).catchError((e) {
+      print('Error #2532 $e');
+    });
+  }
+}
+
+class TeachersAssignments {
+  final String id;
+  final String assignmentId;
+  final Teacher teacher;
+  final double amount;
+  final DateTime time;
+  final TeacherAssignmentStatus status;
+  final TeacherRating? rating;
+  final List<String> assignmentFiles;
+
+  TeachersAssignments({
+    required this.id,
+    required this.assignmentId,
+    required this.teacher,
+    required this.amount,
+    required this.time,
+    required this.status,
+    this.rating,
+    required this.assignmentFiles,
+  });
+
+  Map<String, dynamic> toJson(bool isEdit) => {
+        'id': id,
+        'assignmentId': assignmentId,
+        'teacher': teacher.id,
+        'amount': amount,
+        if (isEdit) 'createdAt': Timestamp.now(),
+        'updatedAt': Timestamp.now(),
+        'status': kTeacherAssignmentStatusEnumMap[status],
+        'rating': rating != null ? rating!.toJson() : null,
+        'assignmentFiles': assignmentFiles,
+      };
+
+  factory TeachersAssignments.fromJson(
+      Map<String, dynamic> json, List<Teacher> teachers) {
+    return TeachersAssignments(
+      id: json['id'],
+      assignmentId: json['assignmentId'],
+      teacher: teachers.firstWhere((element) => element.id == json['teacher']),
+      amount: json['amount'],
+      time: (json['updatedAt'] as Timestamp).toDate(),
+      status: kTeacherAssignmentStatusEnumMap.entries
+          .singleWhere((element) => element.value == json['status'])
+          .key,
+      rating: json['rating'] != null
+          ? TeacherRating.fromJson(json['rating'])
+          : null,
+      assignmentFiles: json['assignmentFiles'] != null
+          ? (json['assignmentFiles'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
+    );
+  }
+
+  static Future<void> floatAssignments(
+      List<String> selectedTeachers, String assignmentId, double amount) async {
+    /// creating teachers assignments
+    for (String teacherId in selectedTeachers) {
+      final id = '${DateTime.now().millisecondsSinceEpoch}';
+
+      await CollectionRef.teachersAssignments.doc(id).set({
+        'id': id,
+        'assignmentId': assignmentId,
+        'teacher': teacherId,
+        'amount': amount,
+        'createdAt': Timestamp.now(),
+        'updatedAt': Timestamp.now(),
+        'status': kTeacherAssignmentStatusEnumMap[TeacherAssignmentStatus.Sent],
+      });
+    }
+  }
+
+  static Future<void> changeStatus(
+      TeacherAssignmentStatus status, String id) async {
+    await CollectionRef.teachersAssignments
+        .doc(id)
+        .update({'status': kTeacherAssignmentStatusEnumMap[status]});
+  }
+
+  static Future<void> updateFiles(List<String> files, String id) async {
+    await CollectionRef.teachersAssignments
+        .doc(id)
+        .update({'assignmentFiles': files});
+  }
+}

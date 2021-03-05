@@ -1,15 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
 import 'package:pythagon_admin/data/database.dart';
+import 'package:pythagon_admin/data/utils/Utils.dart';
+import 'package:pythagon_admin/data/utils/modal/collectionRef.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/screens/assignmentDetails/teacherInfo.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/assignmentInfoComponents.dart';
 import 'package:pythagon_admin/widgets/priceTextField.dart';
+import 'package:pythagon_admin/widgets/showToast.dart';
 import 'package:pythagon_admin/widgets/teacherAssignmentStatusIcon.dart';
+
 import '../constants.dart';
 import 'assignmentDetails/selectSubject.dart';
 import 'assignmentDetails/selectTeacher.dart';
@@ -35,6 +40,11 @@ class SideSheet {
 
   static void closeDrawer() {
     scaffoldKey.currentState!.openDrawer();
+  }
+
+  static void closeIfOpen() {
+    if (scaffoldKey.currentState != null &&
+        scaffoldKey.currentState!.isEndDrawerOpen) closeDrawer();
   }
 }
 
@@ -211,9 +221,17 @@ class _TeacherCardState extends State<TeacherCard> {
   bool _showAppbar = true;
   bool _isScrollingDown = false;
 
+  /// data
+  bool _isLoading = true;
+  final List<Teacher> fetchedTeachers = [];
+  final List<TeachersAssignments> teachersAssignments = [];
+
   @override
   void initState() {
     super.initState();
+
+    fetchTeachers();
+
     _scrollViewController = new ScrollController();
     _scrollViewController.addListener(() {
       if (_scrollViewController.position.userScrollDirection ==
@@ -236,48 +254,129 @@ class _TeacherCardState extends State<TeacherCard> {
     });
   }
 
+  /// fetch teachers
+  void fetchTeachers() async {
+    // if (!_isLoading)
+    //   setState(() {
+    //     _isLoading = true;
+    //   });
+
+    /// fetch teachers
+
+    final t = await Teacher.getTeachers();
+    // fetchedTeachers.addAll(t);
+
+    // if (_isLoading)
+    setState(() {
+      fetchedTeachers.addAll(t);
+      _isLoading = false;
+    });
+  }
+
+  List<TeachersAssignments> handleStreamData(QuerySnapshot snapshot) {
+    teachersAssignments.clear();
+    for (QueryDocumentSnapshot v in snapshot.docs) {
+      try {
+        teachersAssignments
+            .add(TeachersAssignments.fromJson(v.data()!, fetchedTeachers));
+      } catch (e) {
+        print('\nError while parsing teachers assignment = $e');
+        continue;
+      }
+    }
+
+    teachersAssignments.sort((a, b) => a.time.compareTo(b.time));
+
+    return teachersAssignments;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        /// list
-        Scrollbar(
-          child: ListView.builder(
-            controller: _scrollViewController,
-            itemBuilder: (context, index) {
-              return TeacherAssignmentListTile(status: _kTeacherStatus[index]);
-            },
-            itemCount: _kTeacherStatus.length,
-          ),
-        ),
+    return StreamBuilder<QuerySnapshot>(
+        stream: CollectionRef.teachersAssignments
+            .where('assignmentId',
+                isEqualTo: CurrentAssignmentBloc().assignment!.id)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error #213 = ${snapshot.error}'));
+          }
 
-        /// actions
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: AnimatedContainer(
-            height: _showAppbar ? kToolbarHeight - 10 : 0.0,
-            duration: Duration(milliseconds: 200),
-            child: Opacity(
-              opacity: _showAppbar ? 1 : 0,
-              child: Row(
-                children: [
-                  SizedBox(width: 12),
-                  Spacer(),
-                  FloatingActionButton(
-                    child: Icon(Icons.add),
-                    onPressed: () {
-                      SideSheet().openDrawer(child: SelectTeacher());
-                    },
-                    mini: true,
+          if (snapshot.hasData && !_isLoading) {
+            final data = handleStreamData(snapshot.data!);
+
+            return Stack(
+              children: [
+                /// list
+                data.isEmpty
+                    ? Center(child: Text('Select Teachers!'))
+                    : Scrollbar(
+                        child: ListView.builder(
+                          controller: _scrollViewController,
+                          itemBuilder: (context, index) {
+                            return TeacherAssignmentListTile(data: data[index]);
+                          },
+                          itemCount: data.length,
+                        ),
+                      ),
+
+                /// actions
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: AnimatedContainer(
+                    height: _showAppbar ? kToolbarHeight - 10 : 0.0,
+                    duration: Duration(milliseconds: 200),
+                    child: Opacity(
+                      opacity: _showAppbar ? 1 : 0,
+                      child: Row(
+                        children: [
+                          SizedBox(width: 12),
+                          Spacer(),
+                          FloatingActionButton(
+                            child: Icon(Icons.add),
+                            onPressed: () {
+                              if (CurrentAssignmentBloc()
+                                      .assignment!
+                                      .totalAmount ==
+                                  null) {
+                                showToast('Enter Total Amount First!');
+                                return;
+                              } else if (CurrentAssignmentBloc()
+                                      .assignment!
+                                      .subject ==
+                                  null) {
+                                showToast('Select Subject First!');
+                                return;
+                              } else
+                                SideSheet().openDrawer(
+                                    child: SelectTeacher(
+                                  assignmentId:
+                                      CurrentAssignmentBloc().assignment!.id,
+                                  assignmentPrice: CurrentAssignmentBloc()
+                                      .assignment!
+                                      .totalAmount!,
+                                  subjectId: CurrentAssignmentBloc()
+                                      .assignment!
+                                      .subject!
+                                      .id,
+                                  alreadySelectedTeachersIds:
+                                      data.map((e) => e.teacher.id).toList(),
+                                ));
+                            },
+                            mini: true,
+                          ),
+                          SizedBox(width: 12),
+                        ],
+                      ),
+                    ),
                   ),
-                  SizedBox(width: 12),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+                ),
+              ],
+            );
+          }
+
+          return Center(child: CircularProgressIndicator());
+        });
   }
 
   @override
@@ -289,33 +388,39 @@ class _TeacherCardState extends State<TeacherCard> {
 }
 
 class TeacherAssignmentListTile extends StatelessWidget {
-  final TeacherAssignmentStatus status;
+  final TeachersAssignments data;
 
-  const TeacherAssignmentListTile({Key? key, required this.status})
+  const TeacherAssignmentListTile({Key? key, required this.data})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        SideSheet().openDrawer(child: TeacherInfo());
+        SideSheet().openDrawer(
+            child: TeacherInfo(
+          currentAssignment: CurrentAssignmentBloc().assignment!,
+          teachersAssignments: data,
+        ));
       },
-      leading: CircleAvatar(child: FlutterLogo()),
+      leading: CircleAvatar(
+        backgroundImage: NetworkImage(data.teacher.profilePic),
+      ),
       title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Uchit Chakma'),
+          Text('${data.teacher.name}'),
           SizedBox(width: 4),
-          if (status != TeacherAssignmentStatus.Sent)
+          if (data.status != TeacherAssignmentStatus.Sent)
             TeacherAssignmentStatusIcon(
               size: 16,
-              status: status,
-              rating: status == TeacherAssignmentStatus.Rated ? 3.6 : null,
+              status: data.status,
+              rating: data.status == TeacherAssignmentStatus.Rated ? 3.6 : null,
             ),
         ],
       ),
-      subtitle: Text('Rs 500/-'),
+      subtitle: Text('Rs ${data.amount}'),
       trailing: Text(
-        'Feb 28 7:45 PM',
+        '${getFormattedTime(data.time)}',
         style: TextStyle(
           color: Colors.grey,
           fontSize: 10,
@@ -324,5 +429,3 @@ class TeacherAssignmentListTile extends StatelessWidget {
     );
   }
 }
-
-const _kTeacherStatus = TeacherAssignmentStatus.values;

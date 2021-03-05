@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 
@@ -8,13 +9,17 @@ class RoundedTextField extends StatelessWidget {
   final String hintText;
   final bool autoFocus;
   final void Function(String)? onChanged;
+  final List<TextInputFormatter>? inputFormatters;
+  final String? Function(String?)? validator;
 
-  const RoundedTextField(
-      {Key? key,
-      required this.hintText,
-      this.autoFocus = false,
-      this.onChanged})
-      : super(key: key);
+  const RoundedTextField({
+    Key? key,
+    required this.hintText,
+    this.autoFocus = false,
+    this.inputFormatters,
+    this.onChanged,
+    this.validator,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Hero(
@@ -27,9 +32,12 @@ class RoundedTextField extends StatelessWidget {
               ? kDarkModeSecondaryColor
               : kLightModeSecondaryColor,
         ),
-        child: TextField(
+        child: TextFormField(
+          validator: validator,
+          inputFormatters: inputFormatters,
           onChanged: onChanged,
           autofocus: autoFocus,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(0),
             border: InputBorder.none,

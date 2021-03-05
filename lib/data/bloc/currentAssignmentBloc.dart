@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pythagon_admin/data/database.dart';
+import 'package:pythagon_admin/screens/assignmentDetails.dart';
 import 'package:pythagon_admin/widgets/showToast.dart';
 
 class CurrentAssignmentBloc extends ChangeNotifier {
@@ -59,6 +60,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
 
     textFieldKey = UniqueKey().toString();
     notifyListeners();
+    SideSheet.closeIfOpen();
   }
 
   void changeAssignment(Assignment assignment) {
@@ -80,6 +82,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
     _copyAssignment();
     textFieldKey = UniqueKey().toString();
     notifyListeners();
+    SideSheet.closeIfOpen();
   }
 
   void onStudentDetailsUpdated(Student newStudentDetails) {

@@ -1,26 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:pythagon_admin/data/database.dart';
+import 'package:pythagon_admin/data/utils/Utils.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
+import 'package:pythagon_admin/screens/assignmentDetails.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/assignmentInfoComponents.dart';
 import 'package:pythagon_admin/widgets/ratingStar.dart';
-import 'package:pythagon_admin/data/database.dart';
 import 'package:pythagon_admin/widgets/showRoundedBottomSheet.dart';
 import 'package:pythagon_admin/widgets/teacherAssignmentStatusIcon.dart';
+
 import '../../constants.dart';
 
 class TeacherInfo extends StatelessWidget {
+  final TeachersAssignments teachersAssignments;
+  final Assignment currentAssignment;
+
+  const TeacherInfo(
+      {Key? key,
+      required this.teachersAssignments,
+      required this.currentAssignment})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         /// teacher info
         ExpansionTile(
-          leading: CircleAvatar(child: FlutterLogo()),
-          title: Text('Prince Kumar'),
-          subtitle: Text('+91 7667323338'),
-          trailing: RatingStar(rating: 3.5),
+          leading: CircleAvatar(
+            backgroundImage:
+                NetworkImage(teachersAssignments.teacher.profilePic),
+          ),
+          title: Text('${teachersAssignments.teacher.name}'),
+          subtitle: Text('${teachersAssignments.teacher.phone}'),
+          trailing: RatingStar(
+              rating: teachersAssignments.teacher.rating != null
+                  ? teachersAssignments.teacher.rating!.avgRating
+                  : 0),
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           expandedAlignment: Alignment.centerLeft,
           children: [
@@ -29,17 +46,20 @@ class TeacherInfo extends StatelessWidget {
               child: Wrap(
                 spacing: 4,
                 children: [
-                  for (int i = 0; i < 3; i++)
+                  for (String s in teachersAssignments.teacher.subjectsIds)
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.red,
                           radius: 12,
+                          backgroundImage: NetworkImage(Subject.subjects
+                              .firstWhere((element) => element.id == s)
+                              .image),
                         ),
                         SizedBox(width: 4),
                         Text(
-                          'Subject',
+                          '${Subject.subjects.firstWhere((element) => element.id == s).name}',
                         ),
                       ],
                     ),
@@ -54,14 +74,20 @@ class TeacherInfo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            'Assignments',
+            'Current Assignment',
             style:
                 Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 10),
           ),
         ),
 
-        for (TeacherAssignmentStatus v in TeacherAssignmentStatus.values)
-          TeacherAssignmentDetailsListTile(status: v),
+        // for (TeacherAssignmentStatus v in TeacherAssignmentStatus.values)
+        //   TeacherAssignmentDetailsListTile(status: v),
+
+        TeacherAssignmentDetailsListTile(
+          isInitiallyOpened: true,
+          data: teachersAssignments,
+          assignment: currentAssignment,
+        ),
       ],
     );
   }
@@ -69,9 +95,13 @@ class TeacherInfo extends StatelessWidget {
 
 class TeacherAssignmentDetailsListTile extends StatelessWidget {
   final bool isInitiallyOpened;
-  final TeacherAssignmentStatus status;
+  final TeachersAssignments data;
+  final Assignment assignment;
   const TeacherAssignmentDetailsListTile(
-      {Key? key, this.isInitiallyOpened = false, required this.status})
+      {Key? key,
+      this.isInitiallyOpened = false,
+      required this.data,
+      required this.assignment})
       : super(key: key);
 
   @override
@@ -81,10 +111,10 @@ class TeacherAssignmentDetailsListTile extends StatelessWidget {
       title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Uchit Chakma'),
+          Text('${assignment.name}'),
           SizedBox(width: 4),
           Text(
-            'Feb 28 7:45 PM',
+            '${getFormattedTime(assignment.time!)}',
             style: TextStyle(
               color: Colors.grey,
               fontSize: 10,
@@ -92,14 +122,14 @@ class TeacherAssignmentDetailsListTile extends StatelessWidget {
           ),
         ],
       ),
-      subtitle: Text('Rs 500/-'),
+      subtitle: Text('Rs ${data.amount}'),
       trailing: InkWell(
         onTap: () {
           onStatusClick(context);
         },
         child: TeacherAssignmentStatusIcon(
-          status: status,
-          rating: status == TeacherAssignmentStatus.Rated ? 3.6 : null,
+          status: data.status,
+          rating: data.status == TeacherAssignmentStatus.Rated ? 3.6 : null,
         ),
       ),
       children: [
@@ -107,15 +137,15 @@ class TeacherAssignmentDetailsListTile extends StatelessWidget {
           SizedBox(
             height: 150,
             child: AttachmentList(
-              updateFiles: ({required bool isDelete, required String url}) {},
-              files: [
-                'https://suMit.com/su8298w/su.pdf',
-                'https://suMit.com/su8298w/su.doc',
-                'https://suMit.com/su8298w/su.docx',
-                'https://suMit.com/su8298w/su.docx',
-                'https://suMit.com/su8298w/su.docx',
-                'https://suMit.com/su8298w/su.docx',
-              ],
+              updateFiles: ({required bool isDelete, required String url}) {
+                if (isDelete)
+                  data.assignmentFiles.remove(url);
+                else
+                  data.assignmentFiles.add(url);
+
+                TeachersAssignments.updateFiles(data.assignmentFiles, data.id);
+              },
+              files: data.assignmentFiles,
             ),
           ),
       ],
@@ -123,7 +153,7 @@ class TeacherAssignmentDetailsListTile extends StatelessWidget {
   }
 
   bool hasFile() {
-    switch (status) {
+    switch (data.status) {
       case TeacherAssignmentStatus.Completed:
       case TeacherAssignmentStatus.Rejected:
       case TeacherAssignmentStatus.Closed:
@@ -138,12 +168,19 @@ class TeacherAssignmentDetailsListTile extends StatelessWidget {
   void onStatusClick(BuildContext context) {
     showRoundedBottomSheet(
       context: context,
-      child: SelectTeacherAssignmentStatus(),
+      child: SelectTeacherAssignmentStatus(
+          teacherAssignmentId: data.id, teacherId: data.teacher.id),
     );
   }
 }
 
 class SelectTeacherAssignmentStatus extends StatelessWidget {
+  final String teacherAssignmentId;
+  final String teacherId;
+
+  const SelectTeacherAssignmentStatus(
+      {Key? key, required this.teacherAssignmentId, required this.teacherId})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
@@ -164,8 +201,14 @@ class SelectTeacherAssignmentStatus extends StatelessWidget {
                   Navigator.pop(context);
                   showRoundedBottomSheet(
                       context: context, child: RateTeacher());
-                } else
-                  Navigator.pop(context);
+                } else {
+                  /// updating status
+                  TeachersAssignments.changeStatus(
+                      TeacherAssignmentStatus.values[index],
+                      teacherAssignmentId);
+                  SideSheet.closeIfOpen();
+                  // Navigator.pop(context);
+                }
               },
             );
           },
@@ -191,7 +234,7 @@ class RateTeacher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-      child: Column(
+      child: ListView(
         children: [
           SizedBox(height: 8),
           TeacherRatingBar(
