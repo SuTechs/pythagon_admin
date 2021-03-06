@@ -414,7 +414,9 @@ class TeacherAssignmentListTile extends StatelessWidget {
             TeacherAssignmentStatusIcon(
               size: 16,
               status: data.status,
-              rating: data.status == TeacherAssignmentStatus.Rated ? 3.6 : null,
+              rating: data.status == TeacherAssignmentStatus.Rated
+                  ? data.rating!.avgRating
+                  : null,
             ),
         ],
       ),

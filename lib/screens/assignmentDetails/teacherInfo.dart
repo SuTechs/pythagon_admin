@@ -9,6 +9,7 @@ import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/assignmentInfoComponents.dart';
 import 'package:pythagon_admin/widgets/ratingStar.dart';
 import 'package:pythagon_admin/widgets/showRoundedBottomSheet.dart';
+import 'package:pythagon_admin/widgets/showToast.dart';
 import 'package:pythagon_admin/widgets/teacherAssignmentStatusIcon.dart';
 
 import '../../constants.dart';
@@ -129,7 +130,9 @@ class TeacherAssignmentDetailsListTile extends StatelessWidget {
         },
         child: TeacherAssignmentStatusIcon(
           status: data.status,
-          rating: data.status == TeacherAssignmentStatus.Rated ? 3.6 : null,
+          rating: data.status == TeacherAssignmentStatus.Rated
+              ? data.rating!.avgRating
+              : null,
         ),
       ),
       children: [
@@ -168,18 +171,15 @@ class TeacherAssignmentDetailsListTile extends StatelessWidget {
   void onStatusClick(BuildContext context) {
     showRoundedBottomSheet(
       context: context,
-      child: SelectTeacherAssignmentStatus(
-          teacherAssignmentId: data.id, teacherId: data.teacher.id),
+      child: SelectTeacherAssignmentStatus(data: data),
     );
   }
 }
 
 class SelectTeacherAssignmentStatus extends StatelessWidget {
-  final String teacherAssignmentId;
-  final String teacherId;
+  final TeachersAssignments data;
 
-  const SelectTeacherAssignmentStatus(
-      {Key? key, required this.teacherAssignmentId, required this.teacherId})
+  const SelectTeacherAssignmentStatus({Key? key, required this.data})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -200,12 +200,11 @@ class SelectTeacherAssignmentStatus extends StatelessWidget {
                     TeacherAssignmentStatus.Rated) {
                   Navigator.pop(context);
                   showRoundedBottomSheet(
-                      context: context, child: RateTeacher());
+                      context: context, child: RateTeacher(data: data));
                 } else {
                   /// updating status
                   TeachersAssignments.changeStatus(
-                      TeacherAssignmentStatus.values[index],
-                      teacherAssignmentId);
+                      TeacherAssignmentStatus.values[index], data.id);
                   SideSheet.closeIfOpen();
                   // Navigator.pop(context);
                 }
@@ -230,7 +229,33 @@ class SelectTeacherAssignmentStatus extends StatelessWidget {
   }
 }
 
-class RateTeacher extends StatelessWidget {
+class RateTeacher extends StatefulWidget {
+  final TeachersAssignments data;
+
+  const RateTeacher({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+  @override
+  _RateTeacherState createState() => _RateTeacherState();
+}
+
+class _RateTeacherState extends State<RateTeacher> {
+  double performance = 0;
+  double accuracy = 0;
+  double availability = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.data.rating != null) {
+      performance = widget.data.rating!.performance;
+      accuracy = widget.data.rating!.accuracy;
+      availability = widget.data.rating!.availability;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
@@ -238,21 +263,48 @@ class RateTeacher extends StatelessWidget {
         children: [
           SizedBox(height: 8),
           TeacherRatingBar(
-            ratingHint: 'OnTime',
-          ),
-          TeacherRatingBar(
-            ratingHint: 'Writing',
+            ratingHint: 'Performance',
+            initialRating: widget.data.rating != null
+                ? widget.data.rating!.performance
+                : 0,
+            onRatingChange: (v) {
+              performance = v;
+            },
           ),
           TeacherRatingBar(
             ratingHint: 'Accuracy',
+            initialRating:
+                widget.data.rating != null ? widget.data.rating!.accuracy : 0,
+            onRatingChange: (v) {
+              accuracy = v;
+            },
           ),
           TeacherRatingBar(
-            ratingHint: 'Performance',
+            ratingHint: 'Availability',
+            initialRating: widget.data.rating != null
+                ? widget.data.rating!.availability
+                : 0,
+            onRatingChange: (v) {
+              availability = v;
+            },
           ),
           SizedBox(height: 16),
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              TeachersAssignments.rate(
+                TeacherRating(
+                    performance: performance,
+                    accuracy: accuracy,
+                    availability: availability),
+                widget.data.teacher.id,
+                widget.data.id,
+                widget.data.teacher.rating ??
+                    TeacherRating(performance: 0, accuracy: 0, availability: 0),
+                widget.data.teacher.totalRating,
+              ).then((value) {
+                showToast('Rating added!');
+              });
+              SideSheet.closeIfOpen();
             },
             child: Text('Submit'),
           ),
@@ -264,8 +316,14 @@ class RateTeacher extends StatelessWidget {
 
 class TeacherRatingBar extends StatelessWidget {
   final String ratingHint;
+  final void Function(double) onRatingChange;
+  final double initialRating;
 
-  const TeacherRatingBar({Key? key, required this.ratingHint})
+  const TeacherRatingBar(
+      {Key? key,
+      required this.ratingHint,
+      required this.onRatingChange,
+      required this.initialRating})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -304,9 +362,9 @@ class TeacherRatingBar extends StatelessWidget {
                 );
             }
           },
-          onRatingUpdate: (rating) {
-            print(rating);
-          },
+          onRatingUpdate: onRatingChange,
+          initialRating: initialRating,
+          maxRating: 5,
         ),
         SizedBox(height: 4),
         Text('$ratingHint'),

@@ -406,6 +406,7 @@ class Teacher {
   final String profilePic;
   final String? email;
   final TeacherRating? rating;
+  final int totalRating;
   final List<String> subjectsIds;
   final double? balance;
 
@@ -417,19 +418,21 @@ class Teacher {
       this.email,
       this.rating,
       required this.subjectsIds,
-      this.balance = 0});
+      this.balance = 0,
+      required this.totalRating});
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'phone': phone,
-        'profilePic': profilePic,
-        'email': email,
-        'subjects': subjectsIds,
-        'rating': rating != null ? rating!.toJson() : null,
-        'balance': balance,
-        'createdAt': Timestamp.now(),
-      };
+  // Map<String, dynamic> toJson() => {
+  //       'id': id,
+  //       'name': name,
+  //       'phone': phone,
+  //       'profilePic': profilePic,
+  //       'email': email,
+  //       'subjects': subjectsIds,
+  //       'rating': rating != null ? rating!.toJson() : null,
+  //       'totalRating': totalRating,
+  //       'balance': balance,
+  //       'createdAt': Timestamp.now(),
+  //     };
 
   factory Teacher.fromJson(Map<String, dynamic> json) {
     return Teacher(
@@ -443,6 +446,7 @@ class Teacher {
       rating: json['rating'] != null
           ? TeacherRating.fromJson(json['rating'])
           : null,
+      totalRating: json['totalRating'] ?? 0,
     );
   }
 
@@ -458,12 +462,16 @@ class Teacher {
     return _teachers;
   }
 
-  /// temporary
-  Future<void> addTeacher() async {
-    await CollectionRef.teachers.doc(id).set(toJson()).catchError((e) {
-      print('Error #2532 $e');
-    });
+  static void resetTeachers() {
+    _teachers.clear();
   }
+
+  // /// temporary
+  // Future<void> addTeacher() async {
+  //   await CollectionRef.teachers.doc(id).set(toJson()).catchError((e) {
+  //     print('Error #2532 $e');
+  //   });
+  // }
 }
 
 class TeachersAssignments {
@@ -550,5 +558,31 @@ class TeachersAssignments {
     await CollectionRef.teachersAssignments
         .doc(id)
         .update({'assignmentFiles': files});
+  }
+
+  static Future<void> rate(TeacherRating rating, String teacherId, String id,
+      TeacherRating currentRating, int totalCurrentRating) async {
+    /// adding rating in teacher assignment
+    await CollectionRef.teachersAssignments.doc(id).update({
+      'rating': rating.toJson(),
+      'status': kTeacherAssignmentStatusEnumMap[TeacherAssignmentStatus.Rated]
+    });
+
+    /// adding rating in teacher
+    totalCurrentRating += 1;
+    final teacherRating = TeacherRating(
+        performance: (rating.performance + currentRating.performance) /
+            totalCurrentRating,
+        accuracy: (rating.performance + currentRating.performance) /
+            totalCurrentRating,
+        availability: (rating.performance + currentRating.performance) /
+            totalCurrentRating);
+
+    await CollectionRef.teachers.doc(teacherId).update({
+      'rating': teacherRating.toJson(),
+      'totalRating': totalCurrentRating,
+    }).then((value) {
+      Teacher.resetTeachers();
+    });
   }
 }
