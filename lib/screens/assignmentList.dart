@@ -95,6 +95,18 @@ class _HideShowListViewState extends State<HideShowListView> {
                 child: Row(
                   children: [
                     SizedBox(width: 12),
+                    FloatingActionButton(
+                      backgroundColor: AssignmentListBloc().isSortByTime
+                          ? null
+                          : Colors.grey,
+                      mini: true,
+                      child: Icon(Icons.timer),
+                      onPressed: () {
+                        /// handle time sorting
+                        AssignmentListBloc().toggleSortByTime();
+                      },
+                    ),
+                    SizedBox(width: 12),
                     Expanded(
                       child: RoundedTextField(
                         hintText: 'Search',
@@ -106,7 +118,7 @@ class _HideShowListViewState extends State<HideShowListView> {
                     SizedBox(width: 12),
                     FloatingActionButton(
                       mini: true,
-                      child: FlutterLogo(),
+                      child: Icon(Icons.add),
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (_) => StudentList()));
@@ -215,7 +227,10 @@ class AssignmentListTile extends StatelessWidget {
           ],
         ),
       ),
-      //trailing: Icon(Icons.lightbulb_outline),
+      trailing: Text(
+        assignment.id.split(' ').first,
+        style: TextStyle(fontSize: 10, color: Colors.grey),
+      ),
     );
   }
 }

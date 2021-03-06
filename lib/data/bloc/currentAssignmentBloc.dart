@@ -48,11 +48,14 @@ class CurrentAssignmentBloc extends ChangeNotifier {
   }
 
   void newAssignment(Student student) {
+    final id = DateTime.now();
+
     _isEdit = false;
     _assignment = Assignment(
-      id: DateTime.now().millisecondsSinceEpoch.toString() +
-          student.studentId.substring(4) +
-          textFieldKey.substring(2, 7),
+      // id: DateTime.now().millisecondsSinceEpoch.toString() +
+      //     student.studentId.substring(4) +
+      //     textFieldKey.substring(2, 7),
+      id: '${id.year}${id.month}${id.day} ${textFieldKey.hashCode}',
       student: student,
       referenceFiles: [],
     );
