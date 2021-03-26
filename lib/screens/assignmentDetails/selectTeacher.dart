@@ -370,10 +370,7 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
                 IconButton(
                   icon: Icon(Icons.clear),
                   onPressed: () {
-                    if (widget.isEdit)
-                      SideSheet.closeDrawer();
-                    else
-                      Navigator.pop(context);
+                    SideSheet.closeDrawer();
                   },
                 ),
                 Spacer(),
@@ -382,10 +379,7 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       createUpdateStudent();
-                      if (widget.isEdit)
-                        SideSheet.closeDrawer();
-                      else
-                        Navigator.pop(context);
+                      SideSheet.closeDrawer();
                     }
                   },
                 ),
