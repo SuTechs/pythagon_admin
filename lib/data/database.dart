@@ -502,10 +502,13 @@ class Teacher {
   Future<void> addOrUpdateTeacher(bool isEdit) async {
     print('${isEdit ? 'Update' : 'Create'} teacher');
 
-    if (isEdit)
+    if (isEdit) {
       await CollectionRef.teachers.doc(id).update(toJson(isEdit));
-    else
+      _teachers.removeWhere((element) => element.id == id);
+    } else
       await CollectionRef.teachers.doc(id).set(toJson(isEdit));
+
+    _teachers.add(this);
   }
 }
 

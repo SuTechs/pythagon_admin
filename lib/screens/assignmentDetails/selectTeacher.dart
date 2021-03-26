@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:pythagon_admin/data/database.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/screens/assignmentDetails.dart';
+import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
 import 'package:pythagon_admin/widgets/iconTextField.dart';
 import 'package:pythagon_admin/widgets/ratingStar.dart';
 import 'package:pythagon_admin/widgets/roundedTextField.dart';
@@ -153,6 +154,15 @@ class _SelectTeacherState extends State<SelectTeacher> {
                           index--;
 
                           return TeacherTile(
+                            onImageTap: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => NewOrEditTeacher(
+                                            teacher: teachersList[index],
+                                            isEdit: true,
+                                          )));
+                            },
                             teacher: teachersList[index],
                             isSelected: selectedTeachersIds
                                 .contains(teachersList[index].id),
@@ -276,12 +286,14 @@ class _SelectTeacherState extends State<SelectTeacher> {
 class TeacherTile extends StatelessWidget {
   final Teacher teacher;
   final void Function() onTap;
+  final void Function() onImageTap;
   final bool isSelected;
 
   const TeacherTile(
       {Key? key,
       required this.teacher,
       required this.onTap,
+      required this.onImageTap,
       this.isSelected = false})
       : super(key: key);
 
@@ -293,8 +305,11 @@ class TeacherTile extends StatelessWidget {
       selectedTileColor: Provider.of<User>(context).isDarkMode
           ? kDarkModeSecondaryColor
           : kLightModeSecondaryColor,
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(teacher.profilePic),
+      leading: GestureDetector(
+        onTap: onImageTap,
+        child: CircleAvatar(
+          backgroundImage: NetworkImage(teacher.profilePic),
+        ),
       ),
       title: Text(teacher.name),
       subtitle: Text(teacher.phone),
@@ -556,6 +571,7 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
     );
 
     if (widget.teacher != teacher) teacher.addOrUpdateTeacher(widget.isEdit);
+    SideSheet.closeIfOpen();
   }
 }
 
@@ -571,8 +587,111 @@ class SelectMultipleSubjects extends StatefulWidget {
 }
 
 class _SelectMultipleSubjectsState extends State<SelectMultipleSubjects> {
+  final List<Subject> subjectsList = [];
+  final List<String> selectedSubjectsIds = [];
+  String searchText = '';
+
+  @override
+  void initState() {
+    subjectsList.addAll(widget.subjects);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return CustomContainer(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Row(
+              children: [
+                SizedBox(width: 12),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24.0),
+                      color: Provider.of<User>(context).isDarkMode
+                          ? kDarkModeSecondaryColor
+                          : kLightModeSecondaryColor,
+                    ),
+                    child: TextField(
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(0),
+                        border: InputBorder.none,
+                        isDense: true,
+                        hintText: 'Search...',
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          searchText = value;
+                          subjectsList.clear();
+                          subjectsList.addAll(widget.subjects);
+                          subjectsList.retainWhere((element) => element.name
+                              .toLowerCase()
+                              .contains(value.trim().toLowerCase()));
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                if (selectedSubjectsIds.isNotEmpty) SizedBox(width: 12),
+                if (selectedSubjectsIds.isNotEmpty)
+                  FloatingActionButton(
+                    mini: true,
+                    child: Icon(Icons.done),
+                    onPressed: () {
+                      widget.onSelect(selectedSubjectsIds.join(' '));
+                      Navigator.pop(context);
+                    },
+                  ),
+                SizedBox(width: 12),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Scrollbar(
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    selected:
+                        selectedSubjectsIds.contains(subjectsList[index].id),
+                    onTap: () {
+                      setState(() {
+                        if (selectedSubjectsIds
+                            .contains(subjectsList[index].id))
+                          selectedSubjectsIds.remove(subjectsList[index].id);
+                        else
+                          selectedSubjectsIds.add(subjectsList[index].id);
+                      });
+                    },
+                    title: Text('${subjectsList[index].name}'),
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(subjectsList[index].image),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 70),
+                    child: Container(
+                      height: 0.1,
+                      color: Provider.of<User>(context).isDarkMode
+                          ? kDarkModeSecondaryColor
+                          : kLightModeSecondaryColor,
+                    ),
+                  );
+                },
+                itemCount: subjectsList.length,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
