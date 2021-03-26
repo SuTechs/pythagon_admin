@@ -5,8 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:pythagon_admin/data/database.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/screens/assignmentDetails.dart';
+import 'package:pythagon_admin/widgets/iconTextField.dart';
 import 'package:pythagon_admin/widgets/ratingStar.dart';
 import 'package:pythagon_admin/widgets/roundedTextField.dart';
+import 'package:pythagon_admin/widgets/selectFromBottomSheet.dart';
+import 'package:pythagon_admin/widgets/showRoundedBottomSheet.dart';
 import 'package:pythagon_admin/widgets/showToast.dart';
 
 import '../../constants.dart';
@@ -133,15 +136,21 @@ class _SelectTeacherState extends State<SelectTeacher> {
                       child: ListView.separated(
                         controller: _scrollViewController,
                         itemBuilder: (context, index) {
-                          // /// new student
-                          // if (index == 0)
-                          //   return ListTile(
-                          //     leading: CircleAvatar(child: Icon(Icons.add)),
-                          //     title: Text('New Teacher'),
-                          //     onTap: () {
-                          //       print('add new teacher');
-                          //     },
-                          //   );
+                          /// new teacher
+                          if (index == 0)
+                            return ListTile(
+                              leading: CircleAvatar(child: Icon(Icons.add)),
+                              title: Text('New Teacher'),
+                              onTap: () {
+                                print('addOrUpdate new teacher');
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => NewOrEditTeacher()));
+                              },
+                            );
+
+                          index--;
 
                           return TeacherTile(
                             teacher: teachersList[index],
@@ -171,7 +180,7 @@ class _SelectTeacherState extends State<SelectTeacher> {
                             ),
                           );
                         },
-                        itemCount: teachersList.length,
+                        itemCount: teachersList.length + 1,
                       ),
                     ),
                   ),
@@ -291,8 +300,279 @@ class TeacherTile extends StatelessWidget {
       subtitle: Text(teacher.phone),
       trailing: RatingStar(
         size: 14,
-        rating: teacher.rating != null ? teacher.rating!.avgRating : 0,
+        rating: teacher.rating.avgRating,
       ),
     );
+  }
+}
+
+class NewOrEditTeacher extends StatefulWidget {
+  final Teacher? teacher;
+  final bool isEdit;
+  const NewOrEditTeacher({Key? key, this.teacher, this.isEdit = false})
+      : super(key: key);
+
+  @override
+  _NewOrEditTeacherState createState() => _NewOrEditTeacherState();
+}
+
+class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.teacher != null) {
+      _name.text = widget.teacher!.name;
+      _phone.text = widget.teacher!.phone;
+      _email.text = widget.teacher!.email;
+      _college.text = widget.teacher!.college.collegeName;
+      _subjectsList.text = widget.teacher!.subjectsIds.join(' ');
+      _gender.text = widget.teacher!.gender;
+      _dob.text = widget.teacher!.dateOfBirth;
+    }
+  }
+
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _college = TextEditingController();
+  final TextEditingController _subjectsList = TextEditingController();
+  final TextEditingController _gender = TextEditingController();
+  final TextEditingController _dob = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Row(
+              children: [
+                SizedBox(width: 12),
+                IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () {
+                    if (widget.isEdit)
+                      SideSheet.closeDrawer();
+                    else
+                      Navigator.pop(context);
+                  },
+                ),
+                Spacer(),
+                IconButton(
+                  icon: Icon(Icons.done),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      createUpdateStudent();
+                      if (widget.isEdit)
+                        SideSheet.closeDrawer();
+                      else
+                        Navigator.pop(context);
+                    }
+                  },
+                ),
+                SizedBox(width: 12),
+              ],
+            ),
+          ),
+
+          /// profile pic
+          Center(
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                widget.teacher != null
+                    ? widget.teacher!.profilePic
+                    : kBlankProfilePicUrl,
+              ),
+              radius: 64,
+            ),
+          ),
+
+          SizedBox(height: 32),
+
+          /// name
+          IconTextField(
+            labelText: 'Name',
+            icon: Icons.person,
+            controller: _name,
+            isRequired: true,
+          ),
+
+          /// phone
+          IconTextField(
+            readOnly: widget.isEdit,
+            labelText: 'Phone',
+            icon: Icons.phone,
+            controller: _phone,
+            isRequired: true,
+          ),
+
+          /// subjects
+          IconTextField(
+            labelText: 'Subjects',
+            icon: Icons.book,
+            controller: _subjectsList,
+            readOnly: true,
+            isRequired: true,
+            onTap: () {
+              showRoundedBottomSheet(
+                context: context,
+                child: FutureBuilder<List<Subject>>(
+                    future: Subject.getSubjects(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error = ${snapshot.error}'));
+                      }
+
+                      if (snapshot.hasData)
+                        return SelectMultipleSubjects(
+                          subjects: snapshot.data!,
+                          onSelect: (value) {
+                            _subjectsList.text = value;
+                          },
+                        );
+
+                      return Center(child: CircularProgressIndicator());
+                    }),
+              );
+            },
+          ),
+
+          /// college
+          IconTextField(
+            labelText: 'College',
+            icon: Icons.school,
+            controller: _college,
+            readOnly: true,
+            isRequired: true,
+            onTap: () {
+              showRoundedBottomSheet(
+                  context: context,
+                  child: FutureBuilder<List<College>>(
+                      future: College.getColleges(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error = ${snapshot.error}'));
+                        }
+
+                        if (snapshot.hasData)
+                          return SelectFromList<College>(
+                            items: snapshot.data!
+                                .map((e) => ListItem<College>(e, e.collegeName))
+                                .toList(),
+                            onNewItemSelect: (newItem) {
+                              College(collegeId: newItem, collegeName: newItem)
+                                  .addCollege();
+                              _college.text = newItem;
+                            },
+                            onSelect: (value) {
+                              _college.text = value.collegeName;
+                            },
+                          );
+
+                        return Center(child: CircularProgressIndicator());
+                      }));
+            },
+          ),
+
+          /// date of birth
+          IconTextField(
+            labelText: 'Date of birth',
+            icon: Icons.date_range,
+            controller: _dob,
+            readOnly: true,
+            onTap: () async {
+              final DateTime? pickedDate = await showDatePicker(
+                useRootNavigator: false,
+                context: context,
+                initialDate: DateTime(2000),
+                lastDate: DateTime.now(),
+                firstDate: DateTime(1980),
+              );
+              if (pickedDate != null)
+                _dob.text = pickedDate.toString().substring(0, 10);
+            },
+          ),
+
+          /// gender
+          IconTextField(
+            labelText: 'Gender',
+            icon: Icons.wc,
+            controller: _gender,
+            readOnly: true,
+            onTap: () {
+              showRoundedBottomSheet(
+                context: context,
+                child: SelectFromList<String>(
+                  items: [
+                    ListItem('Male', 'Male'),
+                    ListItem('Female', 'Female'),
+                    ListItem('Other', 'Other'),
+                  ],
+                  onNewItemSelect: (newItem) {
+                    _gender.text = newItem;
+                  },
+                  onSelect: (value) {
+                    _gender.text = value;
+                  },
+                ),
+              );
+            },
+          ),
+
+          /// email
+          IconTextField(
+            labelText: 'Email',
+            icon: Icons.email,
+            controller: _email,
+            textInputAction: TextInputAction.done,
+          ),
+        ],
+      ),
+    );
+  }
+
+  void createUpdateStudent() {
+    final teacher = Teacher(
+      id: _phone.text.trim(),
+      name: _name.text.trim(),
+      phone: _phone.text.trim(),
+      email: _email.text.trim(),
+      dateOfBirth: _dob.text.trim(),
+      gender: _gender.text.trim(),
+      profilePic: kBlankProfilePicUrl,
+      college: College(
+          collegeName: _college.text.trim(), collegeId: _college.text.trim()),
+      subjectsIds: _subjectsList.text.split(' '),
+      totalRating: widget.isEdit ? widget.teacher!.totalRating : 0,
+      balance: widget.isEdit ? widget.teacher!.balance : 0,
+      rating: widget.isEdit
+          ? widget.teacher!.rating
+          : TeacherRating(performance: 0, accuracy: 0, availability: 0),
+    );
+
+    if (widget.teacher != teacher) teacher.addOrUpdateTeacher(widget.isEdit);
+  }
+}
+
+class SelectMultipleSubjects extends StatefulWidget {
+  final List<Subject> subjects;
+  final void Function(String subjectsList) onSelect;
+
+  const SelectMultipleSubjects(
+      {Key? key, required this.subjects, required this.onSelect})
+      : super(key: key);
+  @override
+  _SelectMultipleSubjectsState createState() => _SelectMultipleSubjectsState();
+}
+
+class _SelectMultipleSubjectsState extends State<SelectMultipleSubjects> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

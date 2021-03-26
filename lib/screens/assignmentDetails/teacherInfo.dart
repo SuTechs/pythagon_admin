@@ -35,10 +35,8 @@ class TeacherInfo extends StatelessWidget {
           ),
           title: Text('${teachersAssignments.teacher.name}'),
           subtitle: Text('${teachersAssignments.teacher.phone}'),
-          trailing: RatingStar(
-              rating: teachersAssignments.teacher.rating != null
-                  ? teachersAssignments.teacher.rating!.avgRating
-                  : 0),
+          trailing:
+              RatingStar(rating: teachersAssignments.teacher.rating.avgRating),
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           expandedAlignment: Alignment.centerLeft,
           children: [
@@ -298,8 +296,7 @@ class _RateTeacherState extends State<RateTeacher> {
                     availability: availability),
                 widget.data.teacher.id,
                 widget.data.id,
-                widget.data.teacher.rating ??
-                    TeacherRating(performance: 0, accuracy: 0, availability: 0),
+                widget.data.teacher.rating,
                 widget.data.teacher.totalRating,
               ).then((value) {
                 showToast('Rating added!');

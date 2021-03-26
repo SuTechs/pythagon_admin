@@ -156,6 +156,7 @@ class Student {
             studentId == other.studentId &&
             name == other.name &&
             phone == other.phone &&
+            profilePic == other.profilePic &&
             college.collegeId == other.college.collegeId &&
             course.courseId == other.course.courseId &&
             dateOfBirth == other.dateOfBirth &&
@@ -404,49 +405,81 @@ class Teacher {
   final String name;
   final String phone;
   final String profilePic;
-  final String? email;
-  final TeacherRating? rating;
+  final String email;
+  final TeacherRating rating;
   final int totalRating;
+  final String dateOfBirth;
+  final String gender;
+  final College college;
   final List<String> subjectsIds;
-  final double? balance;
+  final double balance;
 
   Teacher(
       {required this.id,
       required this.name,
       required this.phone,
       required this.profilePic,
-      this.email,
-      this.rating,
+      required this.email,
+      required this.rating,
       required this.subjectsIds,
-      this.balance = 0,
+      required this.dateOfBirth,
+      required this.gender,
+      required this.college,
+      required this.balance,
       required this.totalRating});
 
-  // Map<String, dynamic> toJson() => {
-  //       'id': id,
-  //       'name': name,
-  //       'phone': phone,
-  //       'profilePic': profilePic,
-  //       'email': email,
-  //       'subjects': subjectsIds,
-  //       'rating': rating != null ? rating!.toJson() : null,
-  //       'totalRating': totalRating,
-  //       'balance': balance,
-  //       'createdAt': Timestamp.now(),
-  //     };
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is Teacher &&
+            runtimeType == other.runtimeType &&
+            id == other.id &&
+            name == other.name &&
+            phone == other.phone &&
+            email == other.email &&
+            college.collegeId == other.college.collegeId &&
+            listEquals(subjectsIds, other.subjectsIds) &&
+            dateOfBirth == other.dateOfBirth &&
+            gender == other.gender &&
+            email == other.email;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ phone.hashCode;
+
+  Map<String, dynamic> toJson(bool isEdit) => {
+        'id': id,
+        'name': name,
+        'phone': phone,
+        'profilePic': profilePic,
+        'email': email,
+        'subjects': subjectsIds,
+        'dateOfBirth': dateOfBirth,
+        'gender': gender,
+        'college': college.collegeName,
+        'rating': rating.toJson(),
+        'totalRating': totalRating,
+        'balance': balance,
+        if (isEdit) 'createdAt': Timestamp.now(),
+        'updatedAt': Timestamp.now(),
+      };
 
   factory Teacher.fromJson(Map<String, dynamic> json) {
     return Teacher(
       id: json['id'],
       name: json['name'],
+      email: json['email'],
       phone: json['phone'],
       balance: json['balance'] ?? 0,
       profilePic: json['profilePic'],
       subjectsIds:
           (json['subjects'] as List<dynamic>).map((e) => e as String).toList(),
-      rating: json['rating'] != null
-          ? TeacherRating.fromJson(json['rating'])
-          : null,
+      rating: TeacherRating.fromJson(json['rating']),
       totalRating: json['totalRating'] ?? 0,
+      dateOfBirth: json['dateOfBirth'],
+      gender: json['gender'],
+      college:
+          College(collegeId: json['college'], collegeName: json['college']),
     );
   }
 
@@ -466,12 +499,14 @@ class Teacher {
     _teachers.clear();
   }
 
-  // /// temporary
-  // Future<void> addTeacher() async {
-  //   await CollectionRef.teachers.doc(id).set(toJson()).catchError((e) {
-  //     print('Error #2532 $e');
-  //   });
-  // }
+  Future<void> addOrUpdateTeacher(bool isEdit) async {
+    print('${isEdit ? 'Update' : 'Create'} teacher');
+
+    if (isEdit)
+      await CollectionRef.teachers.doc(id).update(toJson(isEdit));
+    else
+      await CollectionRef.teachers.doc(id).set(toJson(isEdit));
+  }
 }
 
 class TeachersAssignments {
