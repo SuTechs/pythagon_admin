@@ -4,6 +4,7 @@ import 'package:pythagon_admin/data/database.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/screens/assignmentDetails.dart';
 import 'package:pythagon_admin/widgets/roundedTextField.dart';
+
 import '../../constants.dart';
 
 class SelectSubject extends StatefulWidget {
@@ -90,7 +91,7 @@ class _SelectSubjectState extends State<SelectSubject> {
                   padding: const EdgeInsets.only(left: 70),
                   child: Container(
                     height: 0.1,
-                    color: Provider.of<User>(context).isDarkMode
+                    color: Provider.of<UserData>(context).isDarkMode
                         ? kDarkModeSecondaryColor
                         : kLightModeSecondaryColor,
                   ),

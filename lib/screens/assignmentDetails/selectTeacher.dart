@@ -184,7 +184,7 @@ class _SelectTeacherState extends State<SelectTeacher> {
                             padding: const EdgeInsets.only(left: 70),
                             child: Container(
                               height: 0.1,
-                              color: Provider.of<User>(context).isDarkMode
+                              color: Provider.of<UserData>(context).isDarkMode
                                   ? kDarkModeSecondaryColor
                                   : kLightModeSecondaryColor,
                             ),
@@ -302,7 +302,7 @@ class TeacherTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       selected: isSelected,
-      selectedTileColor: Provider.of<User>(context).isDarkMode
+      selectedTileColor: Provider.of<UserData>(context).isDarkMode
           ? kDarkModeSecondaryColor
           : kLightModeSecondaryColor,
       leading: GestureDetector(
@@ -607,7 +607,7 @@ class _SelectMultipleSubjectsState extends State<SelectMultipleSubjects> {
                     padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24.0),
-                      color: Provider.of<User>(context).isDarkMode
+                      color: Provider.of<UserData>(context).isDarkMode
                           ? kDarkModeSecondaryColor
                           : kLightModeSecondaryColor,
                     ),
@@ -674,7 +674,7 @@ class _SelectMultipleSubjectsState extends State<SelectMultipleSubjects> {
                     padding: const EdgeInsets.only(left: 70),
                     child: Container(
                       height: 0.1,
-                      color: Provider.of<User>(context).isDarkMode
+                      color: Provider.of<UserData>(context).isDarkMode
                           ? kDarkModeSecondaryColor
                           : kLightModeSecondaryColor,
                     ),

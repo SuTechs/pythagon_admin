@@ -214,7 +214,7 @@ class SelectTeacherAssignmentStatus extends StatelessWidget {
               padding: const EdgeInsets.only(left: 70),
               child: Container(
                 height: 0.1,
-                color: Provider.of<User>(context).isDarkMode
+                color: Provider.of<UserData>(context).isDarkMode
                     ? kDarkModeSecondaryColor
                     : kLightModeSecondaryColor,
               ),

@@ -68,7 +68,7 @@ class AssignmentDetails extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
           side: BorderSide(
-            color: Provider.of<User>(context).isDarkMode
+            color: Provider.of<UserData>(context).isDarkMode
                 ? kDarkModeSecondaryColor
                 : kLightModeSecondaryColor,
           ),
@@ -379,12 +379,12 @@ class _TeacherCardState extends State<TeacherCard> {
         });
   }
 
-  @override
-  void dispose() {
-    _scrollViewController.dispose();
-    _scrollViewController.removeListener(() {});
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _scrollViewController.dispose();
+  //   _scrollViewController.removeListener(() {});
+  //   super.dispose();
+  // }
 }
 
 class TeacherAssignmentListTile extends StatelessWidget {

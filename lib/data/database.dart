@@ -221,6 +221,7 @@ const kAssignmentTypeEnumMap = {
 
 class Assignment {
   final String id;
+  final String createdBy;
   Student student;
   String? name;
   String? description;
@@ -238,6 +239,7 @@ class Assignment {
 
   Assignment({
     required this.id,
+    required this.createdBy,
     required this.student,
     this.name,
     this.description,
@@ -251,6 +253,7 @@ class Assignment {
 
   Map<String, dynamic> toJson(bool isEdit) => {
         'id': id,
+        'createdBy': createdBy,
         'student': student.studentId,
         'name': name,
         'description': description,
@@ -273,6 +276,7 @@ class Assignment {
 
     return Assignment(
       id: json['id'],
+      createdBy: json['createdBy'],
       student: students
           .where((element) => element.studentId == json['student'])
           .first,

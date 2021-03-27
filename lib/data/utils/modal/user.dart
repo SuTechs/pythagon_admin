@@ -1,14 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+
 import 'dataBox.dart';
 
-class User extends ChangeNotifier {
-  static final User _singleton = User._internal();
+class UserData extends ChangeNotifier {
+  static final UserData _singleton = UserData._internal();
+  static User? get authData => FirebaseAuth.instance.currentUser;
 
-  factory User() {
+  factory UserData() {
     return _singleton;
   }
 
-  User._internal();
+  UserData._internal();
 
   late bool _isDarkMode;
 

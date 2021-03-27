@@ -68,18 +68,35 @@ class _HideShowListViewState extends State<HideShowListView> {
 
     /// assignment list stream
 
-    CollectionRef.assignments
-        .orderBy('updatedAt', descending: true)
-        .snapshots()
-        .listen((event) {
-      print('stream data');
+    /// for now all assignment is visible to only Pythagon
+    /// and rest can view only their assignments
+    if (UserData.authData!.email == 'sumit123210@gmail.com')
+      CollectionRef.assignments
+          .orderBy('updatedAt', descending: true)
+          .snapshots()
+          .listen((event) {
+        print('stream data');
 
-      AssignmentListBloc().onDataUpdate(event);
-      if (_isLoading)
-        setState(() {
-          _isLoading = false;
-        });
-    });
+        AssignmentListBloc().onDataUpdate(event);
+        if (_isLoading)
+          setState(() {
+            _isLoading = false;
+          });
+      });
+    else
+      CollectionRef.assignments
+          .where('createdBy', isEqualTo: UserData.authData!.email)
+          .orderBy('updatedAt', descending: true)
+          .snapshots()
+          .listen((event) {
+        print('stream data');
+
+        AssignmentListBloc().onDataUpdate(event);
+        if (_isLoading)
+          setState(() {
+            _isLoading = false;
+          });
+      });
   }
 
   @override
@@ -158,7 +175,7 @@ class _HideShowListViewState extends State<HideShowListView> {
                         padding: const EdgeInsets.only(left: 70),
                         child: Container(
                           height: 0.1,
-                          color: Provider.of<User>(context).isDarkMode
+                          color: Provider.of<UserData>(context).isDarkMode
                               ? kDarkModeSecondaryColor
                               : kLightModeSecondaryColor,
                         ),
@@ -174,12 +191,12 @@ class _HideShowListViewState extends State<HideShowListView> {
           );
   }
 
-  @override
-  void dispose() {
-    _scrollViewController.dispose();
-    _scrollViewController.removeListener(() {});
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _scrollViewController.dispose();
+  //   _scrollViewController.removeListener(() {});
+  //   super.dispose();
+  // }
 }
 
 class AssignmentListTile extends StatelessWidget {
@@ -198,7 +215,7 @@ class AssignmentListTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       selected: isSelected,
-      selectedTileColor: Provider.of<User>(context).isDarkMode
+      selectedTileColor: Provider.of<UserData>(context).isDarkMode
           ? kDarkModeSecondaryColor
           : kLightModeSecondaryColor,
       leading: CircleAvatar(
@@ -354,7 +371,7 @@ class _FetchedStudentsListState extends State<FetchedStudentsList> {
                   padding: const EdgeInsets.only(left: 70),
                   child: Container(
                     height: 0.1,
-                    color: Provider.of<User>(context).isDarkMode
+                    color: Provider.of<UserData>(context).isDarkMode
                         ? kDarkModeSecondaryColor
                         : kLightModeSecondaryColor,
                   ),

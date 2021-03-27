@@ -5,8 +5,10 @@ class IconTextField extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final bool readOnly;
+  final bool obscureText;
   final TextEditingController controller;
   final void Function()? onTap;
+  final void Function()? onSubmit;
   final TextInputAction textInputAction;
   final bool isRequired;
 
@@ -17,8 +19,10 @@ class IconTextField extends StatelessWidget {
       required this.controller,
       this.hintText = '',
       this.readOnly = false,
+      this.obscureText = false,
       this.textInputAction = TextInputAction.next,
       this.onTap,
+      this.onSubmit,
       this.isRequired = false})
       : super(key: key);
 
@@ -27,6 +31,7 @@ class IconTextField extends StatelessWidget {
     return ListTile(
       leading: Icon(icon),
       title: TextFormField(
+        onEditingComplete: onSubmit,
         validator: (v) {
           if (isRequired && (v == null || v.trim().length < 1))
             return '$labelText is required';
@@ -37,6 +42,7 @@ class IconTextField extends StatelessWidget {
         onTap: onTap,
         textInputAction: textInputAction,
         readOnly: readOnly,
+        obscureText: obscureText,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0),
           border: InputBorder.none,

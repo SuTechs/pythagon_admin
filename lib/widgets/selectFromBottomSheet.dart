@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
+
 import '../constants.dart';
 import 'assignmentDetailsLayout.dart';
 
@@ -45,7 +46,7 @@ class _SelectFromListState<T> extends State<SelectFromList<T>> {
                     padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24.0),
-                      color: Provider.of<User>(context).isDarkMode
+                      color: Provider.of<UserData>(context).isDarkMode
                           ? kDarkModeSecondaryColor
                           : kLightModeSecondaryColor,
                     ),
@@ -102,7 +103,7 @@ class _SelectFromListState<T> extends State<SelectFromList<T>> {
                     padding: const EdgeInsets.only(left: 70),
                     child: Container(
                       height: 0.1,
-                      color: Provider.of<User>(context).isDarkMode
+                      color: Provider.of<UserData>(context).isDarkMode
                           ? kDarkModeSecondaryColor
                           : kLightModeSecondaryColor,
                     ),

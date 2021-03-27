@@ -30,15 +30,16 @@ dependencies:
   cupertino_icons: ^1.0.2
   intl: ^0.17.0
   flutter_rating_bar: ^4.0.0
-  fluttertoast: ^8.0.1-nullsafety.0
+  fluttertoast: ^8.0.3
   hive: ^2.0.0
   provider: ^5.0.0
   hive_flutter: ^1.0.0
 
 
   # Firebase
-  firebase_core: ^1.0.1
-  cloud_firestore: ^1.0.1
+  firebase_core: ^1.0.2
+  cloud_firestore: ^1.0.3
+  firebase_auth: ^1.0.1
 
 
 

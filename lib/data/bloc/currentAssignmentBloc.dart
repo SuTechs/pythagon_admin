@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pythagon_admin/data/database.dart';
+import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/screens/assignmentDetails.dart';
 import 'package:pythagon_admin/widgets/showToast.dart';
 
@@ -35,6 +36,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
   void _copyAssignment() {
     _initialAssignment = Assignment(
       id: _assignment!.id,
+      createdBy: _assignment!.createdBy,
       student: _assignment!.student,
       name: _assignment!.name,
       description: _assignment!.description,
@@ -56,6 +58,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
       //     student.studentId.substring(4) +
       //     textFieldKey.substring(2, 7),
       id: '${id.year}${id.month}${id.day} ${textFieldKey.hashCode}',
+      createdBy: UserData.authData!.email!,
       student: student,
       referenceFiles: [],
     );
@@ -71,6 +74,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
 
     _assignment = Assignment(
       id: assignment.id,
+      createdBy: assignment.createdBy,
       student: assignment.student,
       name: assignment.name,
       description: assignment.description,
@@ -170,5 +174,10 @@ class CurrentAssignmentBloc extends ChangeNotifier {
     }
 
     return true;
+  }
+
+  void onLogOut() {
+    _assignment = null;
+    _initialAssignment = null;
   }
 }

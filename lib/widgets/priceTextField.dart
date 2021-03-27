@@ -128,7 +128,7 @@ class _DueAmountAndSettleUpState extends State<DueAmountAndSettleUp> {
                     padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24.0),
-                      color: Provider.of<User>(context).isDarkMode
+                      color: Provider.of<UserData>(context).isDarkMode
                           ? kDarkModeSecondaryColor
                           : kLightModeSecondaryColor,
                     ),
