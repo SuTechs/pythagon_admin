@@ -176,11 +176,19 @@ class Subject {
 
   Subject({required this.id, required this.name, required this.image});
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'image': image,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       'id': id,
+  //       'name': name,
+  //       'image': image,
+  //       'createdAt': Timestamp.now(),
+  //     };
+
+  // Future<void> addSubject() async {
+  //   await CollectionRef.subjects.doc(id).set(toJson()).catchError((e) {
+  //     print('Error #2526 $e');
+  //   });
+  //   subjects.add(this);
+  // }
 
   factory Subject.fromJson(Map<String, dynamic> json) {
     return Subject(

@@ -64,6 +64,8 @@ class AssignmentDetails extends StatelessWidget {
           },
         ),
       ),
+
+      /// side sheet drawer
       endDrawer: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
@@ -86,6 +88,8 @@ class AssignmentDetails extends StatelessWidget {
           ),
         ),
       ),
+
+      /// body
       body: AssignmentDetailsLayout(
         details: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 32),

@@ -340,12 +340,14 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
       _phone.text = widget.teacher!.phone;
       _email.text = widget.teacher!.email;
       _college.text = widget.teacher!.college.collegeName;
-      _subjectsList.text = widget.teacher!.subjectsIds.join(' ');
+      _subjectsList.text = widget.teacher!.subjectsIds.join(', ');
+      _subjectIds.addAll(widget.teacher!.subjectsIds);
       _gender.text = widget.teacher!.gender;
       _dob.text = widget.teacher!.dateOfBirth;
     }
   }
 
+  final List<String> _subjectIds = [];
   final TextEditingController _name = TextEditingController();
   final TextEditingController _phone = TextEditingController();
   final TextEditingController _email = TextEditingController();
@@ -440,7 +442,9 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
                         return SelectMultipleSubjects(
                           subjects: snapshot.data!,
                           onSelect: (value) {
-                            _subjectsList.text = value;
+                            _subjectsList.text = value.join(', ');
+                            _subjectIds.addAll(value);
+                            _subjectIds.toSet().toList();
                           },
                         );
 
@@ -459,32 +463,32 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
             isRequired: true,
             onTap: () {
               showRoundedBottomSheet(
-                  context: context,
-                  child: FutureBuilder<List<College>>(
-                      future: College.getColleges(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return Center(
-                              child: Text('Error = ${snapshot.error}'));
-                        }
+                context: context,
+                child: FutureBuilder<List<College>>(
+                    future: College.getColleges(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error = ${snapshot.error}'));
+                      }
 
-                        if (snapshot.hasData)
-                          return SelectFromList<College>(
-                            items: snapshot.data!
-                                .map((e) => ListItem<College>(e, e.collegeName))
-                                .toList(),
-                            onNewItemSelect: (newItem) {
-                              College(collegeId: newItem, collegeName: newItem)
-                                  .addCollege();
-                              _college.text = newItem;
-                            },
-                            onSelect: (value) {
-                              _college.text = value.collegeName;
-                            },
-                          );
+                      if (snapshot.hasData)
+                        return SelectFromList<College>(
+                          items: snapshot.data!
+                              .map((e) => ListItem<College>(e, e.collegeName))
+                              .toList(),
+                          onNewItemSelect: (newItem) {
+                            College(collegeId: newItem, collegeName: newItem)
+                                .addCollege();
+                            _college.text = newItem;
+                          },
+                          onSelect: (value) {
+                            _college.text = value.collegeName;
+                          },
+                        );
 
-                        return Center(child: CircularProgressIndicator());
-                      }));
+                      return Center(child: CircularProgressIndicator());
+                    }),
+              );
             },
           ),
 
@@ -556,7 +560,7 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
       profilePic: kBlankProfilePicUrl,
       college: College(
           collegeName: _college.text.trim(), collegeId: _college.text.trim()),
-      subjectsIds: _subjectsList.text.split(' '),
+      subjectsIds: _subjectIds,
       totalRating: widget.isEdit ? widget.teacher!.totalRating : 0,
       balance: widget.isEdit ? widget.teacher!.balance : 0,
       rating: widget.isEdit
@@ -571,7 +575,7 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
 
 class SelectMultipleSubjects extends StatefulWidget {
   final List<Subject> subjects;
-  final void Function(String subjectsList) onSelect;
+  final void Function(List<String> subjectsIds) onSelect;
 
   const SelectMultipleSubjects(
       {Key? key, required this.subjects, required this.onSelect})
@@ -638,7 +642,7 @@ class _SelectMultipleSubjectsState extends State<SelectMultipleSubjects> {
                     mini: true,
                     child: Icon(Icons.done),
                     onPressed: () {
-                      widget.onSelect(selectedSubjectsIds.join(' '));
+                      widget.onSelect(selectedSubjectsIds);
                       Navigator.pop(context);
                     },
                   ),
