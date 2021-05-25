@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pythagon_admin/data/utils/modal/collectionRef.dart';
+import 'package:pythagon_admin/data/utils/modal/user.dart';
+import 'package:pythagon_admin/widgets/showToast.dart';
 
 class College {
   final String collegeName;
@@ -522,6 +524,8 @@ class Teacher {
       if (snapshot.data() != null)
         _teachers.add(Teacher.fromJson(snapshot.data()!));
 
+    _teachers.sort((a, b) => a.name.compareTo(b.name));
+
     return _teachers;
   }
 
@@ -597,6 +601,7 @@ class TeachersAssignments {
     );
   }
 
+  /// float assignments
   static Future<void> floatAssignments(
       List<String> selectedTeachers, String assignmentId, double amount) async {
     /// creating teachers assignments
@@ -615,25 +620,38 @@ class TeachersAssignments {
     }
   }
 
-  static Future<void> changeStatus(
-      TeacherAssignmentStatus status, String id) async {
-    await CollectionRef.teachersAssignments
-        .doc(id)
-        .update({'status': kTeacherAssignmentStatusEnumMap[status]});
+  /// change status
+  static Future<void> changeStatus(TeacherAssignmentStatus status, String id,
+      {required String teacherId,
+      required double amount,
+      required String assignmentId}) async {
+    await CollectionRef.teachersAssignments.doc(id).update({
+      'status': kTeacherAssignmentStatusEnumMap[status],
+      'updatedAt': Timestamp.now(),
+    });
+
+    if (status == TeacherAssignmentStatus.Closed) {
+      await Transaction.createTransaction(teacherId, amount, false,
+          assignmentId: assignmentId);
+    }
   }
 
+  /// update files
   static Future<void> updateFiles(List<String> files, String id) async {
-    await CollectionRef.teachersAssignments
-        .doc(id)
-        .update({'assignmentFiles': files});
+    await CollectionRef.teachersAssignments.doc(id).update({
+      'assignmentFiles': files,
+      'updatedAt': Timestamp.now(),
+    });
   }
 
+  /// rate
   static Future<void> rate(TeacherRating rating, String teacherId, String id,
       TeacherRating currentRating, int totalCurrentRating) async {
     /// adding rating in teacher assignment
     await CollectionRef.teachersAssignments.doc(id).update({
       'rating': rating.toJson(),
-      'status': kTeacherAssignmentStatusEnumMap[TeacherAssignmentStatus.Rated]
+      'status': kTeacherAssignmentStatusEnumMap[TeacherAssignmentStatus.Rated],
+      'updatedAt': Timestamp.now(),
     });
 
     /// adding rating in teacher
@@ -649,8 +667,112 @@ class TeachersAssignments {
     await CollectionRef.teachers.doc(teacherId).update({
       'rating': teacherRating.toJson(),
       'totalRating': totalCurrentRating,
+      'updatedAt': Timestamp.now(),
     }).then((value) {
       Teacher.resetTeachers();
     });
+  }
+}
+
+/// transactions
+
+class Transaction {
+  final String id;
+  final double amount;
+  final double closingBalance;
+  final String teacherId;
+  final String adminId;
+  final DateTime createdAt;
+  final bool isWithdrawn;
+  final String? assignmentId;
+
+  Transaction({
+    required this.id,
+    required this.amount,
+    required this.closingBalance,
+    required this.teacherId,
+    required this.adminId,
+    required this.createdAt,
+    required this.isWithdrawn,
+    this.assignmentId,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'amount': amount,
+        'closingBalance': closingBalance,
+        'teacherId': teacherId,
+        'adminId': adminId,
+        'createdAt': Timestamp.fromDate(createdAt),
+        'isWithdrawn': isWithdrawn,
+        if (assignmentId != null) 'assignmentId': assignmentId,
+      };
+
+  factory Transaction.fromJson(Map<String, dynamic> json) {
+    return Transaction(
+      id: json['id'],
+      amount: json['amount'],
+      closingBalance: json['closingBalance'],
+      teacherId: json['teacherId'],
+      adminId: json['adminId'],
+      createdAt: (json['createdAt'] as Timestamp).toDate(),
+      isWithdrawn: json['isWithdrawn'],
+    );
+  }
+
+  static Future<List<Transaction>> getTransaction(String teacherId) async {
+    final List<Transaction> _transactions = [];
+
+    final data = await CollectionRef.transactions
+        .where('teacherId', isEqualTo: teacherId)
+        .get();
+
+    for (QueryDocumentSnapshot snapshot in data.docs)
+      if (snapshot.data() != null)
+        _transactions.add(Transaction.fromJson(snapshot.data()!));
+
+    _transactions.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
+    return _transactions;
+  }
+
+  static Future<Transaction?> createTransaction(
+      String teacherId, double amount, bool isWithdrawn,
+      {String? assignmentId}) async {
+    final data = await CollectionRef.teachers.doc(teacherId).get();
+    if (data.data() == null) {
+      showToast('Teacher Not Found #32311');
+      return null;
+    }
+
+    final teacher = Teacher.fromJson(data.data()!);
+    final cb =
+        isWithdrawn ? teacher.balance - amount : teacher.balance + amount;
+
+    // adding transaction
+    final transaction = Transaction(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      amount: amount,
+      closingBalance: cb,
+      teacherId: teacherId,
+      adminId: UserData.authData!.email!,
+      createdAt: DateTime.now(),
+      isWithdrawn: isWithdrawn,
+      assignmentId: assignmentId,
+    );
+
+    await CollectionRef.transactions
+        .doc(transaction.id)
+        .set(transaction.toJson());
+
+    // updating teacher collection
+    await CollectionRef.teachers.doc(teacherId).update({
+      'balance': cb,
+      'updatedAt': Timestamp.now(),
+    }).then((value) {
+      Teacher.resetTeachers();
+    });
+
+    return transaction;
   }
 }

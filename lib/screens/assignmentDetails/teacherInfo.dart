@@ -202,7 +202,10 @@ class SelectTeacherAssignmentStatus extends StatelessWidget {
                 } else {
                   /// updating status
                   TeachersAssignments.changeStatus(
-                      TeacherAssignmentStatus.values[index], data.id);
+                      TeacherAssignmentStatus.values[index], data.id,
+                      teacherId: data.teacher.id,
+                      assignmentId: data.assignmentId,
+                      amount: data.amount);
                   SideSheet.closeIfOpen();
                   // Navigator.pop(context);
                 }

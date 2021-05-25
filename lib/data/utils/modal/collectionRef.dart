@@ -12,4 +12,7 @@ class CollectionRef {
   static final teachersAssignments =
       FirebaseFirestore.instance.collection('TeachersAssignments');
   static final admins = FirebaseFirestore.instance.collection('Admins');
+
+  static final transactions =
+      FirebaseFirestore.instance.collection('Transactions');
 }

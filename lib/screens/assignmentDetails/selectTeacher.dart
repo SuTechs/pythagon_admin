@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:pythagon_admin/data/database.dart';
+import 'package:pythagon_admin/data/utils/Utils.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
 import 'package:pythagon_admin/screens/assignmentDetails.dart';
 import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
@@ -368,7 +369,6 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
   final TextEditingController _subjectsList = TextEditingController();
   final TextEditingController _gender = TextEditingController();
   final TextEditingController _dob = TextEditingController();
-
   final TextEditingController _isVerified = TextEditingController();
   final TextEditingController _course = TextEditingController();
   final TextEditingController _accountInfo = TextEditingController();
@@ -659,7 +659,9 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
       email: _email.text.trim(),
       dateOfBirth: _dob.text.trim(),
       gender: _gender.text.trim(),
-      profilePic: kBlankProfilePicUrl,
+      profilePic: widget.teacher != null
+          ? widget.teacher!.profilePic
+          : kBlankProfilePicUrl,
       college: College(
           collegeName: _college.text.trim(), collegeId: _college.text.trim()),
       subjectsIds: _subjectIds,
@@ -1036,11 +1038,16 @@ class TeacherListDetails extends StatelessWidget {
                       ? Colors.white
                       : Colors.black,
                 ),
-                padding: EdgeInsets.only(right: 0, left: 8),
+                padding: EdgeInsets.only(right: 0, left: 16),
               ),
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => Transaction()));
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => TransactionsList(
+                              teacherId: teacher.id,
+                              balance: teacher.balance,
+                            )));
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -1111,16 +1118,26 @@ class TeacherListDetails extends StatelessWidget {
   }
 }
 
-class Transaction extends StatefulWidget {
+class TransactionsList extends StatefulWidget {
+  final String teacherId;
+  final double balance;
+
+  const TransactionsList(
+      {Key? key, required this.teacherId, required this.balance})
+      : super(key: key);
+
   @override
-  _TransactionState createState() => _TransactionState();
+  _TransactionsListState createState() => _TransactionsListState();
 }
 
-class _TransactionState extends State<Transaction> {
+class _TransactionsListState extends State<TransactionsList> {
+  late double balance = widget.balance;
   late ScrollController _scrollViewController;
   bool _showAppbar = true;
   bool _isScrollingDown = false;
   double amount = 0;
+  final List<Transaction> _transactions = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -1144,6 +1161,15 @@ class _TransactionState extends State<Transaction> {
           setState(() {});
         }
       }
+    });
+
+    /// fetching data
+
+    Transaction.getTransaction(widget.teacherId).then((value) {
+      setState(() {
+        _transactions.addAll(value);
+        _isLoading = false;
+      });
     });
   }
 
@@ -1183,7 +1209,7 @@ class _TransactionState extends State<Transaction> {
                     ),
                     Spacer(),
                     Text(
-                      '₹ 500',
+                      '₹ $balance',
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -1194,19 +1220,23 @@ class _TransactionState extends State<Transaction> {
 
               /// transaction
               Expanded(
-                child: ListView.separated(
-                    controller: _scrollViewController,
-                    itemBuilder: (_, i) {
-                      return TransactionListTile(isWithdrawn: i % 2 == 0);
-                    },
-                    separatorBuilder: (_, i) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(horizontal: 16),
-                        color: const Color(0xff707070),
-                        height: 0.1,
-                      );
-                    },
-                    itemCount: 10),
+                child: _isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView.separated(
+                        controller: _scrollViewController,
+                        itemBuilder: (_, i) {
+                          return TransactionListTile(
+                            transaction: _transactions[i],
+                          );
+                        },
+                        separatorBuilder: (_, i) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(horizontal: 16),
+                            color: const Color(0xff707070),
+                            height: 0.1,
+                          );
+                        },
+                        itemCount: _transactions.length),
               ),
             ],
           ),
@@ -1237,6 +1267,9 @@ class _TransactionState extends State<Transaction> {
                         },
                         validator: (v) {
                           if (amount <= 0) return 'Invalid amount';
+
+                          if (amount > balance)
+                            return 'You can not pay more than available balance!';
                         },
                       ),
                     ),
@@ -1252,7 +1285,7 @@ class _TransactionState extends State<Transaction> {
                           shape: MaterialStateProperty.all(StadiumBorder()),
                         ),
                         child: Text('Settle Up'),
-                        onPressed: () {},
+                        onPressed: settleUp,
                       ),
                     ),
                     SizedBox(width: 12),
@@ -1265,12 +1298,36 @@ class _TransactionState extends State<Transaction> {
       ),
     );
   }
+
+  void settleUp() async {
+    if (amount <= 0) {
+      showToast('Invalid amount');
+      return;
+    }
+
+    if (amount > balance) {
+      showToast('You can not pay more than available balance!');
+      return;
+    }
+
+    /// creating transaction and settling up
+
+    final t =
+        await Transaction.createTransaction(widget.teacherId, amount, true);
+
+    if (t != null) {
+      setState(() {
+        balance = t.closingBalance;
+        _transactions.insert(0, t);
+      });
+    }
+  }
 }
 
 class TransactionListTile extends StatelessWidget {
-  final bool isWithdrawn;
+  final Transaction transaction;
 
-  const TransactionListTile({Key? key, required this.isWithdrawn})
+  const TransactionListTile({Key? key, required this.transaction})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -1288,26 +1345,26 @@ class TransactionListTile extends StatelessWidget {
           ),
         ),
         child: Icon(
-          isWithdrawn ? Icons.north_east : Icons.south_west,
+          transaction.isWithdrawn ? Icons.north_east : Icons.south_west,
         ),
       ),
       title: Text(
-        'Money ${isWithdrawn ? 'Withdrawn' : 'Deposited'}',
+        'Money ${transaction.isWithdrawn ? 'Withdrawn' : 'Deposited'}',
       ),
-      subtitle: Text('23 Apr 12:20 PM'),
+      subtitle: Text(getFormattedTime(transaction.createdAt)),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            '${isWithdrawn ? '-' : '+'} ₹500',
+            '${transaction.isWithdrawn ? '-' : '+'} ₹${transaction.amount}',
             style: TextStyle(
               fontSize: 16,
             ),
           ),
           SizedBox(height: 2),
           Text(
-            'CB: ₹200',
+            'CB: ₹${transaction.closingBalance}',
             style: Theme.of(context).textTheme.caption,
           ),
         ],
