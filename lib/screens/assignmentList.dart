@@ -70,7 +70,7 @@ class _HideShowListViewState extends State<HideShowListView> {
 
     /// for now all assignment is visible to only Pythagon
     /// and rest can view only their assignments
-    if (UserData.authData!.email == 'sumit123210@gmail.com')
+    if (UserData.isGod)
       CollectionRef.assignments
           .orderBy('updatedAt', descending: true)
           .snapshots()

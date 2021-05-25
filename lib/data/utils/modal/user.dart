@@ -7,6 +7,9 @@ class UserData extends ChangeNotifier {
   static final UserData _singleton = UserData._internal();
   static User? get authData => FirebaseAuth.instance.currentUser;
 
+  static bool get isGod =>
+      FirebaseAuth.instance.currentUser?.email == 'sumit123210@gmail.com';
+
   factory UserData() {
     return _singleton;
   }

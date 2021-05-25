@@ -90,17 +90,25 @@ class AssignmentDetails extends StatelessWidget {
       ),
 
       /// body
-      body: AssignmentDetailsLayout(
-        details: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 32),
-          child: AssignmentInfo(),
-        ),
-        teacher: TeacherCard(),
-        payment: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
-          child: PaymentCard(),
-        ),
-      ),
+      body: Provider.of<CurrentAssignmentBloc>(context).assignment == null
+          ? CustomContainer(
+              child: Center(
+                child: Text('Add some illustration here!'),
+              ),
+            )
+          : AssignmentDetailsLayout(
+              details: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 32),
+                child: AssignmentInfo(),
+              ),
+              teacher: TeacherCard(),
+              payment: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                child: PaymentCard(),
+              ),
+            ),
     );
   }
 }

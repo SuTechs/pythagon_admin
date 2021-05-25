@@ -7,14 +7,20 @@ import 'assignmentDetailsLayout.dart';
 
 class SelectFromList<T> extends StatefulWidget {
   final void Function(T selectedItem) onSelect;
-  final void Function(String newItem) onNewItemSelect;
+  final void Function(String newItem)? onNewItemSelect;
   final List<ListItem<T>> items;
+  final bool canHaveNewItem;
   SelectFromList(
       {Key? key,
       required this.items,
       required this.onSelect,
-      required this.onNewItemSelect})
-      : super(key: key);
+      this.onNewItemSelect,
+      this.canHaveNewItem = true})
+      : assert(
+            (canHaveNewItem && onNewItemSelect != null) ||
+                (!canHaveNewItem && onNewItemSelect == null),
+            'Can not have both canHaveNewItem = true and onNewItemSelect != null '),
+        super(key: key);
 
   @override
   _SelectFromListState<T> createState() => _SelectFromListState<T>();
@@ -71,13 +77,14 @@ class _SelectFromListState<T> extends State<SelectFromList<T>> {
                     ),
                   ),
                 ),
-                if (newTitle.length > 0) SizedBox(width: 12),
-                if (newTitle.length > 0)
+                if (newTitle.length > 0 && widget.canHaveNewItem)
+                  SizedBox(width: 12),
+                if (newTitle.length > 0 && widget.canHaveNewItem)
                   FloatingActionButton(
                     mini: true,
                     child: Icon(Icons.add),
                     onPressed: () {
-                      widget.onNewItemSelect(newTitle);
+                      widget.onNewItemSelect!(newTitle);
                       Navigator.pop(context);
                     },
                   ),

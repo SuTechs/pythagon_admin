@@ -425,20 +425,27 @@ class Teacher {
   final College college;
   final List<String> subjectsIds;
   final double balance;
+  final bool isVerified;
+  final Course course;
+  final String accountInfo;
 
-  Teacher(
-      {required this.id,
-      required this.name,
-      required this.phone,
-      required this.profilePic,
-      required this.email,
-      required this.rating,
-      required this.subjectsIds,
-      required this.dateOfBirth,
-      required this.gender,
-      required this.college,
-      required this.balance,
-      required this.totalRating});
+  Teacher({
+    required this.id,
+    required this.name,
+    required this.phone,
+    required this.profilePic,
+    required this.email,
+    required this.rating,
+    required this.subjectsIds,
+    required this.dateOfBirth,
+    required this.gender,
+    required this.college,
+    required this.balance,
+    required this.totalRating,
+    required this.isVerified,
+    required this.course,
+    required this.accountInfo,
+  });
 
   @override
   bool operator ==(Object other) {
@@ -453,6 +460,9 @@ class Teacher {
             listEquals(subjectsIds, other.subjectsIds) &&
             dateOfBirth == other.dateOfBirth &&
             gender == other.gender &&
+            isVerified == other.isVerified &&
+            course.courseId == other.course.courseId &&
+            accountInfo == other.accountInfo &&
             email == other.email;
   }
 
@@ -474,6 +484,9 @@ class Teacher {
         'balance': balance,
         if (isEdit) 'createdAt': Timestamp.now(),
         'updatedAt': Timestamp.now(),
+        'isVerified': isVerified,
+        'course': course.courseName,
+        'accountInfo': accountInfo,
       };
 
   factory Teacher.fromJson(Map<String, dynamic> json) {
@@ -492,6 +505,11 @@ class Teacher {
       gender: json['gender'],
       college:
           College(collegeId: json['college'], collegeName: json['college']),
+      course: Course(
+          courseId: json['course'] ?? 'Select Course',
+          courseName: json['course'] ?? 'Select Course'),
+      isVerified: json['isVerified'] ?? false,
+      accountInfo: json['accountInfo'] ?? '',
     );
   }
 

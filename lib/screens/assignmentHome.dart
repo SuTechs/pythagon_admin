@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pythagon_admin/constants.dart';
 import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
 import 'package:pythagon_admin/data/utils/modal/user.dart';
-import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
+import 'package:pythagon_admin/screens/assignmentDetails/selectTeacher.dart';
 import 'package:pythagon_admin/widgets/homeLayout.dart';
 
 import 'assignmentDetails.dart';
@@ -21,6 +21,22 @@ class AssignmentHome extends StatelessWidget {
             : kLightModeSecondaryColor,
         elevation: 0.5,
         actions: [
+          /// Teacher
+          if (UserData.isGod)
+            TextButton(
+              child: Text(
+                'Teachers',
+                style: TextStyle(
+                  color: !Provider.of<UserData>(context).isDarkMode
+                      ? kDarkModeBackgroundColor
+                      : kLightModeBackgroundColor,
+                ),
+              ),
+              onPressed: () {
+                SideSheet().openDrawer(child: TeachersList());
+              },
+            ),
+
           /// logout
           TextButton(
               child: Text(
@@ -54,14 +70,7 @@ class AssignmentHome extends StatelessWidget {
       ),
       body: HomeLayout(
         lessWidthChild: AssignmentList(),
-        moreWidthChild:
-            Provider.of<CurrentAssignmentBloc>(context).assignment != null
-                ? AssignmentDetails()
-                : CustomContainer(
-                    child: Center(
-                      child: Text('Add some illustration here!'),
-                    ),
-                  ),
+        moreWidthChild: AssignmentDetails(),
       ),
     );
   }
