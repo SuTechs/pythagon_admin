@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -23,8 +22,6 @@ void main() async {
   await Firebase.initializeApp().catchError((e) {
     print('Firebase init error = $e');
   });
-
-  UserData().init();
 
   // CollectionRef.colleges.get().then((value) {
   //   print('data = ${value.docs.first.data()}');
@@ -51,17 +48,31 @@ class MyApp extends StatelessWidget {
                   .copyWith(scaffoldBackgroundColor: kLightModeBackgroundColor),
           debugShowCheckedModeBanner: false,
           title: 'Pythagon',
-          home: StreamBuilder<User?>(
-              stream: FirebaseAuth.instance.userChanges(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting)
-                  return Center(child: CircularProgressIndicator());
 
-                if (snapshot.hasData && snapshot.data != null)
-                  return AssignmentHome();
+          home: Provider.of<UserData>(context).isLoggedIn
+              ? AssignmentHome()
+              : AdminLogin(),
 
-                return AdminLogin();
-              }),
+          // home: StreamBuilder<User?>(
+          //     stream: FirebaseAuth.instance.userChanges(),
+          //     builder: (context, snapshot) {
+          //       if (snapshot.hasError) {
+          //         print('Error = ${snapshot.error}');
+          //       }
+          //
+          //       // if (snapshot.connectionState == ConnectionState.waiting)
+          //       //   return Center(child: CircularProgressIndicator());
+          //
+          //       print(
+          //           'Snapshot has data = ${snapshot.hasData} and data = ${snapshot.data}');
+          //
+          //       if (snapshot.hasData) {
+          //         if (snapshot.data != null) return AssignmentHome();
+          //         return AdminLogin();
+          //       }
+          //
+          //       return Center(child: CircularProgressIndicator());
+          //     }),
         );
       },
     );

@@ -285,12 +285,13 @@ class _TeacherCardState extends State<TeacherCard> {
     });
   }
 
-  List<TeachersAssignments> handleStreamData(QuerySnapshot snapshot) {
+  List<TeachersAssignments> handleStreamData(
+      QuerySnapshot<Map<String, dynamic>> snapshot) {
     teachersAssignments.clear();
-    for (QueryDocumentSnapshot v in snapshot.docs) {
+    for (QueryDocumentSnapshot<Map<String, dynamic>> v in snapshot.docs) {
       try {
         teachersAssignments
-            .add(TeachersAssignments.fromJson(v.data()!, fetchedTeachers));
+            .add(TeachersAssignments.fromJson(v.data(), fetchedTeachers));
       } catch (e) {
         print('\nError while parsing teachers assignment = $e');
         continue;
@@ -304,7 +305,7 @@ class _TeacherCardState extends State<TeacherCard> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: CollectionRef.teachersAssignments
             .where('assignmentId',
                 isEqualTo: CurrentAssignmentBloc().assignment!.id)

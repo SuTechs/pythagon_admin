@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -37,15 +40,19 @@ class HideShowListView extends StatefulWidget {
 }
 
 class _HideShowListViewState extends State<HideShowListView> {
-  late ScrollController _scrollViewController;
+  late ScrollController _scrollViewController = ScrollController();
   bool _showAppbar = true;
   bool _isScrollingDown = false;
   bool _isLoading = true;
 
+  late final Stream<QuerySnapshot<Map<String, dynamic>>> snapshots;
+  late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>
+      _streamSubscription;
+
   @override
   void initState() {
     super.initState();
-    _scrollViewController = ScrollController();
+
     _scrollViewController.addListener(() {
       if (_scrollViewController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -67,36 +74,27 @@ class _HideShowListViewState extends State<HideShowListView> {
     });
 
     /// assignment list stream
-
     /// for now all assignment is visible to only Pythagon
     /// and rest can view only their assignments
     if (UserData.isGod)
-      CollectionRef.assignments
+      snapshots = CollectionRef.assignments
           .orderBy('updatedAt', descending: true)
-          .snapshots()
-          .listen((event) {
-        print('stream data');
-
-        AssignmentListBloc().onDataUpdate(event);
-        if (_isLoading)
-          setState(() {
-            _isLoading = false;
-          });
-      });
+          .snapshots();
     else
-      CollectionRef.assignments
+      snapshots = CollectionRef.assignments
           .where('createdBy', isEqualTo: UserData.authData!.email)
           .orderBy('updatedAt', descending: true)
-          .snapshots()
-          .listen((event) {
-        print('stream data');
+          .snapshots();
 
-        AssignmentListBloc().onDataUpdate(event);
-        if (_isLoading)
-          setState(() {
-            _isLoading = false;
-          });
-      });
+    _streamSubscription = snapshots.listen((event) {
+      print('stream data');
+
+      AssignmentListBloc().onDataUpdate(event);
+      if (_isLoading)
+        setState(() {
+          _isLoading = false;
+        });
+    });
   }
 
   @override
@@ -109,94 +107,98 @@ class _HideShowListViewState extends State<HideShowListView> {
                 margin: EdgeInsets.only(top: _showAppbar ? 12 : 0),
                 height: _showAppbar ? kToolbarHeight - 10 : 0.0,
                 duration: Duration(milliseconds: 200),
-                child: Row(
-                  children: [
-                    SizedBox(width: 12),
-                    FloatingActionButton(
-                      backgroundColor: AssignmentListBloc().isSortByTime
-                          ? null
-                          : Colors.grey,
-                      mini: true,
-                      child: Icon(Icons.timer),
-                      onPressed: () {
-                        /// handle time sorting
-                        AssignmentListBloc().toggleSortByTime();
-                      },
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: RoundedTextField(
-                        hintText: 'Search',
-                        onChanged: (v) {
-                          AssignmentListBloc().onSearch(v.toLowerCase());
+                child: AnimatedOpacity(
+                  duration: Duration(milliseconds: 200),
+                  opacity: _showAppbar ? 1 : 0,
+                  child: Row(
+                    children: [
+                      SizedBox(width: 12),
+                      FloatingActionButton(
+                        heroTag: 'Hello Noob 111',
+                        backgroundColor: AssignmentListBloc().isSortByTime
+                            ? null
+                            : Colors.grey,
+                        mini: true,
+                        child: Icon(Icons.timer),
+                        onPressed: () {
+                          /// handle time sorting
+                          AssignmentListBloc().toggleSortByTime();
                         },
                       ),
-                    ),
-                    SizedBox(width: 12),
-                    FloatingActionButton(
-                      mini: true,
-                      child: Icon(Icons.add),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => StudentList()));
-                      },
-                    ),
-                    SizedBox(width: 12),
-                  ],
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: RoundedTextField(
+                          hintText: 'Search',
+                          onChanged: (v) {
+                            AssignmentListBloc().onSearch(v.toLowerCase());
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 12),
+                      FloatingActionButton(
+                        heroTag: 'Hello Noob 311',
+                        mini: true,
+                        child: Icon(Icons.add),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) => StudentList()));
+                        },
+                      ),
+                      SizedBox(width: 12),
+                    ],
+                  ),
                 ),
               ),
 
               /// assignments list
 
               Expanded(
-                child: Scrollbar(
-                  child: ListView.separated(
-                    controller: _scrollViewController,
-                    itemBuilder: (context, index) {
-                      return AssignmentListTile(
-                        assignment: Provider.of<AssignmentListBloc>(context)
-                            .assignments[index],
-                        isSelected:
-                            CurrentAssignmentBloc().assignment != null &&
-                                Provider.of<AssignmentListBloc>(context)
-                                        .assignments[index]
-                                        .id ==
-                                    CurrentAssignmentBloc().assignment!.id,
-                        onTap: () {
-                          CurrentAssignmentBloc().changeAssignment(
-                              Provider.of<AssignmentListBloc>(context,
-                                      listen: false)
-                                  .assignments[index]);
-                        },
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 70),
-                        child: Container(
-                          height: 0.1,
-                          color: Provider.of<UserData>(context).isDarkMode
-                              ? kDarkModeSecondaryColor
-                              : kLightModeSecondaryColor,
-                        ),
-                      );
-                    },
-                    itemCount: Provider.of<AssignmentListBloc>(context)
-                        .assignments
-                        .length,
-                  ),
+                child: ListView.separated(
+                  physics: BouncingScrollPhysics(),
+                  controller: _scrollViewController,
+                  itemBuilder: (context, index) {
+                    return AssignmentListTile(
+                      assignment: Provider.of<AssignmentListBloc>(context)
+                          .assignments[index],
+                      isSelected: CurrentAssignmentBloc().assignment != null &&
+                          Provider.of<AssignmentListBloc>(context)
+                                  .assignments[index]
+                                  .id ==
+                              CurrentAssignmentBloc().assignment!.id,
+                      onTap: () {
+                        CurrentAssignmentBloc().changeAssignment(
+                            Provider.of<AssignmentListBloc>(context,
+                                    listen: false)
+                                .assignments[index]);
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 70),
+                      child: Container(
+                        height: 0.1,
+                        color: Provider.of<UserData>(context).isDarkMode
+                            ? kDarkModeSecondaryColor
+                            : kLightModeSecondaryColor,
+                      ),
+                    );
+                  },
+                  itemCount: Provider.of<AssignmentListBloc>(context)
+                      .assignments
+                      .length,
                 ),
               ),
             ],
           );
   }
 
-  // @override
-  // void dispose() {
-  //   _scrollViewController.dispose();
-  //   _scrollViewController.removeListener(() {});
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _streamSubscription.cancel();
+    _scrollViewController.dispose();
+    super.dispose();
+  }
 }
 
 class AssignmentListTile extends StatelessWidget {

@@ -50,6 +50,12 @@ class AssignmentHome extends StatelessWidget {
               onPressed: () {
                 FirebaseAuth.instance.signOut().then((value) {
                   CurrentAssignmentBloc().onLogOut();
+                  UserData().isLoggedIn = false;
+
+                  // Navigator.pushAndRemoveUntil(
+                  //     context,
+                  //     MaterialPageRoute(builder: (_) => AdminLogin()),
+                  //     (route) => false);
                 });
               }),
 

@@ -41,14 +41,14 @@ class AssignmentListBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onDataUpdate(QuerySnapshot snapshot) async {
+  void onDataUpdate(QuerySnapshot<Map<String, dynamic>> snapshot) async {
     if (_isFetching) return;
     _isFetching = true;
 
     _assignments.clear();
-    for (QueryDocumentSnapshot v in snapshot.docs) {
+    for (QueryDocumentSnapshot<Map<String, dynamic>> v in snapshot.docs) {
       try {
-        final a = await Assignment.getAssignmentFromData(v.data()!);
+        final a = await Assignment.getAssignmentFromData(v.data());
         _assignments.add(a);
         notifyListeners();
       } catch (e) {
