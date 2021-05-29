@@ -136,17 +136,20 @@ class TeacherAssignmentDetailsListTile extends StatelessWidget {
       children: [
         if (hasFile())
           SizedBox(
-            height: 150,
+            height: 160,
             child: AttachmentList(
-              updateFiles: ({required bool isDelete, required String url}) {
-                if (isDelete)
-                  data.assignmentFiles.remove(url);
-                else
-                  data.assignmentFiles.add(url);
+              onFileDelete: (url) async {
+                data.assignmentFiles.remove(url);
+                await TeachersAssignments.updateFiles(
+                    data.assignmentFiles, data.id);
+              },
+              onFilesUpload: (urls) async {
+                data.assignmentFiles.addAll(urls);
 
                 TeachersAssignments.updateFiles(data.assignmentFiles, data.id);
               },
               files: data.assignmentFiles,
+              assignmentId: data.assignmentId,
             ),
           ),
       ],

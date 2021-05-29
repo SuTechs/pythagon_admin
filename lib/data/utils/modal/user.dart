@@ -16,9 +16,8 @@ class UserData extends ChangeNotifier {
 
   UserData._internal();
 
-  late bool _isDarkMode =
-      Data.boolBox.get('isVerified', defaultValue: true) ?? true;
-  late bool _isLoggedIn = authData != null;
+  bool _isDarkMode = Data.boolBox.get('isVerified', defaultValue: true) ?? true;
+  bool _isLoggedIn = authData != null;
 
   bool get isLoggedIn => _isLoggedIn;
 

@@ -160,7 +160,9 @@ class _HideShowListViewState extends State<HideShowListView> {
                     return AssignmentListTile(
                       assignment: Provider.of<AssignmentListBloc>(context)
                           .assignments[index],
-                      isSelected: CurrentAssignmentBloc().assignment != null &&
+                      isSelected: Provider.of<CurrentAssignmentBloc>(context)
+                                  .assignment !=
+                              null &&
                           Provider.of<AssignmentListBloc>(context)
                                   .assignments[index]
                                   .id ==

@@ -1,3 +1,5 @@
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +7,8 @@ import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
 import 'package:pythagon_admin/data/database.dart';
 import 'package:pythagon_admin/data/utils/Utils.dart';
 import 'package:pythagon_admin/widgets/fileIcons.dart';
+import 'package:pythagon_admin/widgets/showToast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// assignment info components
 
@@ -289,13 +293,17 @@ class DescriptionTextField extends StatelessWidget {
 
 class AttachmentList extends StatefulWidget {
   final List<String> files;
+  final String assignmentId;
+  final Future<void> Function(List<String> urls) onFilesUpload;
+  final Future<void> Function(String url) onFileDelete;
 
-  final void Function({required bool isDelete, required String url})
-      updateFiles;
-
-  const AttachmentList(
-      {Key? key, required this.files, required this.updateFiles})
-      : super(key: key);
+  const AttachmentList({
+    Key? key,
+    required this.files,
+    required this.onFilesUpload,
+    required this.onFileDelete,
+    required this.assignmentId,
+  }) : super(key: key);
 
   @override
   _AttachmentListState createState() => _AttachmentListState();
@@ -327,9 +335,9 @@ class _AttachmentListState extends State<AttachmentList> {
                         _selectedIndex = index;
                     });
                   },
-                  title: Text(widget.files[index].split('/').last),
+                  title: Text(_getFileName(widget.files[index])),
                   leading: CircleAvatar(
-                    child: FileIcon(widget.files[index].split('/').last),
+                    child: FileIcon(_getFileName(widget.files[index])),
                   ),
                   trailing: _selectedIndex == index
                       ? Row(
@@ -338,7 +346,7 @@ class _AttachmentListState extends State<AttachmentList> {
                             IconButton(
                               icon: Icon(Icons.download_outlined),
                               onPressed: () {
-                                // ToDo: implement URL launcher
+                                _launchURL(widget.files[index]);
                               },
                             ),
                             IconButton(
@@ -347,8 +355,7 @@ class _AttachmentListState extends State<AttachmentList> {
                                 setState(() {
                                   _selectedIndex = null;
                                 });
-                                widget.updateFiles(
-                                    isDelete: true, url: widget.files[index]);
+                                widget.onFileDelete(widget.files[index]);
 
                                 // ToDo: implement delete file here
                               },
@@ -372,16 +379,11 @@ class _AttachmentListState extends State<AttachmentList> {
                       _isUploading = true;
                     });
 
-                    // ToDo: file picker
-                    // ToDo: upload and add file
-
-                    await Future.delayed(Duration(seconds: 2));
+                    await _uploadFiles();
 
                     setState(() {
                       _isUploading = false;
                     });
-
-                    widget.updateFiles(isDelete: false, url: _kFileName);
                   },
                   icon: Icon(Icons.upload_outlined),
                   splashRadius: 16,
@@ -390,6 +392,52 @@ class _AttachmentListState extends State<AttachmentList> {
       ],
     );
   }
-}
 
-const _kFileName = 'https://suMit.com/su8298w/su.pdf';
+  void _launchURL(url) async => await canLaunch(url)
+      ? await launch(url)
+      : showToast('Could not launch $url');
+
+  String _getFileName(String url) {
+    try {
+      return FirebaseStorage.instance.refFromURL(url).name;
+    } catch (e) {
+      print('Error #13121 =$e');
+      return Uri.decodeFull(url).toString().split('/').last;
+    }
+
+    // if (url.contains('key')) {
+    //   final f = url.split('key');
+    //
+    //   if (f.length > 2) return Uri.decodeFull(f[1]).toString();
+    // }
+    // return Uri.decodeFull(url).toString().split('/').last;
+  }
+
+  Future<void> _uploadFiles() async {
+    final result = await FilePicker.platform.pickFiles(allowMultiple: true);
+
+    if (result == null) {
+      showToast('No File Selected!');
+      return;
+    }
+
+    /// uploading file
+
+    final urls = <String>[];
+
+    for (final f in result.files) {
+      final r = await FirebaseStorage.instance
+          .ref('Assignments')
+          .child(widget.assignmentId)
+          .child(f.name)
+          .putData(f.bytes!);
+
+      final url = await r.ref.getDownloadURL();
+      urls.add(url);
+    }
+
+    /// calling assignment to update
+
+    await widget.onFilesUpload(urls);
+  }
+}

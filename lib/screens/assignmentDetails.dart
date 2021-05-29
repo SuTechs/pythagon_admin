@@ -173,14 +173,15 @@ class AssignmentInfo extends StatelessWidget {
         },
       ),
       attachments: AttachmentList(
+        assignmentId: CurrentAssignmentBloc().assignment!.id,
         files: CurrentAssignmentBloc().assignment!.referenceFiles,
-        updateFiles: ({required bool isDelete, required String url}) {
-          if (isDelete)
-            CurrentAssignmentBloc().assignment!.referenceFiles.remove(url);
-          else
-            CurrentAssignmentBloc().assignment!.referenceFiles.add(url);
-
-          CurrentAssignmentBloc().notifyAssignmentUpdate();
+        onFilesUpload: (urls) async {
+          CurrentAssignmentBloc().assignment!.referenceFiles.addAll(urls);
+          CurrentAssignmentBloc().updateAssignment();
+        },
+        onFileDelete: (url) async {
+          CurrentAssignmentBloc().assignment!.referenceFiles.remove(url);
+          CurrentAssignmentBloc().updateAssignment();
         },
       ),
     );
