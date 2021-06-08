@@ -16,9 +16,9 @@ void main() async {
 
   await Hive.initFlutter();
   await Hive.openBox<bool>('bool');
-  await Hive.openBox<String>('string');
-  await Hive.openBox<double>('double');
-  await Hive.openBox<int>('int');
+  // await Hive.openBox<String>('string');
+  // await Hive.openBox<double>('double');
+  // await Hive.openBox<int>('int');
   await Firebase.initializeApp().catchError((e) {
     print('Firebase init error = $e');
   });
