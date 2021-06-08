@@ -3,12 +3,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
-import 'package:pythagon_admin/data/database.dart';
-import 'package:pythagon_admin/data/utils/Utils.dart';
-import 'package:pythagon_admin/widgets/fileIcons.dart';
-import 'package:pythagon_admin/widgets/showToast.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '/data/bloc/currentAssignmentBloc.dart';
+import '/data/database.dart';
+import '/data/utils/Utils.dart';
+import '/widgets/fileIcons.dart';
+import '/widgets/showToast.dart';
 
 /// assignment info components
 

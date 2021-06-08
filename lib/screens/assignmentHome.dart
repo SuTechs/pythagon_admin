@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pythagon_admin/constants.dart';
-import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
-import 'package:pythagon_admin/data/utils/modal/user.dart';
-import 'package:pythagon_admin/screens/assignmentDetails/selectTeacher.dart';
-import 'package:pythagon_admin/widgets/homeLayout.dart';
 
+import '/constants.dart';
+import '/data/bloc/currentAssignmentBloc.dart';
+import '/data/utils/modal/user.dart';
+import '/screens/assignmentDetails/selectTeacher.dart';
+import '/widgets/homeLayout.dart';
+import 'assignmentDetails/selectSubject.dart';
 import 'assignmentDetails.dart';
 import 'assignmentList.dart';
 
@@ -21,7 +22,7 @@ class AssignmentHome extends StatelessWidget {
             : kLightModeSecondaryColor,
         elevation: 0.5,
         actions: [
-          /// Teacher
+          /// Teachers
           if (UserData.isGod)
             TextButton(
               child: Text(
@@ -35,6 +36,25 @@ class AssignmentHome extends StatelessWidget {
               onPressed: () {
                 SideSheet().openDrawer(child: TeachersList());
               },
+            ),
+
+          /// Subjects
+          if (UserData.isGod)
+            Padding(
+              padding: const EdgeInsets.only(left: 8, right: 4),
+              child: TextButton(
+                child: Text(
+                  'Subjects',
+                  style: TextStyle(
+                    color: !Provider.of<UserData>(context).isDarkMode
+                        ? kDarkModeBackgroundColor
+                        : kLightModeBackgroundColor,
+                  ),
+                ),
+                onPressed: () {
+                  SideSheet().openDrawer(child: SubjectAddEdit());
+                },
+              ),
             ),
 
           /// logout

@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:pythagon_admin/data/utils/modal/collectionRef.dart';
-import 'package:pythagon_admin/data/utils/modal/user.dart';
-import 'package:pythagon_admin/widgets/showToast.dart';
+
+import '/data/utils/modal/collectionRef.dart';
+import '/data/utils/modal/user.dart';
+import '/widgets/showToast.dart';
 
 class College {
   final String collegeName;
@@ -172,28 +173,45 @@ class Subject {
   final String id;
   final String name;
   final String image;
+  final bool isEnable;
 
-  Subject({required this.id, required this.name, required this.image});
+  Subject({
+    required this.id,
+    required this.name,
+    required this.image,
+    required this.isEnable,
+  });
 
-  // Map<String, dynamic> toJson() => {
-  //       'id': id,
-  //       'name': name,
-  //       'image': image,
-  //       'createdAt': Timestamp.now(),
-  //     };
+  Map<String, dynamic> toJson(bool isEdit) => {
+        'id': id,
+        'name': name,
+        'image': image,
+        'isEnable': isEnable,
+        if (isEdit)
+          'updatedAt': Timestamp.now()
+        else
+          'createdAt': Timestamp.now(),
+      };
 
-  // Future<void> addSubject() async {
-  //   await CollectionRef.subjects.doc(id).set(toJson()).catchError((e) {
-  //     print('Error #2526 $e');
-  //   });
-  //   subjects.add(this);
-  // }
+  Future<void> addOrEditSubject(bool isEdit) async {
+    try {
+      if (isEdit) {
+        await CollectionRef.subjects.doc(id).update(toJson(isEdit));
+        subjects.remove(this);
+      } else
+        await CollectionRef.subjects.doc(id).set(toJson(isEdit));
+      subjects.add(this);
+    } catch (e) {
+      print('Error #24351 = $e');
+    }
+  }
 
   factory Subject.fromJson(Map<String, dynamic> json) {
     return Subject(
       id: json['id'],
       name: json['name'],
       image: json['image'],
+      isEnable: json['isEnable'] ?? false,
     );
   }
 

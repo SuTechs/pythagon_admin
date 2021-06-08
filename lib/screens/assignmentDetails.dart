@@ -3,18 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:pythagon_admin/data/bloc/currentAssignmentBloc.dart';
-import 'package:pythagon_admin/data/database.dart';
-import 'package:pythagon_admin/data/utils/Utils.dart';
-import 'package:pythagon_admin/data/utils/modal/collectionRef.dart';
-import 'package:pythagon_admin/data/utils/modal/user.dart';
-import 'package:pythagon_admin/screens/assignmentDetails/teacherInfo.dart';
-import 'package:pythagon_admin/widgets/assignmentDetailsLayout.dart';
-import 'package:pythagon_admin/widgets/assignmentInfoComponents.dart';
-import 'package:pythagon_admin/widgets/priceTextField.dart';
-import 'package:pythagon_admin/widgets/showToast.dart';
-import 'package:pythagon_admin/widgets/teacherAssignmentStatusIcon.dart';
 
+import '/data/bloc/currentAssignmentBloc.dart';
+import '/data/database.dart';
+import '/data/utils/Utils.dart';
+import '/data/utils/modal/collectionRef.dart';
+import '/data/utils/modal/user.dart';
+import '/screens/assignmentDetails/teacherInfo.dart';
+import '/widgets/assignmentDetailsLayout.dart';
+import '/widgets/assignmentInfoComponents.dart';
+import '/widgets/priceTextField.dart';
+import '/widgets/showToast.dart';
+import '/widgets/teacherAssignmentStatusIcon.dart';
 import '../constants.dart';
 import 'assignmentDetails/selectSubject.dart';
 import 'assignmentDetails/selectTeacher.dart';
@@ -150,8 +150,9 @@ class AssignmentInfo extends StatelessWidget {
                   if (snapshot.hasData)
                     return SelectSubject(
                       fetchedSubjects: snapshot.data ?? [],
-                      onSubjectChange: (s) {
+                      onSubjectSelect: (s) {
                         CurrentAssignmentBloc().onSubjectSelect(s);
+                        SideSheet.closeDrawer();
                       },
                     );
 

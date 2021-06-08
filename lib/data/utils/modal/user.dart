@@ -4,11 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'dataBox.dart';
 
 class UserData extends ChangeNotifier {
+  /// singleton
   static final UserData _singleton = UserData._internal();
-  static User? get authData => FirebaseAuth.instance.currentUser;
-
-  static bool get isGod =>
-      FirebaseAuth.instance.currentUser?.email == 'sumit123210@gmail.com';
 
   factory UserData() {
     return _singleton;
@@ -16,13 +13,23 @@ class UserData extends ChangeNotifier {
 
   UserData._internal();
 
-  bool _isDarkMode = Data.boolBox.get('isVerified', defaultValue: true) ?? true;
-  bool _isLoggedIn = authData != null;
+  /// logics
+
+  static User? get authData => FirebaseAuth.instance.currentUser;
+
+  static bool get isGod =>
+      FirebaseAuth.instance.currentUser?.email == 'sumit123210@gmail.com';
+
+  late bool _isDarkMode =
+      Data.boolBox.get('isVerified', defaultValue: true) ?? true;
+  late bool _isLoggedIn =
+      Data.boolBox.get('isLoggedIn', defaultValue: true) ?? true;
 
   bool get isLoggedIn => _isLoggedIn;
 
   set isLoggedIn(bool value) {
     _isLoggedIn = value;
+    Data.boolBox.put('isLoggedIn', value);
     notifyListeners();
   }
 
