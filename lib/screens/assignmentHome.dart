@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pythagon_admin/data/utils/NotificationManager.dart';
 
 import '/constants.dart';
 import '/data/bloc/currentAssignmentBloc.dart';
@@ -11,7 +12,18 @@ import 'assignmentDetails/selectSubject.dart';
 import 'assignmentDetails.dart';
 import 'assignmentList.dart';
 
-class AssignmentHome extends StatelessWidget {
+class AssignmentHome extends StatefulWidget {
+  @override
+  State<AssignmentHome> createState() => _AssignmentHomeState();
+}
+
+class _AssignmentHomeState extends State<AssignmentHome> {
+  @override
+  void initState() {
+    super.initState();
+    NotificationManager.init();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

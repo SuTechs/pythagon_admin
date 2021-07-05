@@ -214,6 +214,7 @@ class AssignmentListTile extends StatelessWidget {
       required this.onTap,
       required this.assignment})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -249,7 +250,7 @@ class AssignmentListTile extends StatelessWidget {
         ),
       ),
       trailing: Text(
-        assignment.id.split(' ').first,
+        assignment.id,
         style: TextStyle(fontSize: 10, color: Colors.grey),
       ),
     );
@@ -395,6 +396,7 @@ class _FetchedStudentsListState extends State<FetchedStudentsList> {
 class NewOrEditStudent extends StatefulWidget {
   final Student? student;
   final bool isEdit;
+
   const NewOrEditStudent({Key? key, this.student, this.isEdit = false})
       : super(key: key);
 
