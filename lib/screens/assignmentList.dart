@@ -87,7 +87,7 @@ class _HideShowListViewState extends State<HideShowListView> {
           .snapshots();
 
     _streamSubscription = snapshots.listen((event) {
-      print('stream data');
+      // print('stream data');
 
       AssignmentListBloc().onDataUpdate(event);
       if (_isLoading)

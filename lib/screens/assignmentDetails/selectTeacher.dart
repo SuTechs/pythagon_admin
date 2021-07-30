@@ -331,6 +331,7 @@ class TeacherTile extends StatelessWidget {
 class NewOrEditTeacher extends StatefulWidget {
   final Teacher? teacher;
   final bool isEdit;
+
   const NewOrEditTeacher({Key? key, this.teacher, this.isEdit = false})
       : assert((!isEdit && teacher == null) || (isEdit && teacher != null),
             'If isEdit == true then teacher should not be null'),
@@ -653,29 +654,31 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
 
   void createUpdateStudent() {
     final teacher = Teacher(
-      id: widget.isEdit ? widget.teacher!.id : _phone.text.trim(),
-      name: _name.text.trim(),
-      phone: _phone.text.trim(),
-      email: _email.text.trim(),
-      dateOfBirth: _dob.text.trim(),
-      gender: _gender.text.trim(),
-      profilePic: widget.teacher != null
-          ? widget.teacher!.profilePic
-          : kBlankProfilePicUrl,
-      college: College(
-          collegeName: _college.text.trim(), collegeId: _college.text.trim()),
-      subjectsIds: _subjectIds,
-      totalRating: widget.isEdit ? widget.teacher!.totalRating : 0,
-      balance: widget.isEdit ? widget.teacher!.balance : 0,
-      rating: widget.isEdit
-          ? widget.teacher!.rating
-          : TeacherRating(performance: 0, accuracy: 0, availability: 0),
-      isVerified: _isVerified.text.trim() == 'Is Verified',
-      accountInfo: _accountInfo.text.trim(),
-      course: Course(
-          courseName: _course.text.trim(), courseId: _course.text.trim()),
-    );
+        id: widget.isEdit ? widget.teacher!.id : _phone.text.trim(),
+        name: _name.text.trim(),
+        phone: _phone.text.trim(),
+        email: _email.text.trim(),
+        dateOfBirth: _dob.text.trim(),
+        gender: _gender.text.trim(),
+        profilePic: widget.teacher != null
+            ? widget.teacher!.profilePic
+            : kBlankProfilePicUrl,
+        college: College(
+            collegeName: _college.text.trim(), collegeId: _college.text.trim()),
+        subjectsIds: _subjectIds,
+        totalRating: widget.isEdit ? widget.teacher!.totalRating : 0,
+        balance: widget.isEdit ? widget.teacher!.balance : 0,
+        rating: widget.isEdit
+            ? widget.teacher!.rating
+            : TeacherRating(performance: 0, accuracy: 0, availability: 0),
+        isVerified: _isVerified.text.trim() == 'Verified',
+        accountInfo: _accountInfo.text.trim(),
+        course: Course(
+            courseName: _course.text.trim(), courseId: _course.text.trim()),
+        tokens: []);
 
+    print(
+        'Hello = ${widget.teacher != teacher} and is verify = ${teacher.isVerified}');
     if (widget.teacher != teacher) teacher.addOrUpdateTeacher(widget.isEdit);
     SideSheet.closeIfOpen();
   }
@@ -688,6 +691,7 @@ class SelectMultipleSubjects extends StatefulWidget {
   const SelectMultipleSubjects(
       {Key? key, required this.subjects, required this.onSelect})
       : super(key: key);
+
   @override
   _SelectMultipleSubjectsState createState() => _SelectMultipleSubjectsState();
 }
@@ -1329,6 +1333,7 @@ class TransactionListTile extends StatelessWidget {
 
   const TransactionListTile({Key? key, required this.transaction})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListTile(

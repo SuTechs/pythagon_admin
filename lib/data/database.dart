@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:pythagon_admin/data/utils/NotificationSender.dart';
 
 import '/data/utils/modal/collectionRef.dart';
 import '/data/utils/modal/user.dart';
@@ -444,6 +445,7 @@ class Teacher {
   final bool isVerified;
   final Course course;
   final String accountInfo;
+  final List<String> tokens;
 
   Teacher({
     required this.id,
@@ -461,6 +463,7 @@ class Teacher {
     required this.isVerified,
     required this.course,
     required this.accountInfo,
+    required this.tokens,
   });
 
   @override
@@ -503,6 +506,7 @@ class Teacher {
         'isVerified': isVerified,
         'course': course.courseName,
         'accountInfo': accountInfo,
+        'tokens': tokens,
       };
 
   factory Teacher.fromJson(Map<String, dynamic> json) {
@@ -526,6 +530,10 @@ class Teacher {
           courseName: json['course'] ?? 'Select Course'),
       isVerified: json['isVerified'] ?? false,
       accountInfo: json['accountInfo'] ?? '',
+      tokens: json['tokens'] !=
+              null // ToDo: remove this after every teacher can have token
+          ? (json['tokens'] as List<dynamic>).map((e) => e as String).toList()
+          : [],
     );
   }
 
@@ -631,6 +639,25 @@ class TeachersAssignments {
         'status': kTeacherAssignmentStatusEnumMap[TeacherAssignmentStatus.Sent],
       });
     }
+
+    /// send notification
+    final allTeachers = await Teacher.getTeachers();
+    final List<Teacher> sT = [];
+    for (String teacherId in selectedTeachers) {
+      final t = allTeachers.where((element) => element.id == teacherId).first;
+      sT.add(t);
+    }
+    final List<String> allTokens = [];
+    sT.forEach((element) {
+      allTokens.addAll(element.tokens);
+    });
+
+    final n = NotificationModal(
+        from: UserData.authData!.uid,
+        to: 'tutors',
+        title: 'New Assignment!',
+        body: 'You have new assignment! Check Now.');
+    n.send(allTokens);
   }
 
   /// change status

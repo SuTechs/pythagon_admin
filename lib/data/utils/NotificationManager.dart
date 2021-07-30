@@ -31,7 +31,7 @@ class NotificationManager {
     CollectionRef.admins.doc(UserData.authData!.email).update({
       'token': token!,
     }).then((value) {
-      print('Token = $token');
+      // print('Token = $token');
     });
 
     /// on launch
@@ -51,6 +51,7 @@ class NotificationManager {
       final RemoteNotification? notification = message.notification;
       if (notification != null)
         showToast("${notification.title!} ${notification.body!}");
+      // ToDo: play notification sound
     });
 
     // /// background message
