@@ -640,6 +640,8 @@ class TeachersAssignments {
       });
     }
 
+    // ToDO: change logic -> send notification to individual teacher and remove token on error
+
     /// send notification
     final allTeachers = await Teacher.getTeachers();
     final List<Teacher> sT = [];

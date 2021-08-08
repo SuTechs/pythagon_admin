@@ -153,7 +153,21 @@ class _SelectTeacherState extends State<SelectTeacher> {
                               },
                             );
 
-                          index--;
+                          if (index == 1)
+                            return ListTile(
+                              leading:
+                                  CircleAvatar(child: Icon(Icons.done_all)),
+                              title: Text('Select All'),
+                              onTap: () {
+                                selectedTeachersIds.clear();
+                                setState(() {
+                                  selectedTeachersIds
+                                      .addAll(teachersList.map((e) => e.id));
+                                });
+                              },
+                            );
+
+                          index -= 2;
 
                           return TeacherTile(
                             onImageTap: () {
@@ -192,7 +206,7 @@ class _SelectTeacherState extends State<SelectTeacher> {
                             ),
                           );
                         },
-                        itemCount: teachersList.length + 1,
+                        itemCount: teachersList.length + 2,
                       ),
                     ),
                   ),
@@ -463,11 +477,12 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
 
                             if (snapshot.hasData)
                               return SelectMultipleSubjects(
+                                initialSelectedSubjectIds: _subjectIds,
                                 subjects: snapshot.data!,
                                 onSelect: (value) {
                                   _subjectsList.text = value.join(', ');
+                                  _subjectIds.clear();
                                   _subjectIds.addAll(value);
-                                  _subjectIds.toSet().toList();
                                 },
                               );
 
@@ -686,10 +701,14 @@ class _NewOrEditTeacherState extends State<NewOrEditTeacher> {
 
 class SelectMultipleSubjects extends StatefulWidget {
   final List<Subject> subjects;
+  final List<String> initialSelectedSubjectIds;
   final void Function(List<String> subjectsIds) onSelect;
 
   const SelectMultipleSubjects(
-      {Key? key, required this.subjects, required this.onSelect})
+      {Key? key,
+      required this.subjects,
+      required this.onSelect,
+      required this.initialSelectedSubjectIds})
       : super(key: key);
 
   @override
@@ -703,6 +722,8 @@ class _SelectMultipleSubjectsState extends State<SelectMultipleSubjects> {
 
   @override
   void initState() {
+    if (widget.initialSelectedSubjectIds.isNotEmpty)
+      selectedSubjectsIds.addAll(widget.initialSelectedSubjectIds);
     subjectsList.addAll(widget.subjects);
     super.initState();
   }
