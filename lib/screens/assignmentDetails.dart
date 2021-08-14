@@ -173,17 +173,64 @@ class AssignmentInfo extends StatelessWidget {
           CurrentAssignmentBloc().notifyAssignmentUpdate();
         },
       ),
-      attachments: AttachmentList(
-        assignmentId: CurrentAssignmentBloc().assignment!.id,
-        files: CurrentAssignmentBloc().assignment!.referenceFiles,
-        onFilesUpload: (urls) async {
-          CurrentAssignmentBloc().assignment!.referenceFiles.addAll(urls);
-          CurrentAssignmentBloc().updateAssignment();
-        },
-        onFileDelete: (url) async {
-          CurrentAssignmentBloc().assignment!.referenceFiles.remove(url);
-          CurrentAssignmentBloc().updateAssignment();
-        },
+      attachments: DefaultTabController(
+        length: 2,
+        child: Column(
+          children: [
+            const TabBar(
+              tabs: [
+                Tab(text: 'Assignment Files'),
+                Tab(text: 'Reference Files'),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  /// assignment files
+                  AttachmentList(
+                    assignmentId: CurrentAssignmentBloc().assignment!.id,
+                    files: CurrentAssignmentBloc().assignment!.assignmentFiles,
+                    onFilesUpload: (urls) async {
+                      CurrentAssignmentBloc()
+                          .assignment!
+                          .assignmentFiles
+                          .addAll(urls);
+                      CurrentAssignmentBloc().updateAssignment();
+                    },
+                    onFileDelete: (url) async {
+                      CurrentAssignmentBloc()
+                          .assignment!
+                          .assignmentFiles
+                          .remove(url);
+                      CurrentAssignmentBloc().updateAssignment();
+                    },
+                  ),
+
+                  /// reference files
+                  AttachmentList(
+                    assignmentId: CurrentAssignmentBloc().assignment!.id,
+                    files: CurrentAssignmentBloc().assignment!.referenceFiles,
+                    onFilesUpload: (urls) async {
+                      CurrentAssignmentBloc()
+                          .assignment!
+                          .referenceFiles
+                          .addAll(urls);
+                      CurrentAssignmentBloc().updateAssignment();
+                    },
+                    onFileDelete: (url) async {
+                      CurrentAssignmentBloc()
+                          .assignment!
+                          .referenceFiles
+                          .remove(url);
+                      CurrentAssignmentBloc().updateAssignment();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

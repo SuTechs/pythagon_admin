@@ -254,6 +254,7 @@ class Assignment {
   AssignmentType? assignmentType;
   DateTime? time;
   List<String> referenceFiles;
+  List<String> assignmentFiles;
   double? totalAmount;
   double paidAmount;
 
@@ -272,6 +273,7 @@ class Assignment {
     this.assignmentType,
     this.time,
     required this.referenceFiles,
+    required this.assignmentFiles,
     this.totalAmount,
     this.paidAmount = 0,
   });
@@ -288,6 +290,7 @@ class Assignment {
             : null,
         'time': time != null ? Timestamp.fromDate(time!) : null,
         'referenceFiles': referenceFiles,
+        'assignmentFiles': assignmentFiles,
         'totalAmount': totalAmount,
         'paidAmount': paidAmount,
         if (isEdit) 'createdAt': Timestamp.now(),
@@ -312,9 +315,16 @@ class Assignment {
           .singleWhere((element) => element.value == json['assignmentType'])
           .key,
       time: (json['time'] as Timestamp).toDate(),
-      referenceFiles: (json['referenceFiles'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      referenceFiles: json['referenceFiles'] != null
+          ? (json['referenceFiles'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
+      assignmentFiles: json['assignmentFiles'] != null
+          ? (json['assignmentFiles'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
       totalAmount: json['totalAmount'],
       paidAmount: json['paidAmount'],
     );

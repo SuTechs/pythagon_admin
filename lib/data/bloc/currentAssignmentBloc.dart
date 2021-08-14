@@ -44,6 +44,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
       assignmentType: _assignment!.assignmentType,
       time: _assignment!.time,
       referenceFiles: List<String>.from(_assignment!.referenceFiles),
+      assignmentFiles: List<String>.from(_assignment!.assignmentFiles),
       totalAmount: _assignment!.totalAmount,
       paidAmount: _assignment!.paidAmount,
     );
@@ -62,6 +63,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
       createdBy: UserData.authData!.email!,
       student: student,
       referenceFiles: [],
+      assignmentFiles: [],
     );
     _copyAssignment();
 
@@ -83,6 +85,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
       assignmentType: assignment.assignmentType,
       time: assignment.time,
       referenceFiles: List<String>.from(assignment.referenceFiles),
+      assignmentFiles: List<String>.from(assignment.assignmentFiles),
       totalAmount: assignment.totalAmount,
       paidAmount: assignment.paidAmount,
     );
