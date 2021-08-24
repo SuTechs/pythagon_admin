@@ -252,16 +252,12 @@ class Assignment {
   String? description;
   Subject? subject;
   AssignmentType? assignmentType;
+  Currency currency;
   DateTime? time;
   List<String> referenceFiles;
   List<String> assignmentFiles;
   double? totalAmount;
   double paidAmount;
-
-  double? get dueAmount {
-    if (totalAmount == null) return null;
-    return totalAmount! - paidAmount;
-  }
 
   Assignment({
     required this.id,
@@ -271,6 +267,7 @@ class Assignment {
     this.description,
     this.subject,
     this.assignmentType,
+    required this.currency,
     this.time,
     required this.referenceFiles,
     required this.assignmentFiles,
@@ -288,6 +285,7 @@ class Assignment {
         'assignmentType': assignmentType != null
             ? kAssignmentTypeEnumMap[assignmentType]
             : null,
+        'currency': kCurrencyEnumMap[currency],
         'time': time != null ? Timestamp.fromDate(time!) : null,
         'referenceFiles': referenceFiles,
         'assignmentFiles': assignmentFiles,
@@ -314,6 +312,12 @@ class Assignment {
       assignmentType: kAssignmentTypeEnumMap.entries
           .singleWhere((element) => element.value == json['assignmentType'])
           .key,
+      currency: json['currency'] != null
+          ? kCurrencyEnumMap.entries
+              .singleWhere((element) => element.value == json['currency'])
+              .key
+          : Currency.INR,
+      // ToDo: for now because there are assignment with no currency
       time: (json['time'] as Timestamp).toDate(),
       referenceFiles: json['referenceFiles'] != null
           ? (json['referenceFiles'] as List<dynamic>)
@@ -357,6 +361,7 @@ class Assignment {
             description == other.description &&
             subject == other.subject &&
             assignmentType == other.assignmentType &&
+            currency == other.currency &&
             time == other.time &&
             listEquals(referenceFiles, other.referenceFiles) &&
             totalAmount == other.totalAmount &&
@@ -827,3 +832,14 @@ class Transaction {
     return transaction;
   }
 }
+
+/// currency
+enum Currency {
+  USD,
+  INR,
+}
+
+const kCurrencyEnumMap = {
+  Currency.USD: 'USD',
+  Currency.INR: 'INR',
+};

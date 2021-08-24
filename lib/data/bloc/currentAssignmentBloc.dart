@@ -42,6 +42,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
       description: _assignment!.description,
       subject: _assignment!.subject,
       assignmentType: _assignment!.assignmentType,
+      currency: _assignment!.currency,
       time: _assignment!.time,
       referenceFiles: List<String>.from(_assignment!.referenceFiles),
       assignmentFiles: List<String>.from(_assignment!.assignmentFiles),
@@ -61,6 +62,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
       // id: '${id.year}${id.month}${id.day} ${textFieldKey.hashCode}',
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       createdBy: UserData.authData!.email!,
+      currency: Currency.INR, // default currency
       student: student,
       referenceFiles: [],
       assignmentFiles: [],
@@ -83,6 +85,7 @@ class CurrentAssignmentBloc extends ChangeNotifier {
       description: assignment.description,
       subject: assignment.subject,
       assignmentType: assignment.assignmentType,
+      currency: assignment.currency,
       time: assignment.time,
       referenceFiles: List<String>.from(assignment.referenceFiles),
       assignmentFiles: List<String>.from(assignment.assignmentFiles),

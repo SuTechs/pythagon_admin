@@ -50,54 +50,56 @@ class PriceTextField extends StatelessWidget {
   }
 }
 
-class DueAmountAndSettleUp extends StatefulWidget {
-  final double? dueAmount;
+class ReceivedAmountAndSettleUp extends StatefulWidget {
+  final double? receivedAmount;
   final Future<void> Function(double) onSettleUp;
 
-  const DueAmountAndSettleUp(
-      {Key? key, this.dueAmount, required this.onSettleUp})
+  const ReceivedAmountAndSettleUp(
+      {Key? key, this.receivedAmount, required this.onSettleUp})
       : super(key: key);
 
   @override
-  _DueAmountAndSettleUpState createState() => _DueAmountAndSettleUpState();
+  _ReceivedAmountAndSettleUpState createState() =>
+      _ReceivedAmountAndSettleUpState();
 }
 
-class _DueAmountAndSettleUpState extends State<DueAmountAndSettleUp> {
+class _ReceivedAmountAndSettleUpState extends State<ReceivedAmountAndSettleUp> {
   bool _isShowSettleUp = false;
   bool _isSettlingUp = false;
   double _settleUpAmount = 0;
   @override
   Widget build(BuildContext context) {
-    if (widget.dueAmount == 0) // if paid
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          /// paid
-
-          CircleAvatar(
-            child: Icon(
-              Icons.done_outline_rounded,
-              color: Colors.white,
-            ),
-            backgroundColor: Colors.green,
-          ),
-          Text(
-            'Paid',
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(fontWeight: FontWeight.normal, color: Colors.green),
-          ),
-        ],
-      );
+    // ToDo: add logic if assignment is closed
+    // if (widget.receivedAmount == 0) // if paid
+    //   return Column(
+    //     mainAxisSize: MainAxisSize.min,
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       /// paid
+    //
+    //       CircleAvatar(
+    //         child: Icon(
+    //           Icons.done_outline_rounded,
+    //           color: Colors.white,
+    //         ),
+    //         backgroundColor: Colors.green,
+    //       ),
+    //       Text(
+    //         'Paid',
+    //         style: Theme.of(context)
+    //             .textTheme
+    //             .headline6!
+    //             .copyWith(fontWeight: FontWeight.normal, color: Colors.green),
+    //       ),
+    //     ],
+    //   );
 
     return AnimatedContainer(
       duration: Duration(seconds: 1),
       child: !_isShowSettleUp
           ? GestureDetector(
               onTap: () {
-                if (widget.dueAmount != null)
+                if (widget.receivedAmount != null)
                   setState(() {
                     _isShowSettleUp = true;
                   });
@@ -106,15 +108,16 @@ class _DueAmountAndSettleUpState extends State<DueAmountAndSettleUp> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  /// due
+                  /// received
                   Text(
-                    'Due',
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                        fontWeight: FontWeight.normal, color: Colors.red),
+                    'Received',
+                    // style: Theme.of(context).textTheme.headline6!.copyWith(
+                    //     fontWeight: FontWeight.normal, color: Colors.red),
                   ),
+                  SizedBox(height: 4),
                   Text(
-                    '${widget.dueAmount ?? 'Amount'}',
-                    style: widget.dueAmount != null
+                    '${widget.receivedAmount ?? 'Amount'}',
+                    style: widget.receivedAmount != null
                         ? Theme.of(context).textTheme.headline5
                         : TextStyle(color: Colors.grey),
                   ),
@@ -141,7 +144,7 @@ class _DueAmountAndSettleUpState extends State<DueAmountAndSettleUp> {
 
                         final p = double.tryParse(price);
 
-                        if (p == null || p <= 0 || p > widget.dueAmount!)
+                        if (p == null || p <= 0 || p > widget.receivedAmount!)
                           return 'Invalid amount!';
                       },
                       onPriceChanged: (value) {
@@ -194,7 +197,7 @@ class _DueAmountAndSettleUpState extends State<DueAmountAndSettleUp> {
                     onPressed: () async {
                       if (_isSettlingUp ||
                           _settleUpAmount <= 0 ||
-                          _settleUpAmount > widget.dueAmount!) return;
+                          _settleUpAmount > widget.receivedAmount!) return;
 
                       setState(() {
                         _isSettlingUp = true;

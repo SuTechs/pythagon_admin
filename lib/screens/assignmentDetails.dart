@@ -24,9 +24,11 @@ class SideSheet {
   static final GlobalKey<ScaffoldState> scaffoldKey =
       GlobalKey<ScaffoldState>();
   static final SideSheet _singleton = SideSheet._internal();
+
   factory SideSheet() {
     return _singleton;
   }
+
   SideSheet._internal();
 
   Widget? _sideChild;
@@ -242,9 +244,9 @@ class PaymentCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DueAmountAndSettleUp(
+        ReceivedAmountAndSettleUp(
           key: Key('${CurrentAssignmentBloc().textFieldKey}'),
-          dueAmount: CurrentAssignmentBloc().assignment!.dueAmount,
+          receivedAmount: CurrentAssignmentBloc().assignment!.paidAmount,
           onSettleUp: CurrentAssignmentBloc().settleUp,
         ),
 
@@ -254,10 +256,43 @@ class PaymentCard extends StatelessWidget {
         Row(
           children: [
             Text('Total: ', style: Theme.of(context).textTheme.headline5),
+
+            /// currency
+            DropdownButton<Currency>(
+              value: Provider.of<CurrentAssignmentBloc>(context)
+                  .assignment!
+                  .currency,
+              hint: Text('Currency'),
+              items: Currency.values
+                  .map(
+                    (e) => DropdownMenuItem<Currency>(
+                      child: Text(
+                        '${kCurrencyEnumMap[e]}',
+                        style: Theme.of(context).textTheme.headline5,
+                        textAlign: TextAlign.right,
+                      ),
+                      value: e,
+                    ),
+                  )
+                  .toList(),
+              onChanged: (v) {
+                final selectedCurrency = v;
+                if (selectedCurrency != null) {
+                  CurrentAssignmentBloc().assignment!.currency =
+                      selectedCurrency;
+
+                  CurrentAssignmentBloc().notifyAssignmentUpdate();
+                }
+              },
+              underline: SizedBox.shrink(),
+              icon: SizedBox.shrink(),
+            ),
+
+            /// deal amount
             Expanded(
               child: PriceTextField(
                 textStyle: Theme.of(context).textTheme.headline5,
-                hintText: 'Enter Total Amount',
+                hintText: 'Enter Deal Amount',
                 initialPrice: CurrentAssignmentBloc().assignment!.totalAmount,
                 onPriceChanged: (totalAmount) {
                   CurrentAssignmentBloc().assignment!.totalAmount = totalAmount;
@@ -441,12 +476,12 @@ class _TeacherCardState extends State<TeacherCard> {
         });
   }
 
-  // @override
-  // void dispose() {
-  //   _scrollViewController.dispose();
-  //   _scrollViewController.removeListener(() {});
-  //   super.dispose();
-  // }
+// @override
+// void dispose() {
+//   _scrollViewController.dispose();
+//   _scrollViewController.removeListener(() {});
+//   super.dispose();
+// }
 }
 
 class TeacherAssignmentListTile extends StatelessWidget {
@@ -454,6 +489,7 @@ class TeacherAssignmentListTile extends StatelessWidget {
 
   const TeacherAssignmentListTile({Key? key, required this.data})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
