@@ -255,7 +255,7 @@ class PaymentCard extends StatelessWidget {
         /// total amount
         Row(
           children: [
-            Text('Total: ', style: Theme.of(context).textTheme.headline5),
+            Text('Deal: ', style: Theme.of(context).textTheme.headline5),
 
             /// currency
             DropdownButton<Currency>(

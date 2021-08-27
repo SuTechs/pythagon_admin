@@ -837,9 +837,11 @@ class Transaction {
 enum Currency {
   USD,
   INR,
+  CAD,
 }
 
 const kCurrencyEnumMap = {
   Currency.USD: 'USD',
   Currency.INR: 'INR',
+  Currency.CAD: 'CAD',
 };

@@ -116,7 +116,7 @@ class _ReceivedAmountAndSettleUpState extends State<ReceivedAmountAndSettleUp> {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    '${widget.receivedAmount ?? 'Amount'}',
+                    '₹ ${widget.receivedAmount ?? 'Amount'}',
                     style: widget.receivedAmount != null
                         ? Theme.of(context).textTheme.headline5
                         : TextStyle(color: Colors.grey),
