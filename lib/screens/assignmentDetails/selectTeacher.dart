@@ -836,9 +836,9 @@ class TeachersList extends StatefulWidget {
 }
 
 class _TeachersListState extends State<TeachersList> {
-  late ScrollController _scrollViewController;
-  bool _showAppbar = true;
-  bool _isScrollingDown = false;
+  // late ScrollController _scrollViewController;
+  // bool _showAppbar = true;
+  // bool _isScrollingDown = false;
   bool _isLoading = true;
 
   /// data
@@ -858,26 +858,26 @@ class _TeachersListState extends State<TeachersList> {
       });
     });
 
-    _scrollViewController = new ScrollController();
-    _scrollViewController.addListener(() {
-      if (_scrollViewController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        if (!_isScrollingDown) {
-          _isScrollingDown = true;
-          _showAppbar = false;
-          setState(() {});
-        }
-      }
-
-      if (_scrollViewController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        if (_isScrollingDown) {
-          _isScrollingDown = false;
-          _showAppbar = true;
-          setState(() {});
-        }
-      }
-    });
+    // _scrollViewController = new ScrollController();
+    // _scrollViewController.addListener(() {
+    //   if (_scrollViewController.position.userScrollDirection ==
+    //       ScrollDirection.reverse) {
+    //     if (!_isScrollingDown) {
+    //       _isScrollingDown = true;
+    //       _showAppbar = false;
+    //       setState(() {});
+    //     }
+    //   }
+    //
+    //   if (_scrollViewController.position.userScrollDirection ==
+    //       ScrollDirection.forward) {
+    //     if (_isScrollingDown) {
+    //       _isScrollingDown = false;
+    //       _showAppbar = true;
+    //       setState(() {});
+    //     }
+    //   }
+    // });
   }
 
   @override
@@ -890,56 +890,49 @@ class _TeachersListState extends State<TeachersList> {
               children: [
                 /// search bar
 
-                AnimatedContainer(
-                  height: _showAppbar ? kToolbarHeight + 10 : 0.0,
-                  duration: Duration(milliseconds: 200),
-                  child: AnimatedOpacity(
-                    duration: Duration(milliseconds: 200),
-                    opacity: _showAppbar ? 1 : 0,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 12),
-                          Expanded(
-                            child: RoundedTextField(
-                              hintText: 'Search teacher...',
-                              autoFocus: true,
-                              onChanged: (v) {
-                                setState(() {
-                                  teachersList.clear();
-                                  teachersList.addAll(fetchedTeachers);
-                                  teachersList.retainWhere((e) =>
-                                      e.phone
-                                          .toLowerCase()
-                                          .contains(v.toLowerCase()) ||
-                                      e.name
-                                          .toLowerCase()
-                                          .contains(v.toLowerCase()));
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(width: 12),
-                          FloatingActionButton(
-                            mini: true,
-                            child: Icon(Icons.clear),
-                            onPressed: () {
-                              SideSheet.closeDrawer();
-                            },
-                          ),
-                          SizedBox(width: 12),
-                        ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Row(
+                    children: [
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: RoundedTextField(
+                          hintText: 'Search teacher...',
+                          autoFocus: true,
+                          onChanged: (v) {
+                            setState(() {
+                              teachersList.clear();
+                              teachersList.addAll(fetchedTeachers);
+                              teachersList.retainWhere((e) =>
+                                  e.phone
+                                      .toLowerCase()
+                                      .contains(v.toLowerCase()) ||
+                                  e.name
+                                      .toLowerCase()
+                                      .contains(v.toLowerCase()));
+                            });
+                          },
+                        ),
                       ),
-                    ),
+                      SizedBox(width: 12),
+                      FloatingActionButton(
+                        mini: true,
+                        child: Icon(Icons.clear),
+                        onPressed: () {
+                          SideSheet.closeDrawer();
+                        },
+                      ),
+                      SizedBox(width: 12),
+                    ],
                   ),
                 ),
 
                 /// teachers list
                 Expanded(
                   child: Scrollbar(
+                    // controller: _scrollViewController,
                     child: ListView.separated(
-                      controller: _scrollViewController,
+                      // controller: _scrollViewController,
                       itemBuilder: (context, index) {
                         /// new teacher
                         if (index == 0)

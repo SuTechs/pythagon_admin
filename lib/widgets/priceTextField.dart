@@ -144,8 +144,7 @@ class _ReceivedAmountAndSettleUpState extends State<ReceivedAmountAndSettleUp> {
 
                         final p = double.tryParse(price);
 
-                        if (p == null || p <= 0 || p > widget.receivedAmount!)
-                          return 'Invalid amount!';
+                        if (p == null || p <= 0) return 'Invalid amount!';
                       },
                       onPriceChanged: (value) {
                         _settleUpAmount = value ?? 0;
@@ -195,9 +194,7 @@ class _ReceivedAmountAndSettleUpState extends State<ReceivedAmountAndSettleUp> {
                           )
                         : Text('Settle'),
                     onPressed: () async {
-                      if (_isSettlingUp ||
-                          _settleUpAmount <= 0 ||
-                          _settleUpAmount > widget.receivedAmount!) return;
+                      if (_isSettlingUp || _settleUpAmount <= 0) return;
 
                       setState(() {
                         _isSettlingUp = true;

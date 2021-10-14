@@ -845,3 +845,11 @@ const kCurrencyEnumMap = {
   Currency.INR: 'INR',
   Currency.CAD: 'CAD',
 };
+
+// ToDo: to handle the status of the assignment
+enum AssignmentStatus {
+  Canceled,
+  Closed,
+  Paid,
+  Pending,
+}

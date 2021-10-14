@@ -48,6 +48,10 @@ class SideSheet {
     if (scaffoldKey.currentState != null &&
         scaffoldKey.currentState!.isEndDrawerOpen) closeDrawer();
   }
+
+  static bool get isDrawerOpen =>
+      scaffoldKey.currentState != null &&
+      scaffoldKey.currentState!.isEndDrawerOpen;
 }
 
 class AssignmentDetails extends StatelessWidget {
@@ -446,19 +450,20 @@ class _TeacherCardState extends State<TeacherCard> {
                                 return;
                               } else
                                 SideSheet().openDrawer(
-                                    child: SelectTeacher(
-                                  assignmentId:
-                                      CurrentAssignmentBloc().assignment!.id,
-                                  assignmentPrice: CurrentAssignmentBloc()
-                                      .assignment!
-                                      .totalAmount!,
-                                  subjectId: CurrentAssignmentBloc()
-                                      .assignment!
-                                      .subject!
-                                      .id,
-                                  alreadySelectedTeachersIds:
-                                      data.map((e) => e.teacher.id).toList(),
-                                ));
+                                  child: SelectTeacher(
+                                    assignmentId:
+                                        CurrentAssignmentBloc().assignment!.id,
+                                    assignmentPrice: CurrentAssignmentBloc()
+                                        .assignment!
+                                        .totalAmount!,
+                                    subjectId: CurrentAssignmentBloc()
+                                        .assignment!
+                                        .subject!
+                                        .id,
+                                    alreadySelectedTeachersIds:
+                                        data.map((e) => e.teacher.id).toList(),
+                                  ),
+                                );
                             },
                             mini: true,
                           ),
@@ -495,10 +500,11 @@ class TeacherAssignmentListTile extends StatelessWidget {
     return ListTile(
       onTap: () {
         SideSheet().openDrawer(
-            child: TeacherInfo(
-          currentAssignment: CurrentAssignmentBloc().assignment!,
-          teachersAssignments: data,
-        ));
+          child: TeacherInfo(
+            currentAssignment: CurrentAssignmentBloc().assignment!,
+            teachersAssignments: data,
+          ),
+        );
       },
       leading: CircleAvatar(
         backgroundImage: NetworkImage(data.teacher.profilePic),
