@@ -320,7 +320,7 @@ class _AttachmentListState extends State<AttachmentList> {
       children: [
         if (widget.files.isEmpty)
           Center(
-            child: Text('Upload Reference files!'),
+            child: Text('Upload files!'),
           )
         else
           Scrollbar(

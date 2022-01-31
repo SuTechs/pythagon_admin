@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'constants.dart';
 import 'data/bloc/assignmentListBloc.dart';
 import 'data/bloc/currentAssignmentBloc.dart';
+import 'data/bloc/notificationBloc.dart';
 import 'data/utils/modal/user.dart';
 import 'screens/assignmentHome.dart';
 import 'screens/login.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserData()),
         ChangeNotifierProvider(create: (_) => CurrentAssignmentBloc()),
         ChangeNotifierProvider(create: (_) => AssignmentListBloc()),
+        ChangeNotifierProvider(create: (_) => NotificationBloc()),
       ],
       builder: (context, _) {
         return MaterialApp(

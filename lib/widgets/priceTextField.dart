@@ -67,6 +67,7 @@ class _ReceivedAmountAndSettleUpState extends State<ReceivedAmountAndSettleUp> {
   bool _isShowSettleUp = false;
   bool _isSettlingUp = false;
   double _settleUpAmount = 0;
+
   @override
   Widget build(BuildContext context) {
     // ToDo: add logic if assignment is closed
@@ -155,59 +156,49 @@ class _ReceivedAmountAndSettleUpState extends State<ReceivedAmountAndSettleUp> {
                 SizedBox(width: 12),
 
                 /// cancel
-                SizedBox(
-                  width: 32 * 2,
-                  height: 32,
-                  child: OutlinedButton(
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(StadiumBorder()),
-                    ),
-                    child: Text('Cancel'),
-                    onPressed: () {
-                      if (!_isSettlingUp)
-                        setState(() {
-                          _isShowSettleUp = false;
-                        });
-                    },
+                OutlinedButton(
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(StadiumBorder()),
                   ),
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    if (!_isSettlingUp)
+                      setState(() {
+                        _isShowSettleUp = false;
+                      });
+                  },
                 ),
                 SizedBox(width: 12),
 
                 /// settle up
-                SizedBox(
-                  width: 32 * 2,
-                  height: 32,
-                  child: TextButton(
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all(StadiumBorder()),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.green),
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.white)),
-                    child: _isSettlingUp
-                        ? SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : Text('Settle'),
-                    onPressed: () async {
-                      if (_isSettlingUp || _settleUpAmount <= 0) return;
+                TextButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all(StadiumBorder()),
+                      backgroundColor: MaterialStateProperty.all(Colors.green),
+                      foregroundColor: MaterialStateProperty.all(Colors.white)),
+                  child: _isSettlingUp
+                      ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Text('Settle'),
+                  onPressed: () async {
+                    if (_isSettlingUp || _settleUpAmount <= 0) return;
 
-                      setState(() {
-                        _isSettlingUp = true;
-                      });
+                    setState(() {
+                      _isSettlingUp = true;
+                    });
 
-                      await widget.onSettleUp(_settleUpAmount);
+                    await widget.onSettleUp(_settleUpAmount);
 
-                      setState(() {
-                        _isSettlingUp = false;
-                        _isShowSettleUp = false;
-                      });
-                    },
-                  ),
+                    setState(() {
+                      _isSettlingUp = false;
+                      _isShowSettleUp = false;
+                    });
+                  },
                 ),
               ],
             ),

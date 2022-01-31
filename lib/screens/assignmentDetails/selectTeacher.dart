@@ -240,12 +240,12 @@ class _SelectTeacherState extends State<SelectTeacher> {
                             validator: (v) {
                               if (amount <= 0) return 'Invalid amount';
 
-                              if (amount > widget.assignmentPrice * 0.5)
-                                return 'Amount should be less than 50% of assignment price';
+                              // if (amount > widget.assignmentPrice * 0.5)
+                              //   return 'Amount should be less than 50% of assignment price';
 
-                              if (amount * selectedTeachersIds.length >
-                                  widget.assignmentPrice * 0.6)
-                                return 'Total Amount for teachers should be less than 60% of assignment price';
+                              // if (amount * selectedTeachersIds.length >
+                              //     widget.assignmentPrice * 0.6)
+                              //   return 'Total Amount for teachers should be less than 60% of assignment price';
                             },
                           ),
                         ),
@@ -284,16 +284,16 @@ class _SelectTeacherState extends State<SelectTeacher> {
       return;
     }
 
-    if (amount > widget.assignmentPrice * 0.5) {
-      showToast('Amount should be less than 50% of assignment price');
-      return;
-    }
+    // if (amount > widget.assignmentPrice * 0.5) {
+    //   showToast('Amount should be less than 50% of assignment price');
+    //   return;
+    // }
 
-    if (amount * selectedTeachersIds.length > widget.assignmentPrice * 0.6) {
-      showToast(
-          'Total Amount for teachers should be less than 60% of assignment price');
-      return;
-    }
+    // if (amount * selectedTeachersIds.length > widget.assignmentPrice * 0.6) {
+    //   showToast(
+    //       'Total Amount for teachers should be less than 60% of assignment price');
+    //   return;
+    // }
 
     TeachersAssignments.floatAssignments(
         selectedTeachersIds, widget.assignmentId, amount);

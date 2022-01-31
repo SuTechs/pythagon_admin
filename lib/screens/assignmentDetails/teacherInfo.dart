@@ -23,6 +23,7 @@ class TeacherInfo extends StatelessWidget {
       required this.teachersAssignments,
       required this.currentAssignment})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -53,12 +54,24 @@ class TeacherInfo extends StatelessWidget {
                           backgroundColor: Colors.red,
                           radius: 12,
                           backgroundImage: NetworkImage(Subject.subjects
-                              .firstWhere((element) => element.id == s)
-                              .image),
+                              .firstWhere((element) => element.id == s,
+                                  orElse: () {
+                            return Subject(
+                                id: 'id',
+                                name: 'Error',
+                                image: 'image',
+                                isEnable: false);
+                          }).image),
                         ),
                         SizedBox(width: 4),
                         Text(
-                          '${Subject.subjects.firstWhere((element) => element.id == s).name}',
+                          '${Subject.subjects.firstWhere((element) => element.id == s, orElse: () {
+                            return Subject(
+                                id: 'id',
+                                name: 'Error',
+                                image: 'image',
+                                isEnable: false);
+                          }).name}',
                         ),
                       ],
                     ),
@@ -96,6 +109,7 @@ class TeacherAssignmentDetailsListTile extends StatelessWidget {
   final bool isInitiallyOpened;
   final TeachersAssignments data;
   final Assignment assignment;
+
   const TeacherAssignmentDetailsListTile(
       {Key? key,
       this.isInitiallyOpened = false,
@@ -182,6 +196,7 @@ class SelectTeacherAssignmentStatus extends StatelessWidget {
 
   const SelectTeacherAssignmentStatus({Key? key, required this.data})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
@@ -240,6 +255,7 @@ class RateTeacher extends StatefulWidget {
     Key? key,
     required this.data,
   }) : super(key: key);
+
   @override
   _RateTeacherState createState() => _RateTeacherState();
 }
@@ -328,6 +344,7 @@ class TeacherRatingBar extends StatelessWidget {
       required this.onRatingChange,
       required this.initialRating})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(

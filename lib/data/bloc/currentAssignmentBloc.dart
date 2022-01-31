@@ -62,7 +62,8 @@ class CurrentAssignmentBloc extends ChangeNotifier {
       // id: '${id.year}${id.month}${id.day} ${textFieldKey.hashCode}',
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       createdBy: UserData.authData!.email!,
-      currency: Currency.INR, // default currency
+      currency: Currency.INR,
+      // default currency
       student: student,
       referenceFiles: [],
       assignmentFiles: [],
@@ -171,12 +172,12 @@ class CurrentAssignmentBloc extends ChangeNotifier {
 
     // total amount
     if (assignment!.totalAmount == null) {
-      showToast('Total amount is required!');
+      showToast('Deal amount is required!');
       return false;
     }
 
-    if (assignment!.totalAmount! <= 100) {
-      showToast('Total amount should be greater than 100');
+    if (assignment!.totalAmount! <= 0) {
+      showToast('LOL! Deal Amount should be greater than Zero');
       return false;
     }
 

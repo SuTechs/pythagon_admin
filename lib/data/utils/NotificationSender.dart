@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:pythagon_admin/data/utils/modal/collectionRef.dart';
 import 'package:pythagon_admin/widgets/showToast.dart';
@@ -16,7 +17,7 @@ class NotificationModal {
 
   // data
 
-  final Map<String, String>? data;
+  final Map<String, dynamic>? data;
 
   NotificationModal({
     required this.from,
@@ -34,6 +35,8 @@ class NotificationModal {
       'to': to,
       "title": title,
       "body": body,
+      "isRead": false,
+      "createdAt": Timestamp.now(),
       if (data != null) "data": data,
     });
 
@@ -51,12 +54,13 @@ class NotificationModal {
       "notification": {"title": title, "body": body},
 
       // data
-      "data": {
-        'notification_id': id,
-        'notification_from': from,
-        'notification_to': to,
-        if (data != null) "otherData": data,
-      },
+      // "data": {
+      //   'notification_id': id,
+      //   'notification_from': from,
+      //   'notification_to': to,
+      //   if (data != null) "otherData": data,
+      // },
+      "data": data,
     };
 
     // send notification
