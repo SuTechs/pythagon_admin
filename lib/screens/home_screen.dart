@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pythagon_admin/screens/work_details_screen.dart';
 import 'package:pythagon_admin/screens/work_screen.dart';
 import 'package:pythagon_admin/widgets/profile_tile.dart';
 import 'package:pythagon_admin/widgets/tab_widget.dart';
@@ -38,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             flex: 4,
             child: Container(
-              // color: Colors.blue,
+              color: backgroundColor,
               child: Column(
                 children: [
                   Expanded(
@@ -47,10 +48,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Expanded(
                     flex: 4,
-                    child: Container(
-                      color: backgroundColor,
-                      child: pages[currTab],
-                    ),
+                    child: WorkDetailScreen(),
+                    // child: Container(
+                    //   color: backgroundColor,
+                    //   child: pages[currTab],
+                    // ),
                   ),
                 ],
               ),

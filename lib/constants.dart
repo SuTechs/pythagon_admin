@@ -5,17 +5,44 @@ import 'package:pythagon_admin/widgets/web_drawer.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 
-
 const Color foregroundColor = Colors.white;
 const Color backgroundColor = Color(0xffF3F3F3);
 const Color activeColor = Color(0xff834DF3);
 const Color textColor = Color(0xff645D6E);
+const Color purpleBgColor = Color(0xffDAC7FF);
+const Color redBgColor = Color(0xffFCCFCF);
+const Color redActiveColor = Color(0xffEA5455);
+const Color greenBgColor = Color(0xffE0F9EE);
+const Color greenActiveColor = Color(0xff11D47B);
+
 const List<Color> activeTabGradient = [
   Color(0xff834DF3),
   Color(0xff996CF5),
 ];
 const Color textDarkGrey = Color(0xff4B4B4B);
 const Color textLightGrey = Color(0xffACA8B5);
+const Color textColor2 = Color(0xff70697B);
+
+const List<String> workDataHeaders = [
+  "#",
+  "TYPE",
+  "BASIC INFO",
+  "ISSUE DATE",
+  "DUE DATE",
+  "BALANCE",
+  "STATUS",
+  "COMMENT",
+];
+
+const List<String> workDetailsDataHeaders = [
+  "□",
+  "#",
+  "INFO",
+  "RATING",
+  "PRICE",
+  "STATUS",
+  "ACTION",
+];
 
 List<Widget> pages = [
   WorkScreen(),
@@ -84,7 +111,6 @@ List<Widget> pages = [
     ),
   ),
 ];
-
 
 final List<NavTabData> navList = [
   NavTabData(

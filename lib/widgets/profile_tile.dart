@@ -43,13 +43,10 @@ class ProfileTile extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: Colors.red, shape: BoxShape.circle),
                           child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 3),
-                              child: Text(
-                                "8",
-                                style: TextStyle(
-                                    fontSize: 10, fontWeight: FontWeight.w800,color: Colors.white),
-                              ),
+                            child: Text(
+                              "8",
+                              style: TextStyle(
+                                  fontSize: 10, fontWeight: FontWeight.w800,color: Colors.white),
                             ),
                           ),
                         ),

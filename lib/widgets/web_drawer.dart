@@ -54,7 +54,7 @@ class WebDrawer extends StatelessWidget {
                 ),
                 title: Text(
                   "Dashboard",
-                  style: TextStyle(color: textDarkGrey,fontWeight: FontWeight.w400),
+                  style: TextStyle(color: textDarkGrey,fontWeight: FontWeight.w500),
                 ),
                 trailing: Icon(
                   Icons.chevron_right_rounded,
@@ -125,7 +125,7 @@ class NavItem extends StatelessWidget {
         ),
         title: Text(
           item.title,
-          style: TextStyle(color: isSelected ? Colors.white : textColor),
+          style: TextStyle(color: isSelected ? Colors.white : textColor,fontWeight: FontWeight.w600),
         ),
       ),
     );
