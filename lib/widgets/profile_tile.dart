@@ -10,7 +10,9 @@ class ProfileTile extends StatelessWidget {
     return Container(
       color: backgroundColor,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        padding: const EdgeInsets.only(
+            left: 16.0,right: 16.0,top: 8.0,
+           ),
         child: Column(
           children: [
             SizedBox(
@@ -88,9 +90,9 @@ class ProfileTile extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: 16.0,
-            ),
+            // SizedBox(
+            //   height: 16.0,
+            // ),
           ],
         ),
       ),

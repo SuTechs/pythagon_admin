@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:pythagon_admin/screens/teacher_screen.dart';
 import 'package:pythagon_admin/screens/work_screen.dart';
 import 'package:pythagon_admin/widgets/web_drawer.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
+
+final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey(); // Create a key
 
 const Color foregroundColor = Colors.white;
 const Color backgroundColor = Color(0xffF3F3F3);
@@ -14,6 +17,8 @@ const Color redBgColor = Color(0xffFCCFCF);
 const Color redActiveColor = Color(0xffEA5455);
 const Color greenBgColor = Color(0xffE0F9EE);
 const Color greenActiveColor = Color(0xff11D47B);
+const Color yellowBgColor = Color(0xffFFE5C6);
+const Color yellowActiveColor = Color(0xffFF9B26);
 
 const List<Color> activeTabGradient = [
   Color(0xff834DF3),
@@ -44,6 +49,18 @@ const List<String> workDetailsDataHeaders = [
   "ACTION",
 ];
 
+const List<String> teacherHeaders = [
+  "#",
+  "BASIC INFO",
+  "DATE",
+  "RATING",
+  "PAYMENT",
+  "DUE",
+  "STATUS",
+  "SUBJECT",
+  "ACTION",
+];
+
 List<Widget> pages = [
   WorkScreen(),
   Container(
@@ -54,14 +71,7 @@ List<Widget> pages = [
       style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
     ),
   ),
-  Container(
-    color: backgroundColor,
-    alignment: Alignment.center,
-    child: Text(
-      "Teachers",
-      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-    ),
-  ),
+  TeacherScreen(),
   Container(
     color: backgroundColor,
     alignment: Alignment.center,

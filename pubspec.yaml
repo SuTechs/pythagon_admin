@@ -37,6 +37,9 @@ dependencies:
   flutter_feather_icons: ^2.0.0+1
   fluttericon: ^2.0.0
 
+  #UI
+  flutter_rating_bar: ^4.0.0
+
 
 
 

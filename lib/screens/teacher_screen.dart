@@ -1,124 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:pythagon_admin/constants.dart';
-import 'package:pythagon_admin/screens/work_details_screen.dart';
+import 'dart:math' as math;
 
-class WorkScreen extends StatefulWidget {
-  const WorkScreen({Key? key}) : super(key: key);
+class TeacherScreen extends StatefulWidget {
+  const TeacherScreen({Key? key}) : super(key: key);
 
   @override
-  State<WorkScreen> createState() => _WorkScreenState();
+  State<TeacherScreen> createState() => _TeacherScreenState();
 }
 
-class _WorkScreenState extends State<WorkScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController tabController;
-
-  @override
-  void initState() {
-    tabController = TabController(length: 7, vsync: this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
-  }
-
+class _TeacherScreenState extends State<TeacherScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(height: 32.0,),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            color: foregroundColor,
-            child: TabBar(
-              isScrollable: true,
-              indicatorColor: Colors.transparent,
-              unselectedLabelColor: Color(0xff70697B),
-              labelColor: activeColor,
-              labelStyle:
-                  TextStyle(fontWeight: FontWeight.w700, fontSize: 15.0),
-              tabs: const [
-                Tab(
-                  text: "Pending",
-                ),
-                Tab(
-                  text: "Billing",
-                ),
-                Tab(
-                  text: "Float",
-                ),
-                Tab(
-                  text: "Assigned",
-                ),
-                Tab(
-                  text: "Review",
-                ),
-                Tab(
-                  text: "Payment",
-                ),
-                Tab(
-                  text: "Close",
-                ),
-              ],
-              controller: tabController,
-              indicatorSize: TabBarIndicatorSize.tab,
-            ),
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: tabController,
-              children: [for (int i = 0; i < 7; i++) WorkBody()],
-            ),
-          )
-        ],
-      ),
-    );
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TeacherBody(),
+          ],
+        ));
+   // return TeacherBody();
   }
 }
 
-class WorkBody extends StatelessWidget {
-  WorkBody({Key? key}) : super(key: key);
+class TeacherBody extends StatelessWidget {
+  TeacherBody({Key? key}) : super(key: key);
 
-  final List<WorkTableData> dataList = [
-    WorkTableData(
-        "#5h4ae",
-        FontAwesome5.book_reader,
-        InfoData("EN", "Need Essay For At", "English Grammar"),
-        "28 Jan 2022",
-        "28 Jan 2022",
-        "Ready To Float",
-        r" $100",
-        r"Uchit Paid $100"),
-    WorkTableData(
-        "#5h4ae",
-        FontAwesome5.book_reader,
-        InfoData("EN", "Need Essay For At", "English Grammar"),
-        "28 Jan 2022",
-        "28 Jan 2022",
-        "Paid",
-        r" $100",
-        r"Uchit Paid $100"),
+  final List<TeacherTableData> dataList = [
+    TeacherTableData(
+      "#5h4ae",
+      InfoData("UC", "Uchit Chakma", "91+9876543210"),
+      "4.5(90)",
+      "4.5(90)",
+      r"$800",
+      r"$100",
+      "Pending",
+      "PY,C++,C....",
+    ),
+    TeacherTableData(
+      "#9h1ae",
+      InfoData("VS", "Vivek Sharma", "91+6957576890"),
+      "4.5(90)",
+      "4.5(90)",
+      r"$800",
+      r"$160",
+      "Passed",
+      "PY,C++,C....",
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: DataTableEntity(
-        dataList: dataList,
-      ),
+    return DataTableEntity(
+      dataList: dataList,
     );
   }
 }
 
 class DataTableEntity extends StatelessWidget {
-  final List<WorkTableData> dataList;
+  final List<TeacherTableData> dataList;
 
   const DataTableEntity({Key? key, required this.dataList}) : super(key: key);
 
@@ -130,11 +73,10 @@ class DataTableEntity extends StatelessWidget {
         dividerThickness: 0.6,
         headingRowColor: MaterialStateProperty.all(backgroundColor),
         dataRowColor: MaterialStateProperty.all(foregroundColor),
-        columns: workDataHeaders
+        columns: teacherHeaders
             .map((e) => DataColumn(
                     label: Container(
                   color: backgroundColor,
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
                   child: Text(
                     e,
                     style: TextStyle(
@@ -145,7 +87,7 @@ class DataTableEntity extends StatelessWidget {
                 )))
             .toList(),
         rows: dataList
-            .map((work) => DataRow(cells: [
+            .map((teacher) => DataRow(cells: [
                   //ID
                   DataCell(
                     InkWell(
@@ -153,25 +95,8 @@ class DataTableEntity extends StatelessWidget {
                         scaffoldKey.currentState!.openEndDrawer();
                       },
                       child: Text(
-                        work.id,
+                        teacher.id,
                         style: TextStyle(fontSize: 14.0, color: Colors.purple),
-                      ),
-                    ),
-                  ),
-
-                  //TYPE
-                  DataCell(
-                    Container(
-                      height: 44.0,
-                      width: 44.0,
-                      decoration: BoxDecoration(
-                          color: redBgColor, shape: BoxShape.circle),
-                      child: Center(
-                        child: Icon(
-                          work.typeIcon,
-                          color: redActiveColor,
-                          size: 20.0,
-                        ),
                       ),
                     ),
                   ),
@@ -187,7 +112,7 @@ class DataTableEntity extends StatelessWidget {
                           shape: BoxShape.circle, color: purpleBgColor),
                       child: Center(
                         child: Text(
-                          work.basicInfo.iconContent,
+                          teacher.basicInfo.iconContent,
                           style: TextStyle(
                               color: activeColor,
                               fontWeight: FontWeight.w800,
@@ -196,7 +121,7 @@ class DataTableEntity extends StatelessWidget {
                       ),
                     ),
                     title: Text(
-                      work.basicInfo.title,
+                      teacher.basicInfo.title,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
@@ -205,7 +130,7 @@ class DataTableEntity extends StatelessWidget {
                           fontWeight: FontWeight.w700),
                     ),
                     subtitle: Text(
-                      work.basicInfo.subtitle,
+                      teacher.basicInfo.subtitle,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
@@ -215,30 +140,41 @@ class DataTableEntity extends StatelessWidget {
                     ),
                   )),
 
-                  //ISSUE DATE
+                  //DATE
                   DataCell(
                     Text(
-                      work.issueDate,
+                      teacher.date,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 14.0, color: textDarkGrey),
                     ),
                   ),
 
-                  //DUE DATE
+                  //RATING
                   DataCell(
                     Text(
-                      work.dueDate,
+                      teacher.rating,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 14.0, color: textDarkGrey),
                     ),
                   ),
 
-                  //BALANCE
+                  //PAYMENT
                   DataCell(
                     Text(
-                      work.balance,
+                      teacher.payment,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                    ),
+                  ),
+
+                  //DUE
+                  DataCell(
+                    Text(
+                      teacher.due,
                       maxLines: 1,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
@@ -247,7 +183,7 @@ class DataTableEntity extends StatelessWidget {
                   ),
 
                   //STATUS
-                  work.status == "Paid"
+                  teacher.status == "Passed"
                       ? DataCell(
                           Container(
                             padding: EdgeInsets.symmetric(
@@ -256,7 +192,7 @@ class DataTableEntity extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(40.0),
                                 color: greenBgColor),
                             child: Text(
-                              "Paid",
+                              "Passed",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -272,7 +208,7 @@ class DataTableEntity extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(40.0),
                                 color: purpleBgColor),
                             child: Text(
-                              work.status,
+                              teacher.status,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style:
@@ -284,10 +220,32 @@ class DataTableEntity extends StatelessWidget {
                   //COMMENT
                   DataCell(
                     Text(
-                      work.comment,
+                      teacher.subject,
                       style: TextStyle(fontSize: 14.0, color: textDarkGrey),
                     ),
-                  )
+                  ),
+
+                  //ACTION
+                  DataCell(Row(
+                    children: [
+                      Icon(
+                        Icons.remove_red_eye,
+                        color: textDarkGrey,
+                        size: 16.0,
+                      ),
+                      SizedBox(
+                        width: 4.0,
+                      ),
+                      Transform.rotate(
+                        angle: math.pi / 2,
+                        child: Icon(
+                          Icons.more_horiz,
+                          color: textDarkGrey,
+                          size: 16.0,
+                        ),
+                      ),
+                    ],
+                  )),
                 ]))
             .toList(),
       ),
@@ -295,18 +253,18 @@ class DataTableEntity extends StatelessWidget {
   }
 }
 
-class WorkTableData {
+class TeacherTableData {
   String id;
-  IconData typeIcon;
   InfoData basicInfo;
-  String issueDate;
-  String dueDate;
+  String date;
+  String rating;
+  String payment;
+  String due;
   String status;
-  String balance;
-  String comment;
+  String subject;
 
-  WorkTableData(this.id, this.typeIcon, this.basicInfo, this.issueDate,
-      this.dueDate, this.status, this.balance, this.comment);
+  TeacherTableData(this.id, this.basicInfo, this.date, this.rating,
+      this.payment, this.due, this.status, this.subject);
 }
 
 class InfoData {
