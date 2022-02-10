@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:pythagon_admin/screens/teacher_screen.dart';
-import 'package:pythagon_admin/screens/work_screen.dart';
+import 'package:pythagon_admin/screens/admin/admin_screen.dart';
+import 'package:pythagon_admin/screens/college/college_screen.dart';
+import 'package:pythagon_admin/screens/course/course_screen.dart';
+import 'package:pythagon_admin/screens/payment/payment_screen.dart';
+import 'package:pythagon_admin/screens/settings/settings_screen.dart';
+import 'package:pythagon_admin/screens/student/student_screen.dart';
+import 'package:pythagon_admin/screens/subject/subject_screen.dart';
+import 'package:pythagon_admin/screens/teacher/teacher_screen.dart';
+import 'package:pythagon_admin/screens/work/work_screen.dart';
 import 'package:pythagon_admin/widgets/web_drawer.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
@@ -61,65 +68,117 @@ const List<String> teacherHeaders = [
   "ACTION",
 ];
 
+const List<String> teacherDetailsHeaders1 = [
+  "#",
+  "BASIC INFO",
+  "APPLIED DATE",
+  "STATUS",
+  "RATING",
+  "COMMENT",
+  "ACTION",
+];
+
+const List<String> teacherDetailsHeaders2 = [
+  "ID",
+  "TYPE",
+  "BASIC INFO",
+  "ISSUE DATE",
+  "DUE DATE",
+  "PAYMENT",
+  "STATUS",
+  "RATING",
+  "ACTION",
+];
+
+const List<String> studentHeaders = [
+  "#",
+  "BASIC INFO",
+  "DATE ADDED",
+  "TWORK",
+  "PWORK",
+  "PAYMENT",
+  "DUE",
+  "ACTION"
+];
+
+const List<String> studentListHeaders = [
+  "#",
+  "BASIC INFO",
+  "DATE",
+  "IS ACTIVE",
+  "UPDATED ON",
+  "VISIBILITY",
+  "ACTION"
+];
+
+const List<String> studentDetailsHeaders = [
+  "#",
+  "TYPE",
+  "BASIC INFO",
+  "ISSUED",
+  "DUE DATE",
+  "BALANCE",
+  "STATUS",
+  "COMMENT",
+];
+
+const List<String> courseListingHeaders = [
+  "□",
+  "#",
+  "COURSES",
+  "SUBJECTS",
+  "DATE",
+  "ISACTIVE",
+  "UPDATED ON",
+  "ACTION",
+];
+
+const List<String> collegeListingHeaders = [
+  "□",
+  "#",
+  "COLLEGE",
+  "ADDRESS",
+  "DATE",
+  "ACTION",
+];
+
+const List<String> adminHeaders = [
+  "#",
+  "ADMIN INFO",
+  "DATE",
+  "STATUS",
+  "ACTION",
+];
+
+const List<String> subjectsHeaders = [
+  "#",
+  "BASIC INFO",
+  "DATE",
+  "IS ACTIVE",
+  "UPDATED ON",
+  "VISIBILITY",
+  "ACTION",
+];
+const List<String> paymentHeaders = [
+  "#",
+  "STATUS",
+  "PAYMENT INFO",
+  "DATE",
+  "AMOUNT",
+  "COMMENT",
+  "ACTION",
+];
+
 List<Widget> pages = [
-  WorkScreen(),
-  Container(
-    color: backgroundColor,
-    alignment: Alignment.center,
-    child: Text(
-      "Payment",
-      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-    ),
-  ),
-  TeacherScreen(),
-  Container(
-    color: backgroundColor,
-    alignment: Alignment.center,
-    child: Text(
-      "Students",
-      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-    ),
-  ),
-  Container(
-    color: backgroundColor,
-    alignment: Alignment.center,
-    child: Text(
-      "Subjects",
-      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-    ),
-  ),
-  Container(
-    color: backgroundColor,
-    alignment: Alignment.center,
-    child: Text(
-      "Course",
-      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-    ),
-  ),
-  Container(
-    color: backgroundColor,
-    alignment: Alignment.center,
-    child: Text(
-      "College",
-      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-    ),
-  ),
-  Container(
-    color: backgroundColor,
-    alignment: Alignment.center,
-    child: Text(
-      "Admin",
-      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-    ),
-  ),
-  Container(
-    color: backgroundColor,
-    alignment: Alignment.center,
-    child: Text(
-      "Settings",
-      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-    ),
-  ),
+  WorkPageUtil(),
+  PaymentScreen(),
+  TeacherPageUtil(),
+  StudentPageUtil(),
+  SubjectScreen(),
+  CourseScreen(),
+  CollegeScreen(),
+  AdminScreen(),
+  SettingsScreen()
 ];
 
 final List<NavTabData> navList = [

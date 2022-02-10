@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:pythagon_admin/constants.dart';
-import 'package:pythagon_admin/screens/work_details_screen.dart';
+import 'package:pythagon_admin/screens/work/work_details_screen.dart';
+
+class WorkPageUtil extends StatelessWidget {
+  const WorkPageUtil({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      onGenerateRoute: (settings) =>
+          MaterialPageRoute(builder: (_) => WorkScreen()),
+    );
+  }
+}
 
 class WorkScreen extends StatefulWidget {
   const WorkScreen({Key? key}) : super(key: key);
@@ -33,7 +45,9 @@ class _WorkScreenState extends State<WorkScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(height: 32.0,),
+          SizedBox(
+            height: 32.0,
+          ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             color: foregroundColor,
@@ -154,14 +168,22 @@ class DataTableEntity extends StatelessWidget {
                       },
                       child: Text(
                         work.id,
-                        style: TextStyle(fontSize: 14.0, color: Colors.purple),
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: activeColor,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
 
                   //TYPE
-                  DataCell(
-                    Container(
+
+                  DataCell(InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => WorkDetailScreen()));
+                    },
+                    child: Container(
                       height: 44.0,
                       width: 44.0,
                       decoration: BoxDecoration(
@@ -174,7 +196,7 @@ class DataTableEntity extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
+                  )),
 
                   //BASIC INFO
                   DataCell(ListTile(
