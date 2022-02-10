@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pythagon_admin/data/database.dart';
+import 'package:pythagon_admin/screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,30 +24,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Pythagon',
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: Text(
-            'Pythagon',
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
-        body: Center(
-          child: Text(
-            'Hello! World',
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 64,
-            ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: addCollege,
-        ),
-      ),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Pythagon',
+
+        theme: ThemeData(fontFamily: "Montserrat"),
+        home: HomeScreen());
   }
 
   void addCollege() async {

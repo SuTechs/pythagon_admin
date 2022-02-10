@@ -33,6 +33,17 @@ dependencies:
   firebase_storage: ^10.2.6
   firebase_messaging: ^11.2.6
 
+  #Icons
+  flutter_feather_icons: ^2.0.0+1
+  fluttericon: ^2.0.0
+
+  #UI
+  flutter_rating_bar: ^4.0.0
+  fl_chart: ^0.41.0
+
+
+
+
 
 dev_dependencies:
   flutter_test:
@@ -51,14 +62,26 @@ flutter:
 
 
   fonts:
-    - family: Seti
+    - family: Montserrat
       fonts:
-        - asset: fonts/seti.ttf
+        - asset: assets/fonts/MontserratExtraBold.ttf
+          weight: 900
+        - asset: assets/fonts/MontserratBold.ttf
+          weight: 800
+        - asset: assets/fonts/MontserratSemiBold.ttf
+          weight: 700
+        - asset: assets/fonts/MontserratMedium.ttf
+          weight: 600
+        - asset: assets/fonts/MontserratRegular.ttf
+          weight: 400
+        - asset: assets/fonts/MontserratLight.ttf
+          weight: 200
+        - asset: assets/fonts/MontserratThin.ttf
+          weight: 100
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+     - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
