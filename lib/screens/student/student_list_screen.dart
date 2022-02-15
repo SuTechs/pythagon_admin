@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:pythagon_admin/constants.dart';
 import 'dart:math' as math;
 
-import '../work/work_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:pythagon_admin/constants.dart';
+
+import '../work/workList.dart';
 
 class StudentListScreen extends StatelessWidget {
   const StudentListScreen({Key? key}) : super(key: key);
@@ -14,7 +15,6 @@ class StudentListScreen extends StatelessWidget {
         child: StudentListBody());
   }
 }
-
 
 class StudentListBody extends StatelessWidget {
   StudentListBody({Key? key}) : super(key: key);
@@ -49,16 +49,16 @@ class StudentListBody extends StatelessWidget {
           DataTable(
             dataRowHeight: 80.0,
             dividerThickness: 0.6,
-            headingRowColor: MaterialStateProperty.all(backgroundColor),
-            dataRowColor: MaterialStateProperty.all(foregroundColor),
+            headingRowColor: MaterialStateProperty.all(kBackgroundColor),
+            dataRowColor: MaterialStateProperty.all(kForegroundColor),
             columns: studentListHeaders
                 .map((e) => DataColumn(
                         label: Container(
-                      color: backgroundColor,
+                      color: kBackgroundColor,
                       child: Text(
                         e,
                         style: TextStyle(
-                            color: textDarkGrey,
+                            color: kTextDarkGrey,
                             fontWeight: FontWeight.w600,
                             fontSize: 13.0),
                       ),
@@ -66,18 +66,21 @@ class StudentListBody extends StatelessWidget {
                 .toList(),
             rows: dataList
                 .map((student) => DataRow(cells: [
-              //ID
-              DataCell(
-                InkWell(
-                  onTap: () {
-                    scaffoldKey.currentState!.openEndDrawer();
-                  },
-                  child: Text(
-                    student.id,
-                    style: TextStyle(fontSize: 14.0, color: activeColor,fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
+                      //ID
+                      DataCell(
+                        InkWell(
+                          onTap: () {
+                            kScaffoldKey.currentState!.openEndDrawer();
+                          },
+                          child: Text(
+                            student.id,
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                color: kActiveColor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
 
                       //BASIC INFO
                       DataCell(ListTile(
@@ -87,12 +90,12 @@ class StudentListBody extends StatelessWidget {
                           width: 44.0,
                           height: 44.0,
                           decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: purpleBgColor),
+                              shape: BoxShape.circle, color: kPurpleBgColor),
                           child: Center(
                             child: Text(
                               student.basicInfo.iconContent,
                               style: TextStyle(
-                                  color: activeColor,
+                                  color: kActiveColor,
                                   fontWeight: FontWeight.w800,
                                   fontSize: 14.0),
                             ),
@@ -103,7 +106,7 @@ class StudentListBody extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                              color: textDarkGrey,
+                              color: kTextDarkGrey,
                               fontSize: 14.0,
                               fontWeight: FontWeight.w700),
                         ),
@@ -112,7 +115,7 @@ class StudentListBody extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                              color: textLightGrey,
+                              color: kTextLightGrey,
                               fontSize: 12.0,
                               fontWeight: FontWeight.w600),
                         ),
@@ -124,7 +127,8 @@ class StudentListBody extends StatelessWidget {
                           student.date,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                          style:
+                              TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                         ),
                       ),
 
@@ -135,13 +139,13 @@ class StudentListBody extends StatelessWidget {
                               horizontal: 12.0, vertical: 8),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40.0),
-                              color: greenBgColor),
+                              color: kGreenBgColor),
                           child: Text(
                             student.isActive,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 14.0, color: greenActiveColor),
+                                fontSize: 14.0, color: kGreenActiveColor),
                           ),
                         ),
                       ),
@@ -152,7 +156,8 @@ class StudentListBody extends StatelessWidget {
                           student.updatedOn,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                          style:
+                              TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                         ),
                       ),
                       //VISIBILITY
@@ -162,13 +167,13 @@ class StudentListBody extends StatelessWidget {
                               horizontal: 12.0, vertical: 8),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40.0),
-                              color: greenBgColor),
+                              color: kGreenBgColor),
                           child: Text(
                             student.visibility,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 14.0, color: greenActiveColor),
+                                fontSize: 14.0, color: kGreenActiveColor),
                           ),
                         ),
                       ),
@@ -178,7 +183,7 @@ class StudentListBody extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.remove_red_eye,
-                            color: textDarkGrey,
+                            color: kTextDarkGrey,
                             size: 16.0,
                           ),
                           SizedBox(
@@ -188,7 +193,7 @@ class StudentListBody extends StatelessWidget {
                             angle: math.pi / 2,
                             child: Icon(
                               Icons.more_horiz,
-                              color: textDarkGrey,
+                              color: kTextDarkGrey,
                               size: 16.0,
                             ),
                           ),

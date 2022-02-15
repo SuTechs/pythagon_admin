@@ -13,8 +13,7 @@ class DrawerBody extends StatefulWidget {
 }
 
 class _DrawerBodyState extends State<DrawerBody> {
-
-  double ratingCount =4.3;
+  double ratingCount = 4.3;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +26,14 @@ class _DrawerBodyState extends State<DrawerBody> {
             title: Text(
               "Basic Info",
               style: TextStyle(
-                  color: textDarkGrey,
+                  color: kTextDarkGrey,
                   fontWeight: FontWeight.w500,
                   fontSize: 18.0),
             ),
             trailing: Icon(
               Icons.chevron_right,
               size: 24.0,
-              color: textLightGrey,
+              color: kTextLightGrey,
             ),
           ),
           Container(
@@ -60,7 +59,7 @@ class _DrawerBodyState extends State<DrawerBody> {
                     Text(
                       "Uchit Chakma",
                       style: TextStyle(
-                          color: textColor2,
+                          color: kTextColor2,
                           fontWeight: FontWeight.w600,
                           fontSize: 16.0),
                     ),
@@ -72,7 +71,7 @@ class _DrawerBodyState extends State<DrawerBody> {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                          color: textLightGrey,
+                          color: kTextLightGrey,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w600),
                     ),
@@ -82,7 +81,7 @@ class _DrawerBodyState extends State<DrawerBody> {
                     Text(
                       "1.5(48)",
                       style: TextStyle(
-                          color: textColor2,
+                          color: kTextColor2,
                           fontWeight: FontWeight.w600,
                           fontSize: 16.0),
                     ),
@@ -101,7 +100,7 @@ class _DrawerBodyState extends State<DrawerBody> {
             title: Text(
               "Status",
               style: TextStyle(
-                  color: textDarkGrey,
+                  color: kTextDarkGrey,
                   fontWeight: FontWeight.w500,
                   fontSize: 18.0),
             ),
@@ -113,7 +112,7 @@ class _DrawerBodyState extends State<DrawerBody> {
               ),
               Icon(
                 FontAwesome5.check_double,
-                color: greenActiveColor,
+                color: kGreenActiveColor,
                 size: 18.0,
               ),
               SizedBox(
@@ -122,7 +121,7 @@ class _DrawerBodyState extends State<DrawerBody> {
               Text(
                 "Sent",
                 style: TextStyle(
-                    color: textColor2,
+                    color: kTextColor2,
                     fontWeight: FontWeight.w500,
                     fontSize: 16.0),
               )
@@ -138,7 +137,7 @@ class _DrawerBodyState extends State<DrawerBody> {
             title: Text(
               "Attachment",
               style: TextStyle(
-                  color: textDarkGrey,
+                  color: kTextDarkGrey,
                   fontWeight: FontWeight.w500,
                   fontSize: 18.0),
             ),
@@ -153,7 +152,7 @@ class _DrawerBodyState extends State<DrawerBody> {
             title: Text(
               "Screenshot82313.jpg",
               style: TextStyle(
-                  color: textColor2,
+                  color: kTextColor2,
                   fontWeight: FontWeight.w500,
                   fontSize: 16.0),
             ),
@@ -182,7 +181,7 @@ class _DrawerBodyState extends State<DrawerBody> {
             title: Text(
               "Payment",
               style: TextStyle(
-                  color: textDarkGrey,
+                  color: kTextDarkGrey,
                   fontWeight: FontWeight.w500,
                   fontSize: 18.0),
             ),
@@ -191,10 +190,10 @@ class _DrawerBodyState extends State<DrawerBody> {
             margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(width: 1.0, color: activeColor)),
+                border: Border.all(width: 1.0, color: kActiveColor)),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  bottom: 16.0,left: 16.0,right: 16.0),
+              padding:
+                  const EdgeInsets.only(bottom: 16.0, left: 16.0, right: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -206,18 +205,18 @@ class _DrawerBodyState extends State<DrawerBody> {
                         style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w600,
-                            color: textColor2),
+                            color: kTextColor2),
                       ),
                       Container(
                         height: 24.0,
                         width: 24.0,
                         margin: EdgeInsets.symmetric(vertical: 24.0),
                         decoration: BoxDecoration(
-                            color: redBgColor, shape: BoxShape.circle),
+                            color: kRedBgColor, shape: BoxShape.circle),
                         child: Center(
                           child: Icon(
                             FeatherIcons.dollarSign,
-                            color: redActiveColor,
+                            color: kRedActiveColor,
                             size: 16.0,
                           ),
                         ),
@@ -225,18 +224,18 @@ class _DrawerBodyState extends State<DrawerBody> {
                     ],
                   ),
                   Container(
-                      margin: EdgeInsets.only(
-                          left: 8.0, right: 8.0, bottom: 24.0),
+                      margin:
+                          EdgeInsets.only(left: 8.0, right: 8.0, bottom: 24.0),
                       child: Divider(
                         height: 0.6,
-                        color: textLightGrey.withOpacity(0.3),
+                        color: kTextLightGrey.withOpacity(0.3),
                       )),
                   Text(
                     "Range",
                     style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w600,
-                        color: textColor2),
+                        color: kTextColor2),
                   ),
                   SizedBox(
                     height: 16,
@@ -249,14 +248,14 @@ class _DrawerBodyState extends State<DrawerBody> {
                         style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w500,
-                            color: textDarkGrey),
+                            color: kTextDarkGrey),
                       ),
                       Text(
                         r"$500",
                         style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w600,
-                            color: textColor2),
+                            color: kTextColor2),
                       ),
                     ],
                   ),
@@ -271,14 +270,14 @@ class _DrawerBodyState extends State<DrawerBody> {
                         style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w500,
-                            color: textDarkGrey),
+                            color: kTextDarkGrey),
                       ),
                       Text(
                         r"$50",
                         style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w600,
-                            color: textColor2),
+                            color: kTextColor2),
                       ),
                     ],
                   ),
@@ -286,17 +285,17 @@ class _DrawerBodyState extends State<DrawerBody> {
                     height: 16.0,
                   ),
                   InkWell(
-                    onTap: (){},
+                    onTap: () {},
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 8.0),
-                      decoration: BoxDecoration(color: redBgColor),
+                      decoration: BoxDecoration(color: kRedBgColor),
                       child: Center(
                           child: Text(
-                            "Due",
-                            style: TextStyle(
-                                color: redActiveColor,
-                                fontWeight: FontWeight.w700),
-                          )),
+                        "Due",
+                        style: TextStyle(
+                            color: kRedActiveColor,
+                            fontWeight: FontWeight.w700),
+                      )),
                     ),
                   )
                 ],
@@ -309,7 +308,7 @@ class _DrawerBodyState extends State<DrawerBody> {
             title: Text(
               "Rating",
               style: TextStyle(
-                  color: textDarkGrey,
+                  color: kTextDarkGrey,
                   fontWeight: FontWeight.w500,
                   fontSize: 18.0),
             ),
@@ -323,7 +322,6 @@ class _DrawerBodyState extends State<DrawerBody> {
                 initialRating: ratingCount,
                 minRating: 1,
                 direction: Axis.horizontal,
-
                 allowHalfRating: true,
                 itemCount: 5,
                 itemSize: 24.0,
@@ -342,7 +340,7 @@ class _DrawerBodyState extends State<DrawerBody> {
               Text(
                 "$ratingCount",
                 style: TextStyle(
-                    color: textLightGrey,
+                    color: kTextLightGrey,
                     fontWeight: FontWeight.w500,
                     fontSize: 16.0),
               )
@@ -353,17 +351,17 @@ class _DrawerBodyState extends State<DrawerBody> {
             margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(width: 1.0, color: activeColor)),
+                border: Border.all(width: 1.0, color: kActiveColor)),
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 8.0, horizontal: 16.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     "Comment",
                     style: TextStyle(
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         fontWeight: FontWeight.w500,
                         fontSize: 14.0),
                   )
@@ -375,19 +373,19 @@ class _DrawerBodyState extends State<DrawerBody> {
             height: 16.0,
           ),
           InkWell(
-            onTap: (){},
+            onTap: () {},
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 8.0),
               margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-              decoration: BoxDecoration(color: greenBgColor
-                  ,borderRadius: BorderRadius.circular(4.0)
-              ),
+              decoration: BoxDecoration(
+                  color: kGreenBgColor,
+                  borderRadius: BorderRadius.circular(4.0)),
               child: Center(
                   child: Text(
-                    "Save",
-                    style: TextStyle(
-                        color: greenActiveColor, fontWeight: FontWeight.w700),
-                  )),
+                "Save",
+                style: TextStyle(
+                    color: kGreenActiveColor, fontWeight: FontWeight.w700),
+              )),
             ),
           ),
           SizedBox(

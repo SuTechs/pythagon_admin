@@ -1,50 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:pythagon_admin/screens/admin/admin_screen.dart';
-import 'package:pythagon_admin/screens/college/college_screen.dart';
-import 'package:pythagon_admin/screens/course/course_screen.dart';
-import 'package:pythagon_admin/screens/payment/payment_screen.dart';
-import 'package:pythagon_admin/screens/settings/settings_screen.dart';
-import 'package:pythagon_admin/screens/student/student_screen.dart';
-import 'package:pythagon_admin/screens/subject/subject_screen.dart';
-import 'package:pythagon_admin/screens/teacher/teacher_screen.dart';
-import 'package:pythagon_admin/screens/work/work_screen.dart';
-import 'package:pythagon_admin/widgets/web_drawer.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
 
-final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey(); // Create a key
+/// new constants
 
-const Color foregroundColor = Colors.white;
-const Color backgroundColor = Color(0xffF3F3F3);
-const Color activeColor = Color(0xff834DF3);
-const Color textColor = Color(0xff645D6E);
-const Color purpleBgColor = Color(0xffDAC7FF);
-const Color redBgColor = Color(0xffFCCFCF);
-const Color redActiveColor = Color(0xffEA5455);
-const Color greenBgColor = Color(0xffE0F9EE);
-const Color greenActiveColor = Color(0xff11D47B);
-const Color yellowBgColor = Color(0xffFFE5C6);
-const Color yellowActiveColor = Color(0xffFF9B26);
+const Color kForegroundColor = Colors.white;
+const Color kTextDarkGrey = Color(0xff6e6b7b);
 
-const List<Color> activeTabGradient = [
+/// old constants
+
+final GlobalKey<ScaffoldState> kScaffoldKey = GlobalKey(); // Create a key
+
+const Color kBackgroundColor = Color(0xffF3F3F3);
+const Color kActiveColor = Color(0xff834DF3);
+const Color kTextColor = Color(0xff645D6E);
+const Color kPurpleBgColor = Color(0xffDAC7FF);
+const Color kRedBgColor = Color(0xffFCCFCF);
+const Color kRedActiveColor = Color(0xffEA5455);
+const Color kGreenBgColor = Color(0xffE0F9EE);
+const Color kGreenActiveColor = Color(0xff11D47B);
+const Color kYellowBgColor = Color(0xffFFE5C6);
+const Color kYellowActiveColor = Color(0xffFF9B26);
+
+const List<Color> kActiveTabGradient = [
   Color(0xff834DF3),
   Color(0xff996CF5),
 ];
-const Color textDarkGrey = Color(0xff4B4B4B);
-const Color textLightGrey = Color(0xffACA8B5);
-const Color textColor2 = Color(0xff70697B);
-
-const List<String> workDataHeaders = [
-  "#",
-  "TYPE",
-  "BASIC INFO",
-  "ISSUE DATE",
-  "DUE DATE",
-  "BALANCE",
-  "STATUS",
-  "COMMENT",
-];
+const Color kTextLightGrey = Color(0xffACA8B5);
+const Color kTextColor2 = Color(0xff70697B);
 
 const List<String> workDetailsDataHeaders = [
   "□",
@@ -167,55 +148,4 @@ const List<String> paymentHeaders = [
   "AMOUNT",
   "COMMENT",
   "ACTION",
-];
-
-List<Widget> pages = [
-  WorkPageUtil(),
-  PaymentScreen(),
-  TeacherPageUtil(),
-  StudentPageUtil(),
-  SubjectScreen(),
-  CourseScreen(),
-  CollegeScreen(),
-  AdminScreen(),
-  SettingsScreen()
-];
-
-final List<NavTabData> navList = [
-  NavTabData(
-    icon: FeatherIcons.briefcase,
-    title: 'Work',
-  ),
-  NavTabData(
-    icon: FeatherIcons.dollarSign,
-    title: 'Payment',
-  ),
-  NavTabData(
-    icon: FontAwesome5.chalkboard_teacher,
-    title: 'Teachers ',
-  ),
-  NavTabData(
-    icon: FontAwesome5.graduation_cap,
-    title: 'Students',
-  ),
-  NavTabData(
-    icon: FeatherIcons.book,
-    title: 'Subjects',
-  ),
-  NavTabData(
-    icon: Icons.lightbulb_outline_rounded,
-    title: 'Course',
-  ),
-  NavTabData(
-    icon: FontAwesome.bank,
-    title: 'College ',
-  ),
-  NavTabData(
-    icon: Icons.person,
-    title: 'Admin',
-  ),
-  NavTabData(
-    icon: FeatherIcons.settings,
-    title: 'Settings',
-  ),
 ];

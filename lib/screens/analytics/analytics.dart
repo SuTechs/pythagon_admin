@@ -6,8 +6,8 @@ import '../../widgets/bar_chart_widget.dart';
 import '../../widgets/line_chart_widget.dart';
 import '../../widgets/pie_chart_widet.dart';
 
-class WorkListingScreen extends StatelessWidget {
-  const WorkListingScreen({Key? key}) : super(key: key);
+class AnalyticsScreen extends StatelessWidget {
+  const AnalyticsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +15,6 @@ class WorkListingScreen extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-
-
-
-
           SizedBox(
             height: 32.0,
           ),
@@ -46,7 +42,6 @@ class WorkListingScreen extends StatelessWidget {
               ],
             ),
           ),
-
           SizedBox(
             width: 32.0,
           ),
@@ -69,7 +64,7 @@ class _RevenueTileState extends State<RevenueTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: foregroundColor,
+      color: kForegroundColor,
       margin: EdgeInsets.symmetric(horizontal: 16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -81,7 +76,9 @@ class _RevenueTileState extends State<RevenueTile> {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontWeight: FontWeight.w600, color: textColor2, fontSize: 20),
+                  fontWeight: FontWeight.w600,
+                  color: kTextColor2,
+                  fontSize: 20),
             ),
             SizedBox(
               height: 4,
@@ -92,7 +89,7 @@ class _RevenueTileState extends State<RevenueTile> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  color: textLightGrey,
+                  color: kTextLightGrey,
                   fontSize: 16),
             ),
             SizedBox(
@@ -126,7 +123,7 @@ class _RevenueTileState extends State<RevenueTile> {
                         style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w600,
-                            color: textDarkGrey),
+                            color: kTextDarkGrey),
                       ),
                     );
                   }).toList(),
@@ -209,7 +206,7 @@ class _AssignmentTileState extends State<AssignmentTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: foregroundColor,
+      color: kForegroundColor,
       margin: EdgeInsets.symmetric(horizontal: 16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -221,7 +218,9 @@ class _AssignmentTileState extends State<AssignmentTile> {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontWeight: FontWeight.w600, color: textColor2, fontSize: 20),
+                  fontWeight: FontWeight.w600,
+                  color: kTextColor2,
+                  fontSize: 20),
             ),
             SizedBox(
               height: 4,
@@ -232,7 +231,7 @@ class _AssignmentTileState extends State<AssignmentTile> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  color: textLightGrey,
+                  color: kTextLightGrey,
                   fontSize: 16),
             ),
             SizedBox(
@@ -268,7 +267,7 @@ class _AssignmentTileState extends State<AssignmentTile> {
                         style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w600,
-                            color: textDarkGrey),
+                            color: kTextDarkGrey),
                       ),
                     );
                   }).toList(),
@@ -351,7 +350,7 @@ class _UserTileState extends State<UserTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: foregroundColor,
+      color: kForegroundColor,
       margin: EdgeInsets.symmetric(horizontal: 16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -363,7 +362,9 @@ class _UserTileState extends State<UserTile> {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontWeight: FontWeight.w600, color: textColor2, fontSize: 20),
+                  fontWeight: FontWeight.w600,
+                  color: kTextColor2,
+                  fontSize: 20),
             ),
             SizedBox(
               height: 4,
@@ -374,7 +375,7 @@ class _UserTileState extends State<UserTile> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  color: textLightGrey,
+                  color: kTextLightGrey,
                   fontSize: 16),
             ),
             SizedBox(
@@ -407,7 +408,7 @@ class _UserTileState extends State<UserTile> {
                         style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w600,
-                            color: textDarkGrey),
+                            color: kTextDarkGrey),
                       ),
                     );
                   }).toList(),
@@ -505,7 +506,9 @@ class IndicatorTile extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontWeight: FontWeight.w400, color: textColor2, fontSize: 14),
+                  fontWeight: FontWeight.w400,
+                  color: kTextColor2,
+                  fontSize: 14),
             ),
           ],
         ),

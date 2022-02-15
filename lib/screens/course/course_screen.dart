@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:pythagon_admin/constants.dart';
 import 'dart:math' as math;
 
-import '../work/work_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:pythagon_admin/constants.dart';
+
+import '../work/workList.dart';
 
 class CourseScreen extends StatelessWidget {
   const CourseScreen({Key? key}) : super(key: key);
@@ -51,7 +52,7 @@ class CourseBody extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(vertical: 16.0),
             // margin: EdgeInsets.symmetric(horizontal: 16.0),
-            color: foregroundColor,
+            color: kForegroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -63,7 +64,7 @@ class CourseBody extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 15.0,
-                      color: textColor2),
+                      color: kTextColor2),
                 ),
                 SizedBox(
                   width: 8,
@@ -74,7 +75,7 @@ class CourseBody extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                        color: activeColor,
+                        color: kActiveColor,
                         borderRadius: BorderRadius.circular(4.0)),
                     child: Text(
                       "Add New",
@@ -91,16 +92,16 @@ class CourseBody extends StatelessWidget {
           DataTable(
             dataRowHeight: 80.0,
             dividerThickness: 0.6,
-            headingRowColor: MaterialStateProperty.all(backgroundColor),
-            dataRowColor: MaterialStateProperty.all(foregroundColor),
+            headingRowColor: MaterialStateProperty.all(kBackgroundColor),
+            dataRowColor: MaterialStateProperty.all(kForegroundColor),
             columns: courseListingHeaders
                 .map((e) => DataColumn(
                         label: Container(
-                      color: backgroundColor,
+                      color: kBackgroundColor,
                       child: Text(
                         e,
                         style: TextStyle(
-                            color: textDarkGrey,
+                            color: kTextDarkGrey,
                             fontWeight: FontWeight.w600,
                             fontSize: 13.0),
                       ),
@@ -112,21 +113,25 @@ class CourseBody extends StatelessWidget {
                       DataCell(
                         Text(
                           "□",
-                          style: TextStyle(fontSize: 16.0, color: textDarkGrey),
+                          style:
+                              TextStyle(fontSize: 16.0, color: kTextDarkGrey),
                         ),
                       ),
-              //ID
-              DataCell(
-                InkWell(
-                  onTap: () {
-                    scaffoldKey.currentState!.openEndDrawer();
-                  },
-                  child: Text(
-                    student.id,
-                    style: TextStyle(fontSize: 14.0, color: activeColor,fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
+                      //ID
+                      DataCell(
+                        InkWell(
+                          onTap: () {
+                            kScaffoldKey.currentState!.openEndDrawer();
+                          },
+                          child: Text(
+                            student.id,
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                color: kActiveColor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
 
                       //COURSE
                       DataCell(ListTile(
@@ -136,12 +141,12 @@ class CourseBody extends StatelessWidget {
                           width: 44.0,
                           height: 44.0,
                           decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: purpleBgColor),
+                              shape: BoxShape.circle, color: kPurpleBgColor),
                           child: Center(
                             child: Text(
                               student.course.iconContent,
                               style: TextStyle(
-                                  color: activeColor,
+                                  color: kActiveColor,
                                   fontWeight: FontWeight.w800,
                                   fontSize: 14.0),
                             ),
@@ -152,7 +157,7 @@ class CourseBody extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                              color: textDarkGrey,
+                              color: kTextDarkGrey,
                               fontSize: 14.0,
                               fontWeight: FontWeight.w700),
                         ),
@@ -161,7 +166,7 @@ class CourseBody extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                              color: textLightGrey,
+                              color: kTextLightGrey,
                               fontSize: 12.0,
                               fontWeight: FontWeight.w600),
                         ),
@@ -173,7 +178,8 @@ class CourseBody extends StatelessWidget {
                           student.subjects,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                          style:
+                              TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                         ),
                       ),
 
@@ -183,7 +189,8 @@ class CourseBody extends StatelessWidget {
                           student.date,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                          style:
+                              TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                         ),
                       ),
 
@@ -194,13 +201,13 @@ class CourseBody extends StatelessWidget {
                               horizontal: 12.0, vertical: 8),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40.0),
-                              color: greenBgColor),
+                              color: kGreenBgColor),
                           child: Text(
                             student.isActive,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 14.0, color: greenActiveColor),
+                                fontSize: 14.0, color: kGreenActiveColor),
                           ),
                         ),
                       ),
@@ -212,7 +219,8 @@ class CourseBody extends StatelessWidget {
                           maxLines: 1,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                          style:
+                              TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                         ),
                       ),
 
@@ -221,7 +229,7 @@ class CourseBody extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.remove_red_eye,
-                            color: textDarkGrey,
+                            color: kTextDarkGrey,
                             size: 16.0,
                           ),
                           SizedBox(
@@ -231,7 +239,7 @@ class CourseBody extends StatelessWidget {
                             angle: math.pi / 2,
                             child: Icon(
                               Icons.more_horiz,
-                              color: textDarkGrey,
+                              color: kTextDarkGrey,
                               size: 16.0,
                             ),
                           ),

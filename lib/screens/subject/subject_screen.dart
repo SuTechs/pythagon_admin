@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:pythagon_admin/constants.dart';
 import 'dart:math' as math;
 
-import '../work/work_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:pythagon_admin/constants.dart';
+
+import '../work/workList.dart';
 
 class SubjectScreen extends StatelessWidget {
   const SubjectScreen({Key? key}) : super(key: key);
@@ -51,7 +52,7 @@ class SubjectBody extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(vertical: 16.0),
             // margin: EdgeInsets.symmetric(horizontal: 16.0),
-            color: foregroundColor,
+            color: kForegroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -63,7 +64,7 @@ class SubjectBody extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 15.0,
-                      color: textColor2),
+                      color: kTextColor2),
                 ),
                 SizedBox(
                   width: 8,
@@ -72,9 +73,9 @@ class SubjectBody extends StatelessWidget {
                   onTap: () {},
                   child: Container(
                     padding:
-                    EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                        EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                        color: activeColor,
+                        color: kActiveColor,
                         borderRadius: BorderRadius.circular(4.0)),
                     child: Text(
                       "Add New",
@@ -91,153 +92,158 @@ class SubjectBody extends StatelessWidget {
           DataTable(
             dataRowHeight: 80.0,
             dividerThickness: 0.6,
-            headingRowColor: MaterialStateProperty.all(backgroundColor),
-            dataRowColor: MaterialStateProperty.all(foregroundColor),
+            headingRowColor: MaterialStateProperty.all(kBackgroundColor),
+            dataRowColor: MaterialStateProperty.all(kForegroundColor),
             columns: subjectsHeaders
                 .map((e) => DataColumn(
-                label: Container(
-                  color: backgroundColor,
-                  child: Text(
-                    e,
-                    style: TextStyle(
-                        color: textDarkGrey,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13.0),
-                  ),
-                )))
+                        label: Container(
+                      color: kBackgroundColor,
+                      child: Text(
+                        e,
+                        style: TextStyle(
+                            color: kTextDarkGrey,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13.0),
+                      ),
+                    )))
                 .toList(),
             rows: dataList
                 .map((sub) => DataRow(cells: [
-              //ID
-              DataCell(
-                InkWell(
-                  onTap: () {
-                    scaffoldKey.currentState!.openEndDrawer();
-                  },
-                  child: Text(
-                    sub.id,
-                    style: TextStyle(fontSize: 14.0, color: activeColor,fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
+                      //ID
+                      DataCell(
+                        InkWell(
+                          onTap: () {
+                            kScaffoldKey.currentState!.openEndDrawer();
+                          },
+                          child: Text(
+                            sub.id,
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                color: kActiveColor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
 
-              //INFO
-              DataCell(ListTile(
-                dense: true,
-                visualDensity: VisualDensity.compact,
-                leading: Container(
-                  width: 44.0,
-                  height: 44.0,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: purpleBgColor),
-                  child: Center(
-                    child: Text(
-                      sub.basicInfo.iconContent,
-                      style: TextStyle(
-                          color: activeColor,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 14.0),
-                    ),
-                  ),
-                ),
-                title: Text(
-                  sub.basicInfo.title,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: TextStyle(
-                      color: textDarkGrey,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w700),
-                ),
-                subtitle: Text(
-                  sub.basicInfo.subtitle,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: TextStyle(
-                      color: textLightGrey,
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w600),
-                ),
-              )),
+                      //INFO
+                      DataCell(ListTile(
+                        dense: true,
+                        visualDensity: VisualDensity.compact,
+                        leading: Container(
+                          width: 44.0,
+                          height: 44.0,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: kPurpleBgColor),
+                          child: Center(
+                            child: Text(
+                              sub.basicInfo.iconContent,
+                              style: TextStyle(
+                                  color: kActiveColor,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 14.0),
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                          sub.basicInfo.title,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: kTextDarkGrey,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        subtitle: Text(
+                          sub.basicInfo.subtitle,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: kTextLightGrey,
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      )),
 
-              //Date
-              DataCell(
-                Text(
-                  sub.date,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 14.0, color: textDarkGrey),
-                ),
-              ),
+                      //Date
+                      DataCell(
+                        Text(
+                          sub.date,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              TextStyle(fontSize: 14.0, color: kTextDarkGrey),
+                        ),
+                      ),
 
-              //IS ACTIVE
-              DataCell(
-                Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(40.0),
-                      color: greenBgColor),
-                  child: Text(
-                    sub.isActive,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 14.0, color: greenActiveColor),
-                  ),
-                ),
-              ),
+                      //IS ACTIVE
+                      DataCell(
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40.0),
+                              color: kGreenBgColor),
+                          child: Text(
+                            sub.isActive,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontSize: 14.0, color: kGreenActiveColor),
+                          ),
+                        ),
+                      ),
 
-              //UPDATED ON
-              DataCell(
-                Text(
-                  sub.updatedOn,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 14.0, color: textDarkGrey),
-                ),
-              ),
+                      //UPDATED ON
+                      DataCell(
+                        Text(
+                          sub.updatedOn,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              TextStyle(fontSize: 14.0, color: kTextDarkGrey),
+                        ),
+                      ),
 
-              //VISIBILITY
-              DataCell(
-                Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(40.0),
-                      color: greenBgColor),
-                  child: Text(
-                    sub.visibility,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 14.0, color: greenActiveColor),
-                  ),
-                ),
-              ),
+                      //VISIBILITY
+                      DataCell(
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40.0),
+                              color: kGreenBgColor),
+                          child: Text(
+                            sub.visibility,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontSize: 14.0, color: kGreenActiveColor),
+                          ),
+                        ),
+                      ),
 
-              //ACTION
-              DataCell(Row(
-                children: [
-                  Icon(
-                    Icons.remove_red_eye,
-                    color: textDarkGrey,
-                    size: 16.0,
-                  ),
-                  SizedBox(
-                    width: 4.0,
-                  ),
-                  Transform.rotate(
-                    angle: math.pi / 2,
-                    child: Icon(
-                      Icons.more_horiz,
-                      color: textDarkGrey,
-                      size: 16.0,
-                    ),
-                  ),
-                ],
-              )),
-            ]))
+                      //ACTION
+                      DataCell(Row(
+                        children: [
+                          Icon(
+                            Icons.remove_red_eye,
+                            color: kTextDarkGrey,
+                            size: 16.0,
+                          ),
+                          SizedBox(
+                            width: 4.0,
+                          ),
+                          Transform.rotate(
+                            angle: math.pi / 2,
+                            child: Icon(
+                              Icons.more_horiz,
+                              color: kTextDarkGrey,
+                              size: 16.0,
+                            ),
+                          ),
+                        ],
+                      )),
+                    ]))
                 .toList(),
           ),
         ],

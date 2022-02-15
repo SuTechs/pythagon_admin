@@ -1,13 +1,12 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/iconic_icons.dart';
 import 'package:pythagon_admin/constants.dart';
-import 'package:pythagon_admin/screens/work/work_screen.dart';
-import 'dart:math' as math;
-
-
+import 'package:pythagon_admin/screens/work/workList.dart';
 
 class TeacherDetailScreen extends StatefulWidget {
   const TeacherDetailScreen({Key? key}) : super(key: key);
@@ -67,7 +66,7 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
               Expanded(
                   flex: 2,
                   child: Container(
-                    color: backgroundColor,
+                    color: kBackgroundColor,
                     child: Column(
                       children: [
                         SizedBox(
@@ -75,16 +74,16 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                         ),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 8.0),
-                          color: foregroundColor,
+                          color: kForegroundColor,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               TabBar(
-                                indicatorColor: activeColor,
+                                indicatorColor: kActiveColor,
                                 unselectedLabelColor: Color(0xff70697B),
-                                labelColor: activeColor,
+                                labelColor: kActiveColor,
                                 labelStyle: TextStyle(
-                                    color: textDarkGrey,
+                                    color: kTextDarkGrey,
                                     fontWeight: FontWeight.w600,
                                     letterSpacing: 0.5,
                                     fontSize: 14.0),
@@ -123,7 +122,7 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
           Container(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             margin: EdgeInsets.symmetric(horizontal: 16.0),
-            color: foregroundColor,
+            color: kForegroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -133,7 +132,7 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                       isScrollable: true,
                       indicatorColor: Colors.transparent,
                       unselectedLabelColor: Color(0xff70697B),
-                      labelColor: activeColor,
+                      labelColor: kActiveColor,
                       labelStyle: TextStyle(
                           fontWeight: FontWeight.w700, fontSize: 15.0),
                       tabs: const [
@@ -168,7 +167,7 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                         padding: EdgeInsets.symmetric(
                             horizontal: 8.0, vertical: 4.0),
                         decoration: BoxDecoration(
-                            color: activeColor,
+                            color: kActiveColor,
                             borderRadius: BorderRadius.circular(4.0)),
                         child: Text(
                           "Add New",
@@ -187,7 +186,7 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                         onPressed: () {},
                         icon: Icon(
                           FeatherIcons.search,
-                          color: textDarkGrey,
+                          color: kTextDarkGrey,
                         )),
                     SizedBox(
                       width: 8.0,
@@ -208,7 +207,7 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                             style: TextStyle(
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.w600,
-                                color: textDarkGrey),
+                                color: kTextDarkGrey),
                           ),
                         );
                       }).toList(),
@@ -241,7 +240,7 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
           Container(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             margin: EdgeInsets.symmetric(horizontal: 16.0),
-            color: foregroundColor,
+            color: kForegroundColor,
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Row(
@@ -252,7 +251,7 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 15.0,
-                        color: textColor2),
+                        color: kTextColor2),
                   ),
                   Row(
                     children: [
@@ -260,7 +259,7 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                           onPressed: () {},
                           icon: Icon(
                             FeatherIcons.search,
-                            color: textDarkGrey,
+                            color: kTextDarkGrey,
                           )),
                       SizedBox(
                         width: 8.0,
@@ -281,7 +280,7 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                               style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w600,
-                                  color: textDarkGrey),
+                                  color: kTextDarkGrey),
                             ),
                           );
                         }).toList(),
@@ -316,7 +315,7 @@ class TeacherProfileTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: foregroundColor,
+      color: kForegroundColor,
       padding: EdgeInsets.all(16.0),
       margin: EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -352,7 +351,7 @@ class TeacherProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                color: textColor2,
+                                color: kTextColor2,
                                 fontSize: 20),
                           ),
                           SizedBox(
@@ -364,7 +363,7 @@ class TeacherProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: textLightGrey,
+                                color: kTextLightGrey,
                                 fontSize: 14),
                           ),
                         ],
@@ -386,7 +385,7 @@ class TeacherProfileTile extends StatelessWidget {
                           Row(
                             children: [
                               Icon(Icons.person_outline_outlined,
-                                  size: 18, color: textColor2),
+                                  size: 18, color: kTextColor2),
                               SizedBox(
                                 width: 4.0,
                               ),
@@ -396,7 +395,7 @@ class TeacherProfileTile extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    color: textColor2,
+                                    color: kTextColor2,
                                     fontSize: 14),
                               ),
                             ],
@@ -407,7 +406,7 @@ class TeacherProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: textColor2,
+                                color: kTextColor2,
                                 fontSize: 14),
                           ),
                         ],
@@ -421,7 +420,7 @@ class TeacherProfileTile extends StatelessWidget {
                           Row(
                             children: [
                               Icon(Icons.phone_outlined,
-                                  size: 18, color: textColor2),
+                                  size: 18, color: kTextColor2),
                               SizedBox(
                                 width: 4.0,
                               ),
@@ -431,7 +430,7 @@ class TeacherProfileTile extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    color: textColor2,
+                                    color: kTextColor2,
                                     fontSize: 14),
                               ),
                             ],
@@ -442,7 +441,7 @@ class TeacherProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: textColor2,
+                                color: kTextColor2,
                                 fontSize: 14),
                           ),
                         ],
@@ -456,7 +455,7 @@ class TeacherProfileTile extends StatelessWidget {
                           Row(
                             children: [
                               Icon(Icons.email_outlined,
-                                  size: 18, color: textColor2),
+                                  size: 18, color: kTextColor2),
                               SizedBox(
                                 width: 4.0,
                               ),
@@ -466,7 +465,7 @@ class TeacherProfileTile extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    color: textColor2,
+                                    color: kTextColor2,
                                     fontSize: 14),
                               ),
                             ],
@@ -477,7 +476,7 @@ class TeacherProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: textColor2,
+                                color: kTextColor2,
                                 fontSize: 14),
                           ),
                         ],
@@ -491,7 +490,7 @@ class TeacherProfileTile extends StatelessWidget {
                           Row(
                             children: [
                               Icon(FontAwesome.bank,
-                                  size: 16, color: textColor2),
+                                  size: 16, color: kTextColor2),
                               SizedBox(
                                 width: 4.0,
                               ),
@@ -501,7 +500,7 @@ class TeacherProfileTile extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    color: textColor2,
+                                    color: kTextColor2,
                                     fontSize: 14),
                               ),
                             ],
@@ -512,7 +511,7 @@ class TeacherProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: textColor2,
+                                color: kTextColor2,
                                 fontSize: 14),
                           ),
                         ],
@@ -526,7 +525,7 @@ class TeacherProfileTile extends StatelessWidget {
                           Row(
                             children: [
                               Icon(Iconic.book_open,
-                                  size: 16, color: textColor2),
+                                  size: 16, color: kTextColor2),
                               SizedBox(
                                 width: 4.0,
                               ),
@@ -536,7 +535,7 @@ class TeacherProfileTile extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    color: textColor2,
+                                    color: kTextColor2,
                                     fontSize: 14),
                               ),
                             ],
@@ -547,7 +546,7 @@ class TeacherProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: textColor2,
+                                color: kTextColor2,
                                 fontSize: 14),
                           ),
                         ],
@@ -561,7 +560,7 @@ class TeacherProfileTile extends StatelessWidget {
                           Row(
                             children: [
                               Icon(Icons.calendar_today_sharp,
-                                  size: 16, color: textColor2),
+                                  size: 16, color: kTextColor2),
                               SizedBox(
                                 width: 4.0,
                               ),
@@ -571,7 +570,7 @@ class TeacherProfileTile extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    color: textColor2,
+                                    color: kTextColor2,
                                     fontSize: 14),
                               ),
                             ],
@@ -582,7 +581,7 @@ class TeacherProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: textColor2,
+                                color: kTextColor2,
                                 fontSize: 14),
                           ),
                         ],
@@ -611,11 +610,11 @@ class TeacherProfileTile extends StatelessWidget {
                     height: 44,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
-                        color: purpleBgColor),
+                        color: kPurpleBgColor),
                     child: Center(
                       child: Icon(
                         FeatherIcons.dollarSign,
-                        color: activeColor,
+                        color: kActiveColor,
                         size: 16.0,
                       ),
                     ),
@@ -626,7 +625,7 @@ class TeacherProfileTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: textColor2,
+                        color: kTextColor2,
                         fontSize: 16),
                   ),
                   subtitle: Text(
@@ -635,7 +634,7 @@ class TeacherProfileTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         fontSize: 12),
                   ),
                 ),
@@ -651,11 +650,11 @@ class TeacherProfileTile extends StatelessWidget {
                     height: 44,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
-                        color: redBgColor),
+                        color: kRedBgColor),
                     child: Center(
                       child: Icon(
                         Icons.star,
-                        color: redActiveColor,
+                        color: kRedActiveColor,
                         size: 16.0,
                       ),
                     ),
@@ -666,7 +665,7 @@ class TeacherProfileTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: textColor2,
+                        color: kTextColor2,
                         fontSize: 16),
                   ),
                   subtitle: Text(
@@ -675,7 +674,7 @@ class TeacherProfileTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         fontSize: 12),
                   ),
                 ),
@@ -689,11 +688,11 @@ class TeacherProfileTile extends StatelessWidget {
                     height: 44,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
-                        color: greenBgColor),
+                        color: kGreenBgColor),
                     child: Center(
                       child: Icon(
                         FontAwesome5.check,
-                        color: greenActiveColor,
+                        color: kGreenActiveColor,
                         size: 16.0,
                       ),
                     ),
@@ -704,7 +703,7 @@ class TeacherProfileTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: textColor2,
+                        color: kTextColor2,
                         fontSize: 16),
                   ),
                   subtitle: Text(
@@ -713,7 +712,7 @@ class TeacherProfileTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         fontSize: 12),
                   ),
                 ),
@@ -735,7 +734,7 @@ class DocsTabBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: foregroundColor,
+      color: kForegroundColor,
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -744,14 +743,14 @@ class DocsTabBody extends StatelessWidget {
             leading: Text(
               "Account No.",
               style: TextStyle(
-                  color: textColor2,
+                  color: kTextColor2,
                   fontWeight: FontWeight.w500,
                   fontSize: 14.0),
             ),
             trailing: Text(
               "676587946545",
               style: TextStyle(
-                  color: textColor2,
+                  color: kTextColor2,
                   fontWeight: FontWeight.w500,
                   fontSize: 14.0),
             ),
@@ -760,14 +759,14 @@ class DocsTabBody extends StatelessWidget {
             leading: Text(
               "Account Name",
               style: TextStyle(
-                  color: textColor2,
+                  color: kTextColor2,
                   fontWeight: FontWeight.w500,
                   fontSize: 14.0),
             ),
             trailing: Text(
               "Uchit Chakma",
               style: TextStyle(
-                  color: textColor2,
+                  color: kTextColor2,
                   fontWeight: FontWeight.w500,
                   fontSize: 14.0),
             ),
@@ -776,14 +775,14 @@ class DocsTabBody extends StatelessWidget {
             leading: Text(
               "IFSC Code",
               style: TextStyle(
-                  color: textColor2,
+                  color: kTextColor2,
                   fontWeight: FontWeight.w500,
                   fontSize: 14.0),
             ),
             trailing: Text(
               "SBIN00212",
               style: TextStyle(
-                  color: textColor2,
+                  color: kTextColor2,
                   fontWeight: FontWeight.w500,
                   fontSize: 14.0),
             ),
@@ -792,14 +791,14 @@ class DocsTabBody extends StatelessWidget {
             leading: Text(
               "PAN No",
               style: TextStyle(
-                  color: textColor2,
+                  color: kTextColor2,
                   fontWeight: FontWeight.w500,
                   fontSize: 14.0),
             ),
             trailing: Text(
               "ESP00647",
               style: TextStyle(
-                  color: textColor2,
+                  color: kTextColor2,
                   fontWeight: FontWeight.w500,
                   fontSize: 14.0),
             ),
@@ -808,7 +807,7 @@ class DocsTabBody extends StatelessWidget {
               margin: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 16.0),
               child: Divider(
                 height: 0.6,
-                color: textLightGrey.withOpacity(0.3),
+                color: kTextLightGrey.withOpacity(0.3),
               )),
           SizedBox(
             height: 8.0,
@@ -818,13 +817,13 @@ class DocsTabBody extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 8.0),
               decoration: BoxDecoration(
-                  color: greenBgColor,
+                  color: kGreenBgColor,
                   borderRadius: BorderRadius.circular(4.0)),
               child: Center(
                   child: Text(
                 "Save",
                 style: TextStyle(
-                    color: greenActiveColor, fontWeight: FontWeight.w700),
+                    color: kGreenActiveColor, fontWeight: FontWeight.w700),
               )),
             ),
           )
@@ -860,16 +859,16 @@ class TeacherDetailsTable1 extends StatelessWidget {
       child: DataTable(
         dataRowHeight: 80.0,
         dividerThickness: 0.6,
-        headingRowColor: MaterialStateProperty.all(backgroundColor),
-        dataRowColor: MaterialStateProperty.all(foregroundColor),
+        headingRowColor: MaterialStateProperty.all(kBackgroundColor),
+        dataRowColor: MaterialStateProperty.all(kForegroundColor),
         columns: teacherDetailsHeaders1
             .map((e) => DataColumn(
                     label: Container(
-                  color: backgroundColor,
+                  color: kBackgroundColor,
                   child: Text(
                     e,
                     style: TextStyle(
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         fontWeight: FontWeight.w600,
                         fontSize: 13.0),
                   ),
@@ -877,18 +876,21 @@ class TeacherDetailsTable1 extends StatelessWidget {
             .toList(),
         rows: dataList
             .map((teacher) => DataRow(cells: [
-          //ID
-          DataCell(
-            InkWell(
-              onTap: () {
-                scaffoldKey.currentState!.openEndDrawer();
-              },
-              child: Text(
-                teacher.id,
-                style: TextStyle(fontSize: 14.0, color: activeColor,fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
+                  //ID
+                  DataCell(
+                    InkWell(
+                      onTap: () {
+                        kScaffoldKey.currentState!.openEndDrawer();
+                      },
+                      child: Text(
+                        teacher.id,
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: kActiveColor,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
 
                   //BASIC INFO
                   DataCell(ListTile(
@@ -898,12 +900,12 @@ class TeacherDetailsTable1 extends StatelessWidget {
                       width: 44.0,
                       height: 44.0,
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: purpleBgColor),
+                          shape: BoxShape.circle, color: kPurpleBgColor),
                       child: Center(
                         child: Text(
                           teacher.basicInfo.iconContent,
                           style: TextStyle(
-                              color: activeColor,
+                              color: kActiveColor,
                               fontWeight: FontWeight.w800,
                               fontSize: 14.0),
                         ),
@@ -914,7 +916,7 @@ class TeacherDetailsTable1 extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                          color: textDarkGrey,
+                          color: kTextDarkGrey,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w700),
                     ),
@@ -923,7 +925,7 @@ class TeacherDetailsTable1 extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                          color: textLightGrey,
+                          color: kTextLightGrey,
                           fontSize: 12.0,
                           fontWeight: FontWeight.w600),
                     ),
@@ -935,7 +937,7 @@ class TeacherDetailsTable1 extends StatelessWidget {
                       teacher.appliedDate!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
 
@@ -947,13 +949,13 @@ class TeacherDetailsTable1 extends StatelessWidget {
                                 horizontal: 12.0, vertical: 8),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40.0),
-                                color: greenBgColor),
+                                color: kGreenBgColor),
                             child: Text(
                               "Passed",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                  fontSize: 14.0, color: greenActiveColor),
+                                  fontSize: 14.0, color: kGreenActiveColor),
                             ),
                           ),
                         )
@@ -963,13 +965,13 @@ class TeacherDetailsTable1 extends StatelessWidget {
                                 horizontal: 12.0, vertical: 8),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40.0),
-                                color: purpleBgColor),
+                                color: kPurpleBgColor),
                             child: Text(
                               teacher.status!,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style:
-                                  TextStyle(fontSize: 14.0, color: activeColor),
+                              style: TextStyle(
+                                  fontSize: 14.0, color: kActiveColor),
                             ),
                           ),
                         ),
@@ -980,7 +982,7 @@ class TeacherDetailsTable1 extends StatelessWidget {
                       teacher.rating!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
 
@@ -988,7 +990,7 @@ class TeacherDetailsTable1 extends StatelessWidget {
                   DataCell(
                     Text(
                       teacher.comment!,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
 
@@ -997,7 +999,7 @@ class TeacherDetailsTable1 extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.remove_red_eye,
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         size: 16.0,
                       ),
                       SizedBox(
@@ -1007,7 +1009,7 @@ class TeacherDetailsTable1 extends StatelessWidget {
                         angle: math.pi / 2,
                         child: Icon(
                           Icons.more_horiz,
-                          color: textDarkGrey,
+                          color: kTextDarkGrey,
                           size: 16.0,
                         ),
                       ),
@@ -1052,16 +1054,16 @@ class TeacherDetailsTable2 extends StatelessWidget {
       child: DataTable(
         dataRowHeight: 80.0,
         dividerThickness: 0.6,
-        headingRowColor: MaterialStateProperty.all(backgroundColor),
-        dataRowColor: MaterialStateProperty.all(foregroundColor),
+        headingRowColor: MaterialStateProperty.all(kBackgroundColor),
+        dataRowColor: MaterialStateProperty.all(kForegroundColor),
         columns: teacherDetailsHeaders2
             .map((e) => DataColumn(
                     label: Container(
-                  color: backgroundColor,
+                  color: kBackgroundColor,
                   child: Text(
                     e,
                     style: TextStyle(
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         fontWeight: FontWeight.w600,
                         fontSize: 13.0),
                   ),
@@ -1069,18 +1071,21 @@ class TeacherDetailsTable2 extends StatelessWidget {
             .toList(),
         rows: dataList
             .map((teacher) => DataRow(cells: [
-          //ID
-          DataCell(
-            InkWell(
-              onTap: () {
-                scaffoldKey.currentState!.openEndDrawer();
-              },
-              child: Text(
-                teacher.id,
-                style: TextStyle(fontSize: 14.0, color: activeColor,fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
+                  //ID
+                  DataCell(
+                    InkWell(
+                      onTap: () {
+                        kScaffoldKey.currentState!.openEndDrawer();
+                      },
+                      child: Text(
+                        teacher.id,
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: kActiveColor,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
 
                   //TYPE
                   DataCell(
@@ -1088,11 +1093,11 @@ class TeacherDetailsTable2 extends StatelessWidget {
                       height: 44.0,
                       width: 44.0,
                       decoration: BoxDecoration(
-                          color: redBgColor, shape: BoxShape.circle),
+                          color: kRedBgColor, shape: BoxShape.circle),
                       child: Center(
                         child: Icon(
                           teacher.typeIcon,
-                          color: redActiveColor,
+                          color: kRedActiveColor,
                           size: 20.0,
                         ),
                       ),
@@ -1107,12 +1112,12 @@ class TeacherDetailsTable2 extends StatelessWidget {
                       width: 44.0,
                       height: 44.0,
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: purpleBgColor),
+                          shape: BoxShape.circle, color: kPurpleBgColor),
                       child: Center(
                         child: Text(
                           teacher.basicInfo.iconContent,
                           style: TextStyle(
-                              color: activeColor,
+                              color: kActiveColor,
                               fontWeight: FontWeight.w800,
                               fontSize: 14.0),
                         ),
@@ -1123,7 +1128,7 @@ class TeacherDetailsTable2 extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                          color: textDarkGrey,
+                          color: kTextDarkGrey,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w700),
                     ),
@@ -1132,7 +1137,7 @@ class TeacherDetailsTable2 extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                          color: textLightGrey,
+                          color: kTextLightGrey,
                           fontSize: 12.0,
                           fontWeight: FontWeight.w600),
                     ),
@@ -1144,7 +1149,7 @@ class TeacherDetailsTable2 extends StatelessWidget {
                       teacher.issueDate!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
 
@@ -1154,7 +1159,7 @@ class TeacherDetailsTable2 extends StatelessWidget {
                       teacher.dueDate!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
 
@@ -1164,7 +1169,7 @@ class TeacherDetailsTable2 extends StatelessWidget {
                       teacher.payment!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
 
@@ -1175,7 +1180,7 @@ class TeacherDetailsTable2 extends StatelessWidget {
                             children: [
                               Icon(
                                 FontAwesome5.check_double,
-                                color: greenActiveColor,
+                                color: kGreenActiveColor,
                                 size: 18.0,
                               ),
                               SizedBox(
@@ -1184,7 +1189,7 @@ class TeacherDetailsTable2 extends StatelessWidget {
                               Text(
                                 "Done",
                                 style: TextStyle(
-                                    color: textColor2,
+                                    color: kTextColor2,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16.0),
                               )
@@ -1196,7 +1201,7 @@ class TeacherDetailsTable2 extends StatelessWidget {
                             children: [
                               Icon(
                                 FontAwesome5.check,
-                                color: textColor2,
+                                color: kTextColor2,
                                 size: 18.0,
                               ),
                               SizedBox(
@@ -1205,7 +1210,7 @@ class TeacherDetailsTable2 extends StatelessWidget {
                               Text(
                                 teacher.status!,
                                 style: TextStyle(
-                                    color: textColor2,
+                                    color: kTextColor2,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16.0),
                               )
@@ -1219,7 +1224,7 @@ class TeacherDetailsTable2 extends StatelessWidget {
                       teacher.rating!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
 
@@ -1228,7 +1233,7 @@ class TeacherDetailsTable2 extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.remove_red_eye,
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         size: 16.0,
                       ),
                       SizedBox(
@@ -1238,7 +1243,7 @@ class TeacherDetailsTable2 extends StatelessWidget {
                         angle: math.pi / 2,
                         child: Icon(
                           Icons.more_horiz,
-                          color: textDarkGrey,
+                          color: kTextDarkGrey,
                           size: 16.0,
                         ),
                       ),

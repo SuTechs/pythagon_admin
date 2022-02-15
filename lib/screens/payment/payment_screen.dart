@@ -1,10 +1,11 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:pythagon_admin/constants.dart';
 import 'package:pythagon_admin/screens/teacher/teacher_screen.dart';
-import 'dart:math' as math;
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               Expanded(
                 flex: 2,
                 child: Container(
-                  color: foregroundColor,
+                  color: kForegroundColor,
                   margin: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -49,21 +50,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 leading: Icon(
                                   FontAwesome.credit_card,
                                   size: 64,
-                                  color: activeColor,
+                                  color: kActiveColor,
                                 ),
                                 title: Text(
                                   "Total Received",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 22,
-                                      color: textColor2),
+                                      color: kTextColor2),
                                 ),
                                 subtitle: Text(
                                   r"$ 947,472.78",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 26,
-                                      color: textColor2),
+                                      color: kTextColor2),
                                 ),
                               ),
                             ),
@@ -95,7 +96,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             style: TextStyle(
                                                 fontSize: 14.0,
                                                 fontWeight: FontWeight.w600,
-                                                color: textDarkGrey),
+                                                color: kTextDarkGrey),
                                           ),
                                         );
                                       }).toList(),
@@ -128,7 +129,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 8.0, vertical: 4),
                                 decoration: BoxDecoration(
-                                    color: greenBgColor,
+                                    color: kGreenBgColor,
                                     borderRadius: BorderRadius.circular(8)),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -136,7 +137,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   child: ListTile(
                                     leading: Icon(
                                       FontAwesome5.chart_line,
-                                      color: greenActiveColor,
+                                      color: kGreenActiveColor,
                                       size: 64,
                                     ),
                                     title: Text(
@@ -144,14 +145,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
-                                          color: textDarkGrey),
+                                          color: kTextDarkGrey),
                                     ),
                                     subtitle: Text(
                                       "10% since last month",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
-                                          color: textLightGrey),
+                                          color: kTextLightGrey),
                                     ),
                                   ),
                                 ),
@@ -165,12 +166,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 8.0, vertical: 4),
                                 decoration: BoxDecoration(
-                                    color: yellowBgColor,
+                                    color: kYellowBgColor,
                                     borderRadius: BorderRadius.circular(8)),
                                 child: ListTile(
                                   leading: Icon(
                                     Icons.timer,
-                                    color: yellowActiveColor,
+                                    color: kYellowActiveColor,
                                     size: 64,
                                   ),
                                   title: Text(
@@ -178,14 +179,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
-                                        color: textDarkGrey),
+                                        color: kTextDarkGrey),
                                   ),
                                   subtitle: Text(
                                     r"$ 500",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14,
-                                        color: textLightGrey),
+                                        color: kTextLightGrey),
                                   ),
                                 ),
                               ),
@@ -203,7 +204,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               Expanded(
                 flex: 2,
                 child: Container(
-                  color: foregroundColor,
+                  color: kForegroundColor,
                   margin: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -226,14 +227,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 22,
-                                      color: textColor2),
+                                      color: kTextColor2),
                                 ),
                                 subtitle: Text(
                                   r"$ 947,472.78",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 26,
-                                      color: textColor2),
+                                      color: kTextColor2),
                                 ),
                               ),
                             ),
@@ -265,7 +266,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             style: TextStyle(
                                                 fontSize: 14.0,
                                                 fontWeight: FontWeight.w600,
-                                                color: textDarkGrey),
+                                                color: kTextDarkGrey),
                                           ),
                                         );
                                       }).toList(),
@@ -298,7 +299,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 8.0, vertical: 4),
                                 decoration: BoxDecoration(
-                                    color: greenBgColor,
+                                    color: kGreenBgColor,
                                     borderRadius: BorderRadius.circular(8)),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -306,7 +307,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   child: ListTile(
                                     leading: Icon(
                                       Icons.graphic_eq,
-                                      color: greenActiveColor,
+                                      color: kGreenActiveColor,
                                       size: 64,
                                     ),
                                     title: Text(
@@ -314,14 +315,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16,
-                                          color: textDarkGrey),
+                                          color: kTextDarkGrey),
                                     ),
                                     subtitle: Text(
                                       "10% since last month",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
-                                          color: textLightGrey),
+                                          color: kTextLightGrey),
                                     ),
                                   ),
                                 ),
@@ -335,12 +336,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 8.0, vertical: 4),
                                 decoration: BoxDecoration(
-                                    color: yellowBgColor,
+                                    color: kYellowBgColor,
                                     borderRadius: BorderRadius.circular(8)),
                                 child: ListTile(
                                   leading: Icon(
                                     Icons.timer,
-                                    color: yellowActiveColor,
+                                    color: kYellowActiveColor,
                                     size: 64,
                                   ),
                                   title: Text(
@@ -348,14 +349,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
-                                        color: textDarkGrey),
+                                        color: kTextDarkGrey),
                                   ),
                                   subtitle: Text(
                                     r"$ 500",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14,
-                                        color: textLightGrey),
+                                        color: kTextLightGrey),
                                   ),
                                 ),
                               ),
@@ -375,7 +376,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             margin: EdgeInsets.symmetric(horizontal: 16.0),
-            color: foregroundColor,
+            color: kForegroundColor,
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Row(
@@ -388,7 +389,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 15.0,
-                            color: textColor2),
+                            color: kTextColor2),
                       ),
                       SizedBox(
                         width: 16.0,
@@ -399,7 +400,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 8.0, vertical: 4.0),
                           decoration: BoxDecoration(
-                              color: activeColor,
+                              color: kActiveColor,
                               borderRadius: BorderRadius.circular(4.0)),
                           child: Text(
                             "Add New",
@@ -418,7 +419,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           onPressed: () {},
                           icon: Icon(
                             FeatherIcons.search,
-                            color: textDarkGrey,
+                            color: kTextDarkGrey,
                           )),
                       SizedBox(
                         width: 8.0,
@@ -439,7 +440,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w600,
-                                  color: textDarkGrey),
+                                  color: kTextDarkGrey),
                             ),
                           );
                         }).toList(),
@@ -496,17 +497,17 @@ class PaymentTable extends StatelessWidget {
       child: DataTable(
         dataRowHeight: 80.0,
         dividerThickness: 0.6,
-        headingRowColor: MaterialStateProperty.all(backgroundColor),
-        dataRowColor: MaterialStateProperty.all(foregroundColor),
+        headingRowColor: MaterialStateProperty.all(kBackgroundColor),
+        dataRowColor: MaterialStateProperty.all(kForegroundColor),
         columns: paymentHeaders
             .map((e) => DataColumn(
                     label: Container(
-                  color: backgroundColor,
+                  color: kBackgroundColor,
                   padding: EdgeInsets.symmetric(vertical: 16.0),
                   child: Text(
                     e,
                     style: TextStyle(
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         fontWeight: FontWeight.w600,
                         fontSize: 13.0),
                   ),
@@ -518,13 +519,13 @@ class PaymentTable extends StatelessWidget {
                   DataCell(
                     InkWell(
                       onTap: () {
-                        scaffoldKey.currentState!.openEndDrawer();
+                        kScaffoldKey.currentState!.openEndDrawer();
                       },
                       child: Text(
                         payment.id,
                         style: TextStyle(
                             fontSize: 14.0,
-                            color: activeColor,
+                            color: kActiveColor,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -537,11 +538,11 @@ class PaymentTable extends StatelessWidget {
                             height: 44.0,
                             width: 44.0,
                             decoration: BoxDecoration(
-                                color: yellowBgColor, shape: BoxShape.circle),
+                                color: kYellowBgColor, shape: BoxShape.circle),
                             child: Center(
                               child: Icon(
                                 Icons.access_time,
-                                color: yellowActiveColor,
+                                color: kYellowActiveColor,
                                 size: 20.0,
                               ),
                             ),
@@ -550,11 +551,11 @@ class PaymentTable extends StatelessWidget {
                             height: 44.0,
                             width: 44.0,
                             decoration: BoxDecoration(
-                                color: redBgColor, shape: BoxShape.circle),
+                                color: kRedBgColor, shape: BoxShape.circle),
                             child: Center(
                               child: Icon(
                                 FontAwesome5.exclamation,
-                                color: redActiveColor,
+                                color: kRedActiveColor,
                                 size: 20.0,
                               ),
                             ),
@@ -570,13 +571,13 @@ class PaymentTable extends StatelessWidget {
                             width: 32.0,
                             height: 32.0,
                             decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: redBgColor),
+                                shape: BoxShape.circle, color: kRedBgColor),
                             child: Center(
                               child: Transform.rotate(
                                   angle: 3 * math.pi / 4,
                                   child: Icon(
                                     Icons.arrow_back_outlined,
-                                    color: redActiveColor,
+                                    color: kRedActiveColor,
                                     size: 24.0,
                                   )),
                             ),
@@ -585,13 +586,13 @@ class PaymentTable extends StatelessWidget {
                             width: 32.0,
                             height: 32.0,
                             decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: greenBgColor),
+                                shape: BoxShape.circle, color: kGreenBgColor),
                             child: Center(
                               child: Transform.rotate(
                                   angle: -math.pi / 4,
                                   child: Icon(
                                     Icons.arrow_back_outlined,
-                                    color: greenActiveColor,
+                                    color: kGreenActiveColor,
                                     size: 24.0,
                                   )),
                             ),
@@ -601,7 +602,7 @@ class PaymentTable extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                          color: textDarkGrey,
+                          color: kTextDarkGrey,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w700),
                     ),
@@ -610,7 +611,7 @@ class PaymentTable extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                          color: textLightGrey,
+                          color: kTextLightGrey,
                           fontSize: 12.0,
                           fontWeight: FontWeight.w600),
                     ),
@@ -622,7 +623,7 @@ class PaymentTable extends StatelessWidget {
                       payment.date,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
 
@@ -633,7 +634,7 @@ class PaymentTable extends StatelessWidget {
                       maxLines: 1,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
 
@@ -641,7 +642,7 @@ class PaymentTable extends StatelessWidget {
                   DataCell(
                     Text(
                       payment.comment,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
 
@@ -650,7 +651,7 @@ class PaymentTable extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.remove_red_eye,
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         size: 16.0,
                       ),
                       SizedBox(
@@ -660,7 +661,7 @@ class PaymentTable extends StatelessWidget {
                         angle: math.pi / 2,
                         child: Icon(
                           Icons.more_horiz,
-                          color: textDarkGrey,
+                          color: kTextDarkGrey,
                           size: 16.0,
                         ),
                       ),

@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:pythagon_admin/constants.dart';
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
+import 'package:pythagon_admin/constants.dart';
 import 'package:pythagon_admin/screens/teacher/teacher_details_screen.dart';
-
 
 class TeacherPageUtil extends StatelessWidget {
   const TeacherPageUtil({Key? key}) : super(key: key);
@@ -16,9 +15,6 @@ class TeacherPageUtil extends StatelessWidget {
     );
   }
 }
-
-
-
 
 class TeacherScreen extends StatelessWidget {
   TeacherScreen({Key? key}) : super(key: key);
@@ -48,10 +44,8 @@ class TeacherScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -60,9 +54,7 @@ class TeacherScreen extends StatelessWidget {
               dataList: dataList,
             )
           ],
-        )
-    );
-
+        ));
   }
 }
 
@@ -76,16 +68,16 @@ class DataTableEntity extends StatelessWidget {
     return DataTable(
       dataRowHeight: 80.0,
       dividerThickness: 0.6,
-      headingRowColor: MaterialStateProperty.all(backgroundColor),
-      dataRowColor: MaterialStateProperty.all(foregroundColor),
+      headingRowColor: MaterialStateProperty.all(kBackgroundColor),
+      dataRowColor: MaterialStateProperty.all(kForegroundColor),
       columns: teacherHeaders
           .map((e) => DataColumn(
                   label: Container(
-                color: backgroundColor,
+                color: kBackgroundColor,
                 child: Text(
                   e,
                   style: TextStyle(
-                      color: textDarkGrey,
+                      color: kTextDarkGrey,
                       fontWeight: FontWeight.w600,
                       fontSize: 13.0),
                 ),
@@ -93,24 +85,29 @@ class DataTableEntity extends StatelessWidget {
           .toList(),
       rows: dataList
           .map((teacher) => DataRow(cells: [
-        //ID
-        DataCell(
-          InkWell(
-            onTap: () {
-              scaffoldKey.currentState!.openEndDrawer();
-            },
-            child: Text(
-              teacher.id,
-              style: TextStyle(fontSize: 14.0, color: activeColor,fontWeight: FontWeight.w600),
-            ),
-          ),
-        ),
+                //ID
+                DataCell(
+                  InkWell(
+                    onTap: () {
+                      kScaffoldKey.currentState!.openEndDrawer();
+                    },
+                    child: Text(
+                      teacher.id,
+                      style: TextStyle(
+                          fontSize: 14.0,
+                          color: kActiveColor,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
 
                 //BASIC INFO
                 DataCell(ListTile(
-                  onTap: (){
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => TeacherDetailScreen()));
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => TeacherDetailScreen()));
                   },
                   dense: true,
                   visualDensity: VisualDensity.compact,
@@ -118,12 +115,12 @@ class DataTableEntity extends StatelessWidget {
                     width: 44.0,
                     height: 44.0,
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: purpleBgColor),
+                        shape: BoxShape.circle, color: kPurpleBgColor),
                     child: Center(
                       child: Text(
                         teacher.basicInfo.iconContent,
                         style: TextStyle(
-                            color: activeColor,
+                            color: kActiveColor,
                             fontWeight: FontWeight.w800,
                             fontSize: 14.0),
                       ),
@@ -134,7 +131,7 @@ class DataTableEntity extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         fontSize: 14.0,
                         fontWeight: FontWeight.w700),
                   ),
@@ -143,7 +140,7 @@ class DataTableEntity extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
-                        color: textLightGrey,
+                        color: kTextLightGrey,
                         fontSize: 12.0,
                         fontWeight: FontWeight.w600),
                   ),
@@ -155,7 +152,7 @@ class DataTableEntity extends StatelessWidget {
                     teacher.date,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                    style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                   ),
                 ),
 
@@ -165,7 +162,7 @@ class DataTableEntity extends StatelessWidget {
                     teacher.rating,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                    style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                   ),
                 ),
 
@@ -176,7 +173,7 @@ class DataTableEntity extends StatelessWidget {
                     maxLines: 1,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                    style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                   ),
                 ),
 
@@ -187,7 +184,7 @@ class DataTableEntity extends StatelessWidget {
                     maxLines: 1,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                    style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                   ),
                 ),
 
@@ -199,13 +196,13 @@ class DataTableEntity extends StatelessWidget {
                               horizontal: 12.0, vertical: 8),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40.0),
-                              color: greenBgColor),
+                              color: kGreenBgColor),
                           child: Text(
                             "Passed",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 14.0, color: greenActiveColor),
+                                fontSize: 14.0, color: kGreenActiveColor),
                           ),
                         ),
                       )
@@ -215,13 +212,13 @@ class DataTableEntity extends StatelessWidget {
                               horizontal: 12.0, vertical: 8),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40.0),
-                              color: purpleBgColor),
+                              color: kPurpleBgColor),
                           child: Text(
                             teacher.status,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style:
-                                TextStyle(fontSize: 14.0, color: activeColor),
+                                TextStyle(fontSize: 14.0, color: kActiveColor),
                           ),
                         ),
                       ),
@@ -230,7 +227,7 @@ class DataTableEntity extends StatelessWidget {
                 DataCell(
                   Text(
                     teacher.subject,
-                    style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                    style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                   ),
                 ),
 
@@ -239,7 +236,7 @@ class DataTableEntity extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.remove_red_eye,
-                      color: textDarkGrey,
+                      color: kTextDarkGrey,
                       size: 16.0,
                     ),
                     SizedBox(
@@ -249,7 +246,7 @@ class DataTableEntity extends StatelessWidget {
                       angle: math.pi / 2,
                       child: Icon(
                         Icons.more_horiz,
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         size: 16.0,
                       ),
                     ),

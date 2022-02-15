@@ -1,9 +1,10 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:pythagon_admin/constants.dart';
-import 'package:pythagon_admin/screens/work/work_listing_screen.dart';
-import 'dart:math' as math;
+import 'package:pythagon_admin/screens/analytics/analytics.dart';
 
 import '../../widgets/activity_timeline.dart';
 
@@ -38,16 +39,16 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Expanded(
               flex: 5,
               child: Container(
                 child: Column(
-
                   children: [
-                    SizedBox(height: 32.0,),
+                    SizedBox(
+                      height: 32.0,
+                    ),
                     Container(
-                      color: foregroundColor,
+                      color: kForegroundColor,
                       padding: EdgeInsets.all(16.0),
                       margin: EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
@@ -69,7 +70,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         fontSize: 16),
                                   ),
                                   SizedBox(
@@ -81,7 +82,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         fontSize: 12),
                                   ),
                                 ],
@@ -115,7 +116,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w400,
-                                            color: textLightGrey,
+                                            color: kTextLightGrey,
                                             fontSize: 14),
                                       ),
                                     ],
@@ -143,11 +144,11 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(8.0),
-                                        color: purpleBgColor),
+                                        color: kPurpleBgColor),
                                     child: Center(
                                       child: Icon(
                                         FeatherIcons.dollarSign,
-                                        color: activeColor,
+                                        color: kActiveColor,
                                         size: 16.0,
                                       ),
                                     ),
@@ -158,7 +159,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         fontSize: 16),
                                   ),
                                   subtitle: Text(
@@ -167,7 +168,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         fontSize: 12),
                                   ),
                                 ),
@@ -184,11 +185,11 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(8.0),
-                                        color: redBgColor),
+                                        color: kRedBgColor),
                                     child: Center(
                                       child: Icon(
                                         Icons.calendar_today_sharp,
-                                        color: redActiveColor,
+                                        color: kRedActiveColor,
                                         size: 16.0,
                                       ),
                                     ),
@@ -199,7 +200,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         fontSize: 16),
                                   ),
                                   subtitle: Text(
@@ -208,7 +209,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         fontSize: 12),
                                   ),
                                 ),
@@ -223,11 +224,11 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(8.0),
-                                        color: redBgColor),
+                                        color: kRedBgColor),
                                     child: Center(
                                       child: Icon(
                                         FontAwesome5.graduation_cap,
-                                        color: redActiveColor,
+                                        color: kRedActiveColor,
                                         size: 16.0,
                                       ),
                                     ),
@@ -238,7 +239,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         fontSize: 16),
                                   ),
                                   subtitle: Text(
@@ -247,7 +248,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         fontSize: 12),
                                   ),
                                 ),
@@ -264,7 +265,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Container(
-                          color: foregroundColor,
+                          color: kForegroundColor,
                           padding: EdgeInsets.all(16.0),
                           margin: EdgeInsets.symmetric(horizontal: 16.0),
                           child: Row(
@@ -273,14 +274,16 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                             children: [
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (_) => WorkListingScreen()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => AnalyticsScreen()));
                                 },
                                 child: Container(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8.0, vertical: 4.0),
                                   decoration: BoxDecoration(
-                                      color: activeColor,
+                                      color: kActiveColor,
                                       borderRadius: BorderRadius.circular(4.0)),
                                   child: Text(
                                     "Add New",
@@ -297,7 +300,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                       onPressed: () {},
                                       icon: Icon(
                                         FeatherIcons.search,
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                       )),
                                   SizedBox(
                                     width: 8.0,
@@ -318,7 +321,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                           style: TextStyle(
                                               fontSize: 14.0,
                                               fontWeight: FontWeight.w600,
-                                              color: textDarkGrey),
+                                              color: kTextDarkGrey),
                                         ),
                                       );
                                     }).toList(),
@@ -334,25 +337,25 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                           ),
                         ),
                         Container(
-                          color: backgroundColor,
+                          color: kBackgroundColor,
                           padding: EdgeInsets.all(16.0),
                           // margin: EdgeInsets.symmetric(horizontal: 16.0),
                           child: DataTable(
                             dataRowHeight: 80.0,
                             dividerThickness: 0.6,
                             headingRowColor:
-                                MaterialStateProperty.all(backgroundColor),
+                                MaterialStateProperty.all(kBackgroundColor),
                             dataRowColor:
-                                MaterialStateProperty.all(foregroundColor),
+                                MaterialStateProperty.all(kForegroundColor),
                             columns: workDetailsDataHeaders
                                 .map((e) => DataColumn(
                                         label: Container(
-                                      color: backgroundColor,
+                                      color: kBackgroundColor,
                                       // padding: EdgeInsets.symmetric(vertical: 16.0),
                                       child: Text(
                                         e,
                                         style: TextStyle(
-                                            color: textDarkGrey,
+                                            color: kTextDarkGrey,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 13.0),
                                       ),
@@ -360,12 +363,11 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                 .toList(),
                             rows: [
                               DataRow(cells: [
-
                                 DataCell(
                                   Text(
                                     "□",
                                     style: TextStyle(
-                                        fontSize: 16.0, color: textDarkGrey),
+                                        fontSize: 16.0, color: kTextDarkGrey),
                                   ),
                                 ),
 
@@ -373,11 +375,15 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                 DataCell(
                                   InkWell(
                                     onTap: () {
-                                      scaffoldKey.currentState!.openEndDrawer();
+                                      kScaffoldKey.currentState!
+                                          .openEndDrawer();
                                     },
                                     child: Text(
                                       "#74tae",
-                                      style: TextStyle(fontSize: 14.0, color: activeColor,fontWeight: FontWeight.w600),
+                                      style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: kActiveColor,
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ),
                                 ),
@@ -391,12 +397,12 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     height: 44.0,
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: purpleBgColor),
+                                        color: kPurpleBgColor),
                                     child: Center(
                                       child: Text(
                                         "IMG",
                                         style: TextStyle(
-                                            color: activeColor,
+                                            color: kActiveColor,
                                             fontWeight: FontWeight.w800,
                                             fontSize: 12.0),
                                       ),
@@ -407,7 +413,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: TextStyle(
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -416,7 +422,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: TextStyle(
-                                        color: textLightGrey,
+                                        color: kTextLightGrey,
                                         fontSize: 12.0,
                                         fontWeight: FontWeight.w600),
                                   ),
@@ -429,7 +435,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontSize: 14.0, color: textDarkGrey),
+                                        fontSize: 14.0, color: kTextDarkGrey),
                                   ),
                                 ),
 
@@ -440,7 +446,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontSize: 14.0, color: textDarkGrey),
+                                        fontSize: 14.0, color: kTextDarkGrey),
                                   ),
                                 ),
 
@@ -449,7 +455,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                   children: [
                                     Icon(
                                       Icons.check,
-                                      color: textDarkGrey,
+                                      color: kTextDarkGrey,
                                       size: 16.0,
                                     ),
                                     SizedBox(
@@ -461,7 +467,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          fontSize: 14.0, color: textDarkGrey),
+                                          fontSize: 14.0, color: kTextDarkGrey),
                                     ),
                                   ],
                                 )),
@@ -471,7 +477,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                   children: [
                                     Icon(
                                       Icons.remove_red_eye,
-                                      color: textDarkGrey,
+                                      color: kTextDarkGrey,
                                       size: 16.0,
                                     ),
                                     SizedBox(
@@ -481,7 +487,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                       angle: math.pi / 2,
                                       child: Icon(
                                         Icons.more_horiz,
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         size: 16.0,
                                       ),
                                     ),
@@ -489,23 +495,26 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                 )),
                               ]),
                               DataRow(cells: [
-
                                 DataCell(
                                   Text(
                                     "□",
                                     style: TextStyle(
-                                        fontSize: 16.0, color: textDarkGrey),
+                                        fontSize: 16.0, color: kTextDarkGrey),
                                   ),
                                 ),
                                 //ID
                                 DataCell(
                                   InkWell(
                                     onTap: () {
-                                      scaffoldKey.currentState!.openEndDrawer();
+                                      kScaffoldKey.currentState!
+                                          .openEndDrawer();
                                     },
                                     child: Text(
-                                     "#54hde",
-                                      style: TextStyle(fontSize: 14.0, color: activeColor,fontWeight: FontWeight.w600),
+                                      "#54hde",
+                                      style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: kActiveColor,
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ),
                                 ),
@@ -519,12 +528,12 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     height: 44.0,
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: purpleBgColor),
+                                        color: kPurpleBgColor),
                                     child: Center(
                                       child: Text(
                                         "IMG",
                                         style: TextStyle(
-                                            color: activeColor,
+                                            color: kActiveColor,
                                             fontWeight: FontWeight.w800,
                                             fontSize: 12.0),
                                       ),
@@ -535,7 +544,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: TextStyle(
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -544,7 +553,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: TextStyle(
-                                        color: textLightGrey,
+                                        color: kTextLightGrey,
                                         fontSize: 12.0,
                                         fontWeight: FontWeight.w600),
                                   ),
@@ -557,7 +566,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontSize: 14.0, color: textDarkGrey),
+                                        fontSize: 14.0, color: kTextDarkGrey),
                                   ),
                                 ),
 
@@ -568,7 +577,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontSize: 14.0, color: textDarkGrey),
+                                        fontSize: 14.0, color: kTextDarkGrey),
                                   ),
                                 ),
 
@@ -577,7 +586,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                   children: [
                                     Icon(
                                       Icons.check,
-                                      color: textDarkGrey,
+                                      color: kTextDarkGrey,
                                       size: 16.0,
                                     ),
                                     SizedBox(
@@ -589,7 +598,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          fontSize: 14.0, color: textDarkGrey),
+                                          fontSize: 14.0, color: kTextDarkGrey),
                                     ),
                                   ],
                                 )),
@@ -599,7 +608,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                   children: [
                                     Icon(
                                       Icons.remove_red_eye,
-                                      color: textDarkGrey,
+                                      color: kTextDarkGrey,
                                       size: 16.0,
                                     ),
                                     SizedBox(
@@ -609,7 +618,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                       angle: math.pi / 2,
                                       child: Icon(
                                         Icons.more_horiz,
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         size: 16.0,
                                       ),
                                     ),
@@ -617,23 +626,26 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                 )),
                               ]),
                               DataRow(cells: [
-
                                 DataCell(
                                   Text(
                                     "□",
                                     style: TextStyle(
-                                        fontSize: 16.0, color: textDarkGrey),
+                                        fontSize: 16.0, color: kTextDarkGrey),
                                   ),
                                 ), //ID
                                 //ID
                                 DataCell(
                                   InkWell(
                                     onTap: () {
-                                      scaffoldKey.currentState!.openEndDrawer();
+                                      kScaffoldKey.currentState!
+                                          .openEndDrawer();
                                     },
                                     child: Text(
                                       "#543he",
-                                      style: TextStyle(fontSize: 14.0, color: activeColor,fontWeight: FontWeight.w600),
+                                      style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: kActiveColor,
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ),
                                 ),
@@ -647,12 +659,12 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     height: 44.0,
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: purpleBgColor),
+                                        color: kPurpleBgColor),
                                     child: Center(
                                       child: Text(
                                         "IMG",
                                         style: TextStyle(
-                                            color: activeColor,
+                                            color: kActiveColor,
                                             fontWeight: FontWeight.w800,
                                             fontSize: 12.0),
                                       ),
@@ -663,7 +675,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: TextStyle(
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -672,7 +684,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: TextStyle(
-                                        color: textLightGrey,
+                                        color: kTextLightGrey,
                                         fontSize: 12.0,
                                         fontWeight: FontWeight.w600),
                                   ),
@@ -685,7 +697,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontSize: 14.0, color: textDarkGrey),
+                                        fontSize: 14.0, color: kTextDarkGrey),
                                   ),
                                 ),
 
@@ -696,7 +708,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontSize: 14.0, color: textDarkGrey),
+                                        fontSize: 14.0, color: kTextDarkGrey),
                                   ),
                                 ),
 
@@ -705,7 +717,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                   children: [
                                     Icon(
                                       Icons.check,
-                                      color: textDarkGrey,
+                                      color: kTextDarkGrey,
                                       size: 16.0,
                                     ),
                                     SizedBox(
@@ -717,7 +729,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          fontSize: 14.0, color: textDarkGrey),
+                                          fontSize: 14.0, color: kTextDarkGrey),
                                     ),
                                   ],
                                 )),
@@ -727,7 +739,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                   children: [
                                     Icon(
                                       Icons.remove_red_eye,
-                                      color: textDarkGrey,
+                                      color: kTextDarkGrey,
                                       size: 16.0,
                                     ),
                                     SizedBox(
@@ -737,7 +749,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                       angle: math.pi / 2,
                                       child: Icon(
                                         Icons.more_horiz,
-                                        color: textDarkGrey,
+                                        color: kTextDarkGrey,
                                         size: 16.0,
                                       ),
                                     ),
@@ -755,23 +767,25 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
           Expanded(
               flex: 2,
               child: Container(
-                color: backgroundColor,
+                color: kBackgroundColor,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(height: 32.0,),
+                    SizedBox(
+                      height: 32.0,
+                    ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 8.0),
-                      color: foregroundColor,
+                      color: kForegroundColor,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           TabBar(
-                            indicatorColor: activeColor,
+                            indicatorColor: kActiveColor,
                             unselectedLabelColor: Color(0xff70697B),
-                            labelColor: activeColor,
+                            labelColor: kActiveColor,
                             labelStyle: TextStyle(
-                                color: textDarkGrey,
+                                color: kTextDarkGrey,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.5,
                                 fontSize: 14.0),
@@ -797,7 +811,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                             child: TabBarView(
                               controller: tabController,
                               children: [
-                          OverviewTabBody(),
+                                OverviewTabBody(),
                                 TransactionTabBody(),
                                 NewTabBody()
                               ],
@@ -813,7 +827,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                       child: Container(
                         // height: 400.0,
                         margin: EdgeInsets.symmetric(horizontal: 8.0),
-                        color: foregroundColor,
+                        color: kForegroundColor,
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
@@ -825,7 +839,7 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                 style: TextStyle(
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.w600,
-                                    color: textDarkGrey),
+                                    color: kTextDarkGrey),
                               ),
                               Flexible(
                                   child: TimelineBuilder(
@@ -856,10 +870,10 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 8.0, vertical: 8),
                                 decoration: BoxDecoration(
-                                    color: foregroundColor,
+                                    color: kForegroundColor,
                                     borderRadius: BorderRadius.circular(8.0),
                                     border: Border.all(
-                                        width: 1, color: activeColor)),
+                                        width: 1, color: kActiveColor)),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -869,11 +883,11 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           fontWeight: FontWeight.w500,
-                                          color: textDarkGrey),
+                                          color: kTextDarkGrey),
                                     ),
                                     Icon(
                                       Icons.send,
-                                      color: activeColor,
+                                      color: kActiveColor,
                                       size: 18,
                                     )
                                   ],
@@ -890,13 +904,13 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     margin:
                                         EdgeInsets.symmetric(horizontal: 8.0),
                                     decoration: BoxDecoration(
-                                        color: purpleBgColor,
+                                        color: kPurpleBgColor,
                                         borderRadius:
                                             BorderRadius.circular(8.0)),
                                     child: Center(
                                       child: Icon(
                                         FeatherIcons.voicemail,
-                                        color: activeColor,
+                                        color: kActiveColor,
                                         size: 16.0,
                                       ),
                                     ),
@@ -907,13 +921,13 @@ class _WorkDetailScreenState extends State<WorkDetailScreen>
                                     margin:
                                         EdgeInsets.symmetric(horizontal: 8.0),
                                     decoration: BoxDecoration(
-                                        color: redBgColor,
+                                        color: kRedBgColor,
                                         borderRadius:
                                             BorderRadius.circular(8.0)),
                                     child: Center(
                                       child: Icon(
                                         FeatherIcons.dollarSign,
-                                        color: redActiveColor,
+                                        color: kRedActiveColor,
                                         size: 16.0,
                                       ),
                                     ),
@@ -948,15 +962,15 @@ class TimelineBuilder extends StatelessWidget {
       return Container(
         decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: activeColor,
-            border: Border.all(width: 3, color: purpleBgColor)),
+            color: kActiveColor,
+            border: Border.all(width: 3, color: kPurpleBgColor)),
       );
     } else {
       return Container(
         decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: yellowActiveColor,
-            border: Border.all(width: 3, color: yellowBgColor)),
+            color: kYellowActiveColor,
+            border: Border.all(width: 3, color: kYellowBgColor)),
       );
     }
   }
@@ -973,21 +987,21 @@ class TimelineBuilder extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w500,
-                    color: textDarkGrey),
+                    color: kTextDarkGrey),
               ),
               subtitle: Text(
                 e.subtitle,
                 style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.w500,
-                    color: textLightGrey),
+                    color: kTextLightGrey),
               ),
               trailing: Text(
                 e.timeAgo,
                 style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.w500,
-                    color: textLightGrey),
+                    color: kTextLightGrey),
               ),
             ),
           )
@@ -1017,7 +1031,7 @@ class OverviewTabBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: foregroundColor,
+      color: kForegroundColor,
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1030,18 +1044,18 @@ class OverviewTabBody extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
-                    color: textColor2),
+                    color: kTextColor2),
               ),
               Container(
                 height: 24.0,
                 width: 24.0,
                 margin: EdgeInsets.symmetric(vertical: 24.0),
                 decoration:
-                    BoxDecoration(color: redBgColor, shape: BoxShape.circle),
+                    BoxDecoration(color: kRedBgColor, shape: BoxShape.circle),
                 child: Center(
                   child: Icon(
                     FeatherIcons.dollarSign,
-                    color: redActiveColor,
+                    color: kRedActiveColor,
                     size: 16.0,
                   ),
                 ),
@@ -1052,12 +1066,14 @@ class OverviewTabBody extends StatelessWidget {
               margin: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 24.0),
               child: Divider(
                 height: 0.6,
-                color: textLightGrey.withOpacity(0.3),
+                color: kTextLightGrey.withOpacity(0.3),
               )),
           Text(
             "DETAILS",
             style: TextStyle(
-                fontSize: 14.0, fontWeight: FontWeight.w600, color: textColor2),
+                fontSize: 14.0,
+                fontWeight: FontWeight.w600,
+                color: kTextColor2),
           ),
           SizedBox(
             height: 16,
@@ -1070,14 +1086,14 @@ class OverviewTabBody extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w500,
-                    color: textDarkGrey),
+                    color: kTextDarkGrey),
               ),
               Text(
                 r"$500",
                 style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
-                    color: textColor2),
+                    color: kTextColor2),
               ),
             ],
           ),
@@ -1092,14 +1108,14 @@ class OverviewTabBody extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w500,
-                    color: textDarkGrey),
+                    color: kTextDarkGrey),
               ),
               Text(
                 "FREE",
                 style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
-                    color: textColor2),
+                    color: kTextColor2),
               ),
             ],
           ),
@@ -1114,14 +1130,14 @@ class OverviewTabBody extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w500,
-                    color: textDarkGrey),
+                    color: kTextDarkGrey),
               ),
               Text(
                 r"$50",
                 style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
-                    color: textColor2),
+                    color: kTextColor2),
               ),
             ],
           ),
@@ -1129,7 +1145,7 @@ class OverviewTabBody extends StatelessWidget {
               margin: EdgeInsets.symmetric(vertical: 24.0, horizontal: 8.0),
               child: Divider(
                 height: 0.6,
-                color: textLightGrey.withOpacity(0.3),
+                color: kTextLightGrey.withOpacity(0.3),
               )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1139,14 +1155,14 @@ class OverviewTabBody extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w500,
-                    color: textDarkGrey),
+                    color: kTextDarkGrey),
               ),
               Text(
                 r"$550",
                 style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
-                    color: textColor2),
+                    color: kTextColor2),
               ),
             ],
           ),
@@ -1155,12 +1171,13 @@ class OverviewTabBody extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.symmetric(vertical: 8.0),
-            decoration: BoxDecoration(color: redBgColor,borderRadius: BorderRadius.circular(4.0)),
+            decoration: BoxDecoration(
+                color: kRedBgColor, borderRadius: BorderRadius.circular(4.0)),
             child: Center(
                 child: Text(
               "Due",
-              style:
-                  TextStyle(color: redActiveColor, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                  color: kRedActiveColor, fontWeight: FontWeight.w700),
             )),
           )
         ],
@@ -1175,108 +1192,102 @@ class TransactionTabBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: foregroundColor,
+      color: kForegroundColor,
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Text(
             "ALL TRANSACTION",
             style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.w600,
-                color: textColor2),
+                color: kTextColor2),
           ),
-
           Container(
-              margin: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0,top: 24.0),
+              margin: EdgeInsets.only(
+                  left: 8.0, right: 8.0, bottom: 8.0, top: 24.0),
               child: Divider(
                 height: 0.6,
-                color: textLightGrey.withOpacity(0.3),
+                color: kTextLightGrey.withOpacity(0.3),
               )),
-
           SizedBox(
             height: 16,
           ),
-
           ListTile(
-            leading: Container(
-              width: 32.0,
-              height: 32.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: redBgColor
+              leading: Container(
+                width: 32.0,
+                height: 32.0,
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: kRedBgColor),
+                child: Center(
+                  child: Transform.rotate(
+                      angle: 3 * math.pi / 4,
+                      child: Icon(
+                        Icons.arrow_back_outlined,
+                        color: kRedActiveColor,
+                        size: 24.0,
+                      )),
+                ),
               ),
-              child: Center(
-                child: Transform.rotate(
-                    angle: 3*math.pi/4,
-                    child: Icon(Icons.arrow_back_outlined,color: redActiveColor,size: 24.0,)),
+              title: Text(
+                "Money Debited",
+                style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                    color: kTextColor2),
               ),
-            ),
-            title:     Text(
-              "Money Debited",
-              style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w600,
-                  color: textColor2),
-            ),
-            subtitle:    Text(
-              "28 Jan 2022",
-              style: TextStyle(
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w600,
-                  color: textColor2),
-            ) ,
-
-            trailing:  Text(
-              r"-$50",
-              style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w600,
-                  color: redActiveColor),
-            )
-
-          ),    ListTile(
-            leading: Container(
-              width: 32.0,
-              height: 32.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: greenBgColor
+              subtitle: Text(
+                "28 Jan 2022",
+                style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w600,
+                    color: kTextColor2),
               ),
-              child: Center(
-                child: Transform.rotate(
-                    angle: -math.pi/4,
-                    child: Icon(Icons.arrow_back_outlined,color: greenActiveColor,size: 24.0,)),
+              trailing: Text(
+                r"-$50",
+                style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                    color: kRedActiveColor),
+              )),
+          ListTile(
+              leading: Container(
+                width: 32.0,
+                height: 32.0,
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: kGreenBgColor),
+                child: Center(
+                  child: Transform.rotate(
+                      angle: -math.pi / 4,
+                      child: Icon(
+                        Icons.arrow_back_outlined,
+                        color: kGreenActiveColor,
+                        size: 24.0,
+                      )),
+                ),
               ),
-            ),
-            title:     Text(
-              "Money Credited",
-              style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w600,
-                  color: textColor2),
-            ),
-            subtitle:    Text(
-              "28 Jan 2022",
-              style: TextStyle(
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w600,
-                  color: textColor2),
-            ) ,
-
-            trailing:  Text(
-              r"+$50",
-              style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w600,
-                  color: greenActiveColor),
-            )
-
-          ),
-
-
+              title: Text(
+                "Money Credited",
+                style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                    color: kTextColor2),
+              ),
+              subtitle: Text(
+                "28 Jan 2022",
+                style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w600,
+                    color: kTextColor2),
+              ),
+              trailing: Text(
+                r"+$50",
+                style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                    color: kGreenActiveColor),
+              )),
         ],
       ),
     );
@@ -1289,68 +1300,64 @@ class NewTabBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: foregroundColor,
+      color: kForegroundColor,
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Text(
             "PAYMENT",
             style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.w600,
-                color: textColor2),
+                color: kTextColor2),
           ),
-
           Container(
-              margin: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0,top: 24.0),
+              margin: EdgeInsets.only(
+                  left: 8.0, right: 8.0, bottom: 8.0, top: 24.0),
               child: Divider(
                 height: 0.6,
-                color: textLightGrey.withOpacity(0.3),
+                color: kTextLightGrey.withOpacity(0.3),
               )),
-
           SizedBox(
             height: 16,
           ),
-
           Text(
             "CREDIT/DEBIT",
             style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.w600,
-                color: textColor2),
+                color: kTextColor2),
           ),
           SizedBox(
             height: 8,
           ),
-
           Text(
             r"$100",
             style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.w600,
-                color: textColor2),
+                color: kTextColor2),
           ),
           SizedBox(
             height: 8,
           ),
-
           Text(
             "This Is advance comment",
             style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.w600,
-                color: textColor2),
+                color: kTextColor2),
           ),
           SizedBox(
             height: 16,
           ),
           Container(
-              margin: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0,top: 24.0),
+              margin: EdgeInsets.only(
+                  left: 8.0, right: 8.0, bottom: 8.0, top: 24.0),
               child: Divider(
                 height: 0.6,
-                color: textLightGrey.withOpacity(0.3),
+                color: kTextLightGrey.withOpacity(0.3),
               )),
           SizedBox(
             height: 16,
@@ -1360,7 +1367,7 @@ class NewTabBody extends StatelessWidget {
             style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.w600,
-                color: textColor2),
+                color: kTextColor2),
           ),
           ListTile(
             leading: Container(
@@ -1372,7 +1379,7 @@ class NewTabBody extends StatelessWidget {
             title: Text(
               "Screenshot82313.jpg",
               style: TextStyle(
-                  color: textColor2,
+                  color: kTextColor2,
                   fontWeight: FontWeight.w500,
                   fontSize: 16.0),
             ),
@@ -1391,28 +1398,26 @@ class NewTabBody extends StatelessWidget {
               ),
             ),
           ),
-
-          SizedBox(height: 16.0,),
+          SizedBox(
+            height: 16.0,
+          ),
           InkWell(
-            onTap: (){},
+            onTap: () {},
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 8.0),
-              decoration: BoxDecoration(color: greenActiveColor,borderRadius: BorderRadius.circular(4.0)),
+              decoration: BoxDecoration(
+                  color: kGreenActiveColor,
+                  borderRadius: BorderRadius.circular(4.0)),
               child: Center(
                   child: Text(
-                    "Done",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700),
-                  )),
+                "Done",
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+              )),
             ),
           )
-
-
         ],
       ),
     );
   }
 }
-
-

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
-
 import 'package:pythagon_admin/constants.dart';
 import 'package:pythagon_admin/screens/student/student_list_screen.dart';
-import 'package:pythagon_admin/screens/work/work_screen.dart';
+import 'package:pythagon_admin/screens/work/workList.dart';
 
 class StudentDetailScreen extends StatefulWidget {
   const StudentDetailScreen({Key? key}) : super(key: key);
@@ -37,7 +36,7 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             margin: EdgeInsets.symmetric(horizontal: 16.0),
-            color: foregroundColor,
+            color: kForegroundColor,
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Row(
@@ -48,18 +47,20 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 15.0,
-                        color: textColor2),
+                        color: kTextColor2),
                   ),
                   Row(
                     children: [
                       IconButton(
                           onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) => StudentListScreen()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => StudentListScreen()));
                           },
                           icon: Icon(
                             FeatherIcons.search,
-                            color: textDarkGrey,
+                            color: kTextDarkGrey,
                           )),
                       SizedBox(
                         width: 8.0,
@@ -80,7 +81,7 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
                               style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w600,
-                                  color: textDarkGrey),
+                                  color: kTextDarkGrey),
                             ),
                           );
                         }).toList(),
@@ -141,16 +142,16 @@ class StudentDetailsTable extends StatelessWidget {
       child: DataTable(
         dataRowHeight: 80.0,
         dividerThickness: 0.6,
-        headingRowColor: MaterialStateProperty.all(backgroundColor),
-        dataRowColor: MaterialStateProperty.all(foregroundColor),
+        headingRowColor: MaterialStateProperty.all(kBackgroundColor),
+        dataRowColor: MaterialStateProperty.all(kForegroundColor),
         columns: studentDetailsHeaders
             .map((e) => DataColumn(
                     label: Container(
-                  color: backgroundColor,
+                  color: kBackgroundColor,
                   child: Text(
                     e,
                     style: TextStyle(
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         fontWeight: FontWeight.w600,
                         fontSize: 13.0),
                   ),
@@ -162,13 +163,13 @@ class StudentDetailsTable extends StatelessWidget {
                   DataCell(
                     InkWell(
                       onTap: () {
-                        scaffoldKey.currentState!.openEndDrawer();
+                        kScaffoldKey.currentState!.openEndDrawer();
                       },
                       child: Text(
                         student.id,
                         style: TextStyle(
                             fontSize: 14.0,
-                            color: activeColor,
+                            color: kActiveColor,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -180,11 +181,11 @@ class StudentDetailsTable extends StatelessWidget {
                       height: 44.0,
                       width: 44.0,
                       decoration: BoxDecoration(
-                          color: redBgColor, shape: BoxShape.circle),
+                          color: kRedBgColor, shape: BoxShape.circle),
                       child: Center(
                         child: Icon(
                           student.typeIcon,
-                          color: redActiveColor,
+                          color: kRedActiveColor,
                           size: 20.0,
                         ),
                       ),
@@ -199,12 +200,12 @@ class StudentDetailsTable extends StatelessWidget {
                       width: 44.0,
                       height: 44.0,
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: purpleBgColor),
+                          shape: BoxShape.circle, color: kPurpleBgColor),
                       child: Center(
                         child: Text(
                           student.basicInfo.iconContent,
                           style: TextStyle(
-                              color: activeColor,
+                              color: kActiveColor,
                               fontWeight: FontWeight.w800,
                               fontSize: 14.0),
                         ),
@@ -215,7 +216,7 @@ class StudentDetailsTable extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                          color: textDarkGrey,
+                          color: kTextDarkGrey,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w700),
                     ),
@@ -224,7 +225,7 @@ class StudentDetailsTable extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                          color: textLightGrey,
+                          color: kTextLightGrey,
                           fontSize: 12.0,
                           fontWeight: FontWeight.w600),
                     ),
@@ -236,7 +237,7 @@ class StudentDetailsTable extends StatelessWidget {
                       student.issuedDate,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
 
@@ -246,7 +247,7 @@ class StudentDetailsTable extends StatelessWidget {
                       student.dueDate,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
 
@@ -258,13 +259,13 @@ class StudentDetailsTable extends StatelessWidget {
                                 horizontal: 12.0, vertical: 8),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40.0),
-                                color: greenBgColor),
+                                color: kGreenBgColor),
                             child: Text(
                               "Paid",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                  fontSize: 14.0, color: greenActiveColor),
+                                  fontSize: 14.0, color: kGreenActiveColor),
                             ),
                           ),
                         )
@@ -274,7 +275,7 @@ class StudentDetailsTable extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style:
-                                TextStyle(fontSize: 14.0, color: textDarkGrey),
+                                TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                           ),
                         ),
 
@@ -286,13 +287,13 @@ class StudentDetailsTable extends StatelessWidget {
                                 horizontal: 12.0, vertical: 8),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40.0),
-                                color: greenBgColor),
+                                color: kGreenBgColor),
                             child: Text(
                               "Closed",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                  fontSize: 14.0, color: greenActiveColor),
+                                  fontSize: 14.0, color: kGreenActiveColor),
                             ),
                           ),
                         )
@@ -302,13 +303,13 @@ class StudentDetailsTable extends StatelessWidget {
                                 horizontal: 12.0, vertical: 8),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40.0),
-                                color: purpleBgColor),
+                                color: kPurpleBgColor),
                             child: Text(
                               student.status,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style:
-                                  TextStyle(fontSize: 14.0, color: activeColor),
+                              style: TextStyle(
+                                  fontSize: 14.0, color: kActiveColor),
                             ),
                           ),
                         ),
@@ -317,7 +318,7 @@ class StudentDetailsTable extends StatelessWidget {
                   DataCell(
                     Text(
                       student.comment,
-                      style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                      style: TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                     ),
                   ),
                 ]))
@@ -345,7 +346,7 @@ class StudentDetailsProfileTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: foregroundColor,
+      color: kForegroundColor,
       padding: EdgeInsets.all(16.0),
       margin: EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -381,7 +382,7 @@ class StudentDetailsProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                color: textColor2,
+                                color: kTextColor2,
                                 fontSize: 20),
                           ),
                           SizedBox(
@@ -393,7 +394,7 @@ class StudentDetailsProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: textLightGrey,
+                                color: kTextLightGrey,
                                 fontSize: 14),
                           ),
                         ],
@@ -419,7 +420,7 @@ class StudentDetailsProfileTile extends StatelessWidget {
                           Row(
                             children: [
                               Icon(profileAttr[index].iconData,
-                                  size: 18, color: textColor2),
+                                  size: 18, color: kTextColor2),
                               SizedBox(
                                 width: 4.0,
                               ),
@@ -429,7 +430,7 @@ class StudentDetailsProfileTile extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    color: textColor2,
+                                    color: kTextColor2,
                                     fontSize: 14),
                               ),
                             ],
@@ -443,7 +444,7 @@ class StudentDetailsProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: textColor2,
+                                color: kTextColor2,
                                 fontSize: 14),
                           ),
                         ],
@@ -684,11 +685,11 @@ class StudentDetailsProfileTile extends StatelessWidget {
                     height: 44,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
-                        color: purpleBgColor),
+                        color: kPurpleBgColor),
                     child: Center(
                       child: Icon(
                         FeatherIcons.dollarSign,
-                        color: activeColor,
+                        color: kActiveColor,
                         size: 16.0,
                       ),
                     ),
@@ -699,7 +700,7 @@ class StudentDetailsProfileTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: textColor2,
+                        color: kTextColor2,
                         fontSize: 16),
                   ),
                   subtitle: Text(
@@ -708,7 +709,7 @@ class StudentDetailsProfileTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         fontSize: 12),
                   ),
                 ),
@@ -724,11 +725,11 @@ class StudentDetailsProfileTile extends StatelessWidget {
                     height: 44,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
-                        color: greenBgColor),
+                        color: kGreenBgColor),
                     child: Center(
                       child: Icon(
                         Icons.work_outline_rounded,
-                        color: greenActiveColor,
+                        color: kGreenActiveColor,
                         size: 16.0,
                       ),
                     ),
@@ -739,7 +740,7 @@ class StudentDetailsProfileTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: textColor2,
+                        color: kTextColor2,
                         fontSize: 16),
                   ),
                   subtitle: Text(
@@ -748,7 +749,7 @@ class StudentDetailsProfileTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         fontSize: 12),
                   ),
                 ),

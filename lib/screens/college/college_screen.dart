@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:pythagon_admin/constants.dart';
 import 'dart:math' as math;
 
-import '../work/work_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:pythagon_admin/constants.dart';
+
+import '../work/workList.dart';
 
 class CollegeScreen extends StatelessWidget {
   const CollegeScreen({Key? key}) : super(key: key);
@@ -47,7 +48,7 @@ class CollegeBody extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(vertical: 16.0),
             // margin: EdgeInsets.symmetric(horizontal: 16.0),
-            color: foregroundColor,
+            color: kForegroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -59,7 +60,7 @@ class CollegeBody extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 15.0,
-                      color: textColor2),
+                      color: kTextColor2),
                 ),
                 SizedBox(
                   width: 8,
@@ -70,7 +71,7 @@ class CollegeBody extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                        color: activeColor,
+                        color: kActiveColor,
                         borderRadius: BorderRadius.circular(4.0)),
                     child: Text(
                       "Add New",
@@ -87,16 +88,16 @@ class CollegeBody extends StatelessWidget {
           DataTable(
             dataRowHeight: 80.0,
             dividerThickness: 0.6,
-            headingRowColor: MaterialStateProperty.all(backgroundColor),
-            dataRowColor: MaterialStateProperty.all(foregroundColor),
+            headingRowColor: MaterialStateProperty.all(kBackgroundColor),
+            dataRowColor: MaterialStateProperty.all(kForegroundColor),
             columns: collegeListingHeaders
                 .map((e) => DataColumn(
                         label: Container(
-                      color: backgroundColor,
+                      color: kBackgroundColor,
                       child: Text(
                         e,
                         style: TextStyle(
-                            color: textDarkGrey,
+                            color: kTextDarkGrey,
                             fontWeight: FontWeight.w600,
                             fontSize: 13.0),
                       ),
@@ -108,21 +109,25 @@ class CollegeBody extends StatelessWidget {
                       DataCell(
                         Text(
                           "□",
-                          style: TextStyle(fontSize: 16.0, color: textDarkGrey),
+                          style:
+                              TextStyle(fontSize: 16.0, color: kTextDarkGrey),
                         ),
                       ),
-              //ID
-              DataCell(
-                InkWell(
-                  onTap: () {
-                    scaffoldKey.currentState!.openEndDrawer();
-                  },
-                  child: Text(
-                    clg.id,
-                    style: TextStyle(fontSize: 14.0, color: activeColor,fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
+                      //ID
+                      DataCell(
+                        InkWell(
+                          onTap: () {
+                            kScaffoldKey.currentState!.openEndDrawer();
+                          },
+                          child: Text(
+                            clg.id,
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                color: kActiveColor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
 
                       //COLLEGE
                       DataCell(ListTile(
@@ -132,12 +137,12 @@ class CollegeBody extends StatelessWidget {
                           width: 44.0,
                           height: 44.0,
                           decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: purpleBgColor),
+                              shape: BoxShape.circle, color: kPurpleBgColor),
                           child: Center(
                             child: Text(
                               clg.college.iconContent,
                               style: TextStyle(
-                                  color: activeColor,
+                                  color: kActiveColor,
                                   fontWeight: FontWeight.w800,
                                   fontSize: 14.0),
                             ),
@@ -148,7 +153,7 @@ class CollegeBody extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                              color: textDarkGrey,
+                              color: kTextDarkGrey,
                               fontSize: 14.0,
                               fontWeight: FontWeight.w700),
                         ),
@@ -157,7 +162,7 @@ class CollegeBody extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                              color: textLightGrey,
+                              color: kTextLightGrey,
                               fontSize: 12.0,
                               fontWeight: FontWeight.w600),
                         ),
@@ -169,7 +174,8 @@ class CollegeBody extends StatelessWidget {
                           clg.address,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                          style:
+                              TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                         ),
                       ),
 
@@ -179,7 +185,8 @@ class CollegeBody extends StatelessWidget {
                           clg.date,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                          style:
+                              TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                         ),
                       ),
 
@@ -188,7 +195,7 @@ class CollegeBody extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.remove_red_eye,
-                            color: textDarkGrey,
+                            color: kTextDarkGrey,
                             size: 16.0,
                           ),
                           SizedBox(
@@ -198,7 +205,7 @@ class CollegeBody extends StatelessWidget {
                             angle: math.pi / 2,
                             child: Icon(
                               Icons.more_horiz,
-                              color: textDarkGrey,
+                              color: kTextDarkGrey,
                               size: 16.0,
                             ),
                           ),

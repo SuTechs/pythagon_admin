@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/iconic_icons.dart';
 import 'package:pythagon_admin/constants.dart';
@@ -53,32 +52,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 15.0,
-                        color: textColor2),
+                        color: kTextColor2),
                   ),
                   Container(
                       margin: EdgeInsets.only(bottom: 16.0, top: 16),
                       child: Divider(
                         height: 0.6,
-                        color: textLightGrey.withOpacity(0.3),
+                        color: kTextLightGrey.withOpacity(0.3),
                       )),
                   Text(
                     "Current",
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 15.0,
-                        color: textColor2),
+                        color: kTextColor2),
                   ),
                   Flexible(
                     child: TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
                           hintText: "Enter your Current password",
-
                           border: InputBorder.none,
                           hintStyle: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14.0,
-                              color: textLightGrey)),
+                              color: kTextLightGrey)),
                     ),
                   ),
                   SizedBox(
@@ -89,18 +87,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 15.0,
-                        color: textColor2),
+                        color: kTextColor2),
                   ),
                   Flexible(
-                    child: TextFormField(                      obscureText: true,
-
+                    child: TextFormField(
+                      obscureText: true,
                       decoration: InputDecoration(
                           hintText: "Enter your Current password",
                           border: InputBorder.none,
                           hintStyle: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14.0,
-                              color: textLightGrey)),
+                              color: kTextLightGrey)),
                     ),
                   ),
                   SizedBox(
@@ -111,7 +109,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 8.0),
                       decoration: BoxDecoration(
-                          color: greenActiveColor,
+                          color: kGreenActiveColor,
                           borderRadius: BorderRadius.circular(4.0)),
                       child: Center(
                           child: Text(
@@ -135,7 +133,7 @@ class SettingsProfileTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: foregroundColor,
+      color: kForegroundColor,
       padding: EdgeInsets.all(16.0),
       margin: EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -172,7 +170,7 @@ class SettingsProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                color: textColor2,
+                                color: kTextColor2,
                                 fontSize: 20),
                           ),
                           SizedBox(
@@ -184,7 +182,7 @@ class SettingsProfileTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: textLightGrey,
+                                color: kTextLightGrey,
                                 fontSize: 14),
                           ),
                         ],
@@ -207,7 +205,7 @@ class SettingsProfileTile extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(Icons.person_outline_outlined,
-                                    size: 18, color: textColor2),
+                                    size: 18, color: kTextColor2),
                                 SizedBox(
                                   width: 4.0,
                                 ),
@@ -217,7 +215,7 @@ class SettingsProfileTile extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      color: textColor2,
+                                      color: kTextColor2,
                                       fontSize: 14),
                                 ),
                               ],
@@ -228,7 +226,7 @@ class SettingsProfileTile extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  color: textColor2,
+                                  color: kTextColor2,
                                   fontSize: 14),
                             ),
                           ],
@@ -242,7 +240,7 @@ class SettingsProfileTile extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(Icons.phone_outlined,
-                                    size: 18, color: textColor2),
+                                    size: 18, color: kTextColor2),
                                 SizedBox(
                                   width: 4.0,
                                 ),
@@ -252,7 +250,7 @@ class SettingsProfileTile extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      color: textColor2,
+                                      color: kTextColor2,
                                       fontSize: 14),
                                 ),
                               ],
@@ -263,7 +261,7 @@ class SettingsProfileTile extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  color: textColor2,
+                                  color: kTextColor2,
                                   fontSize: 14),
                             ),
                           ],
@@ -277,7 +275,7 @@ class SettingsProfileTile extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(Icons.email_outlined,
-                                    size: 18, color: textColor2),
+                                    size: 18, color: kTextColor2),
                                 SizedBox(
                                   width: 4.0,
                                 ),
@@ -287,7 +285,7 @@ class SettingsProfileTile extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      color: textColor2,
+                                      color: kTextColor2,
                                       fontSize: 14),
                                 ),
                               ],
@@ -298,7 +296,7 @@ class SettingsProfileTile extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  color: textColor2,
+                                  color: kTextColor2,
                                   fontSize: 14),
                             ),
                           ],
@@ -312,7 +310,7 @@ class SettingsProfileTile extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(FontAwesome.bank,
-                                    size: 16, color: textColor2),
+                                    size: 16, color: kTextColor2),
                                 SizedBox(
                                   width: 4.0,
                                 ),
@@ -322,7 +320,7 @@ class SettingsProfileTile extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      color: textColor2,
+                                      color: kTextColor2,
                                       fontSize: 14),
                                 ),
                               ],
@@ -333,7 +331,7 @@ class SettingsProfileTile extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  color: textColor2,
+                                  color: kTextColor2,
                                   fontSize: 14),
                             ),
                           ],
@@ -347,7 +345,7 @@ class SettingsProfileTile extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(Iconic.book_open,
-                                    size: 16, color: textColor2),
+                                    size: 16, color: kTextColor2),
                                 SizedBox(
                                   width: 4.0,
                                 ),
@@ -357,7 +355,7 @@ class SettingsProfileTile extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      color: textColor2,
+                                      color: kTextColor2,
                                       fontSize: 14),
                                 ),
                               ],
@@ -368,7 +366,7 @@ class SettingsProfileTile extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  color: textColor2,
+                                  color: kTextColor2,
                                   fontSize: 14),
                             ),
                           ],
@@ -382,7 +380,7 @@ class SettingsProfileTile extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(Icons.calendar_today_sharp,
-                                    size: 16, color: textColor2),
+                                    size: 16, color: kTextColor2),
                                 SizedBox(
                                   width: 4.0,
                                 ),
@@ -392,7 +390,7 @@ class SettingsProfileTile extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      color: textColor2,
+                                      color: kTextColor2,
                                       fontSize: 14),
                                 ),
                               ],
@@ -403,7 +401,7 @@ class SettingsProfileTile extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  color: textColor2,
+                                  color: kTextColor2,
                                   fontSize: 14),
                             ),
                           ],

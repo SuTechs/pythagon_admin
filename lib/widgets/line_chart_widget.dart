@@ -112,14 +112,15 @@ class _LineChart extends StatelessWidget {
 class LineChartWidget extends StatelessWidget {
   final List<LineChartBarData> chartDataList;
 
-  const LineChartWidget({Key? key, required this.chartDataList}) : super(key: key);
+  const LineChartWidget({Key? key, required this.chartDataList})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 2.5,
       child: Container(
-          color: foregroundColor,
+          color: kForegroundColor,
           child: Padding(
             padding: const EdgeInsets.only(right: 16.0, left: 6.0),
             child: _LineChart(

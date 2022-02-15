@@ -1,10 +1,10 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:pythagon_admin/constants.dart';
 import 'package:pythagon_admin/screens/student/student_details_screen.dart';
-import 'dart:math' as math;
 
-import '../work/work_screen.dart';
-
+import '../work/workList.dart';
 
 class StudentPageUtil extends StatelessWidget {
   const StudentPageUtil({Key? key}) : super(key: key);
@@ -17,9 +17,6 @@ class StudentPageUtil extends StatelessWidget {
     );
   }
 }
-
-
-
 
 class StudentScreen extends StatelessWidget {
   StudentScreen({Key? key}) : super(key: key);
@@ -58,16 +55,16 @@ class StudentScreen extends StatelessWidget {
             DataTable(
               dataRowHeight: 80.0,
               dividerThickness: 0.6,
-              headingRowColor: MaterialStateProperty.all(backgroundColor),
-              dataRowColor: MaterialStateProperty.all(foregroundColor),
+              headingRowColor: MaterialStateProperty.all(kBackgroundColor),
+              dataRowColor: MaterialStateProperty.all(kForegroundColor),
               columns: studentHeaders
                   .map((e) => DataColumn(
                           label: Container(
-                        color: backgroundColor,
+                        color: kBackgroundColor,
                         child: Text(
                           e,
                           style: TextStyle(
-                              color: textDarkGrey,
+                              color: kTextDarkGrey,
                               fontWeight: FontWeight.w600,
                               fontSize: 13.0),
                         ),
@@ -75,24 +72,29 @@ class StudentScreen extends StatelessWidget {
                   .toList(),
               rows: dataList
                   .map((student) => DataRow(cells: [
-                //ID
-                DataCell(
-                  InkWell(
-                    onTap: () {
-                      scaffoldKey.currentState!.openEndDrawer();
-                    },
-                    child: Text(
-                      student.id,
-                      style: TextStyle(fontSize: 14.0, color: activeColor,fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
+                        //ID
+                        DataCell(
+                          InkWell(
+                            onTap: () {
+                              kScaffoldKey.currentState!.openEndDrawer();
+                            },
+                            child: Text(
+                              student.id,
+                              style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: kActiveColor,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
 
                         //BASIC INFO
                         DataCell(ListTile(
-                          onTap: (){
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) => StudentDetailScreen()));
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => StudentDetailScreen()));
                           },
                           dense: true,
                           visualDensity: VisualDensity.compact,
@@ -100,12 +102,12 @@ class StudentScreen extends StatelessWidget {
                             width: 44.0,
                             height: 44.0,
                             decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: purpleBgColor),
+                                shape: BoxShape.circle, color: kPurpleBgColor),
                             child: Center(
                               child: Text(
                                 student.basicInfo.iconContent,
                                 style: TextStyle(
-                                    color: activeColor,
+                                    color: kActiveColor,
                                     fontWeight: FontWeight.w800,
                                     fontSize: 14.0),
                               ),
@@ -116,7 +118,7 @@ class StudentScreen extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
-                                color: textDarkGrey,
+                                color: kTextDarkGrey,
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.w700),
                           ),
@@ -125,7 +127,7 @@ class StudentScreen extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
-                                color: textLightGrey,
+                                color: kTextLightGrey,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w600),
                           ),
@@ -137,7 +139,8 @@ class StudentScreen extends StatelessWidget {
                             student.dateAdded,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                            style:
+                                TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                           ),
                         ),
 
@@ -147,7 +150,8 @@ class StudentScreen extends StatelessWidget {
                             student.tWork,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                            style:
+                                TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                           ),
                         ),
 
@@ -157,7 +161,8 @@ class StudentScreen extends StatelessWidget {
                             student.pWork,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                            style:
+                                TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                           ),
                         ),
 
@@ -168,7 +173,8 @@ class StudentScreen extends StatelessWidget {
                             maxLines: 1,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                            style:
+                                TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                           ),
                         ),
 
@@ -179,7 +185,8 @@ class StudentScreen extends StatelessWidget {
                             maxLines: 1,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                            style:
+                                TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                           ),
                         ),
 
@@ -188,7 +195,7 @@ class StudentScreen extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.remove_red_eye,
-                              color: textDarkGrey,
+                              color: kTextDarkGrey,
                               size: 16.0,
                             ),
                             SizedBox(
@@ -198,7 +205,7 @@ class StudentScreen extends StatelessWidget {
                               angle: math.pi / 2,
                               child: Icon(
                                 Icons.more_horiz,
-                                color: textDarkGrey,
+                                color: kTextDarkGrey,
                                 size: 16.0,
                               ),
                             ),

@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:pythagon_admin/constants.dart';
 import 'dart:math' as math;
 
-import '../work/work_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:pythagon_admin/constants.dart';
+
+import '../work/workList.dart';
 
 class AdminScreen extends StatelessWidget {
   const AdminScreen({Key? key}) : super(key: key);
@@ -47,7 +48,7 @@ class AdminBody extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(vertical: 16.0),
             // margin: EdgeInsets.symmetric(horizontal: 16.0),
-            color: foregroundColor,
+            color: kForegroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -59,7 +60,7 @@ class AdminBody extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 15.0,
-                      color: textColor2),
+                      color: kTextColor2),
                 ),
                 SizedBox(
                   width: 8,
@@ -70,7 +71,7 @@ class AdminBody extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                        color: activeColor,
+                        color: kActiveColor,
                         borderRadius: BorderRadius.circular(4.0)),
                     child: Text(
                       "Add New",
@@ -87,16 +88,16 @@ class AdminBody extends StatelessWidget {
           DataTable(
             dataRowHeight: 80.0,
             dividerThickness: 0.6,
-            headingRowColor: MaterialStateProperty.all(backgroundColor),
-            dataRowColor: MaterialStateProperty.all(foregroundColor),
+            headingRowColor: MaterialStateProperty.all(kBackgroundColor),
+            dataRowColor: MaterialStateProperty.all(kForegroundColor),
             columns: adminHeaders
                 .map((e) => DataColumn(
                         label: Container(
-                      color: backgroundColor,
+                      color: kBackgroundColor,
                       child: Text(
                         e,
                         style: TextStyle(
-                            color: textDarkGrey,
+                            color: kTextDarkGrey,
                             fontWeight: FontWeight.w600,
                             fontSize: 13.0),
                       ),
@@ -108,13 +109,13 @@ class AdminBody extends StatelessWidget {
                       DataCell(
                         InkWell(
                           onTap: () {
-                            scaffoldKey.currentState!.openEndDrawer();
+                            kScaffoldKey.currentState!.openEndDrawer();
                           },
                           child: Text(
                             ad.id,
                             style: TextStyle(
                                 fontSize: 14.0,
-                                color: activeColor,
+                                color: kActiveColor,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
@@ -128,12 +129,12 @@ class AdminBody extends StatelessWidget {
                           width: 44.0,
                           height: 44.0,
                           decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: purpleBgColor),
+                              shape: BoxShape.circle, color: kPurpleBgColor),
                           child: Center(
                             child: Text(
                               ad.admin.iconContent,
                               style: TextStyle(
-                                  color: activeColor,
+                                  color: kActiveColor,
                                   fontWeight: FontWeight.w800,
                                   fontSize: 14.0),
                             ),
@@ -144,7 +145,7 @@ class AdminBody extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                              color: textDarkGrey,
+                              color: kTextDarkGrey,
                               fontSize: 14.0,
                               fontWeight: FontWeight.w700),
                         ),
@@ -153,7 +154,7 @@ class AdminBody extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                              color: textLightGrey,
+                              color: kTextLightGrey,
                               fontSize: 12.0,
                               fontWeight: FontWeight.w600),
                         ),
@@ -165,7 +166,8 @@ class AdminBody extends StatelessWidget {
                           ad.date,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14.0, color: textDarkGrey),
+                          style:
+                              TextStyle(fontSize: 14.0, color: kTextDarkGrey),
                         ),
                       ),
 
@@ -176,13 +178,13 @@ class AdminBody extends StatelessWidget {
                               horizontal: 12.0, vertical: 8),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40.0),
-                              color: greenBgColor),
+                              color: kGreenBgColor),
                           child: Text(
                             ad.status,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 14.0, color: greenActiveColor),
+                                fontSize: 14.0, color: kGreenActiveColor),
                           ),
                         ),
                       ),
@@ -192,7 +194,7 @@ class AdminBody extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.remove_red_eye,
-                            color: textDarkGrey,
+                            color: kTextDarkGrey,
                             size: 16.0,
                           ),
                           SizedBox(
@@ -202,7 +204,7 @@ class AdminBody extends StatelessWidget {
                             angle: math.pi / 2,
                             child: Icon(
                               Icons.more_horiz,
-                              color: textDarkGrey,
+                              color: kTextDarkGrey,
                               size: 16.0,
                             ),
                           ),

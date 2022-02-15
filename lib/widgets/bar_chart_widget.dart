@@ -139,7 +139,7 @@ class BarChartWidgetState extends State<BarChartWidget> {
     return AspectRatio(
       aspectRatio: 1,
       child: Container(
-        color: foregroundColor,
+        color: kForegroundColor,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -157,26 +157,26 @@ class BarChartWidgetState extends State<BarChartWidget> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: textColor2,
+                        color: kTextColor2,
                         fontSize: 20),
                   ),
-
-
                   Row(
                     children: [
                       Icon(
                         Icons.calendar_today_rounded,
-                        color: textColor2,
+                        color: kTextColor2,
                         size: 16.0,
                       ),
-                      SizedBox(width: 4.0,),
+                      SizedBox(
+                        width: 4.0,
+                      ),
                       Text(
                         "2019-05-01 to 2019-05-01",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            color: textColor2,
+                            color: kTextColor2,
                             fontSize: 14),
                       ),
                     ],
@@ -243,8 +243,7 @@ class BarChartWidgetState extends State<BarChartWidget> {
                       topTitles: SideTitles(showTitles: false),
                       bottomTitles: SideTitles(
                         showTitles: true,
-                        getTextStyles: (context, value) =>
-                        const TextStyle(
+                        getTextStyles: (context, value) => const TextStyle(
                             color: Color(0xff7589a2),
                             fontWeight: FontWeight.bold,
                             fontSize: 14),
@@ -255,8 +254,7 @@ class BarChartWidgetState extends State<BarChartWidget> {
                       ),
                       leftTitles: SideTitles(
                         showTitles: true,
-                        getTextStyles: (context, value) =>
-                        const TextStyle(
+                        getTextStyles: (context, value) => const TextStyle(
                             color: Color(0xff7589a2),
                             fontWeight: FontWeight.bold,
                             fontSize: 14),

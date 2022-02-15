@@ -4,88 +4,92 @@ import '../constants.dart';
 
 class WebDrawer extends StatelessWidget {
   final int selectedIndex;
-  final List<NavTabData> items;
-  final ValueChanged<int> onItemSelected;
+  final List<NavTabData> tabs;
+  final ValueChanged<int> onTabChange;
 
   WebDrawer({
     Key? key,
     this.selectedIndex = 0,
-    required this.items,
-    required this.onItemSelected,
+    required this.tabs,
+    required this.onTabChange,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: foregroundColor,
+        color: kForegroundColor,
       ),
       child: SafeArea(
         child: Container(
-          color: foregroundColor,
+          color: kForegroundColor,
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              /// logo
               Row(
                 children: [
-                  SizedBox(width: 8.0,),
-
-                  Image.asset(
-                    "assets/logo.png",
-                    width: 65.0,
-                    height: 65.0,
-                    fit: BoxFit.contain,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Image.asset(
+                      "assets/logo.png",
+                      width: 65.0,
+                      height: 65.0,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                  SizedBox(width: 8.0,),
                   Text(
                     "PYTHAGON",
                     style: TextStyle(
-                        color: textDarkGrey,
+                        color: kTextDarkGrey,
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0),
                   )
                 ],
               ),
-              ListTile(
-                leading: Icon(
-                  Icons.home,
-                  color: Colors.grey,
-                ),
-                title: Text(
-                  "Dashboard",
-                  style: TextStyle(color: textDarkGrey,fontWeight: FontWeight.w500),
-                ),
-                trailing: Icon(
-                  Icons.chevron_right_rounded,
-                  color: Colors.grey,
-                ),
-              ),
-              SizedBox(
-                height: 24.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  "Details",
-                  style: TextStyle(color: textLightGrey,fontWeight: FontWeight.w600,fontSize: 16),
-                ),
-              ),
-              SizedBox(
-                height: 16.0,
-              ),
+
+              /// tabs
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: items.map((item) {
-                  var index = items.indexOf(item);
-                  return GestureDetector(
-                    onTap: () => onItemSelected(index),
-                    child: NavItem(
-                      item: item,
-                      isSelected: index == selectedIndex,
-                    ),
-                  );
-                }).toList(),
+                children: [
+                  for (int index = 0; index < tabs.length; index++)
+                    if (index == 0)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          NavItem(
+                            onTap: () => onTabChange(index),
+                            item: tabs[index],
+                            isSelected: index == selectedIndex,
+                          ),
+                          SizedBox(
+                            height: 24.0,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              "Details",
+                              style: TextStyle(
+                                color: kTextLightGrey,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 16.0,
+                          ),
+                        ],
+                      )
+                    else
+                      NavItem(
+                        onTap: () => onTabChange(index),
+                        item: tabs[index],
+                        isSelected: index == selectedIndex,
+                      ),
+                ],
               ),
             ],
           ),
@@ -98,35 +102,54 @@ class WebDrawer extends StatelessWidget {
 class NavItem extends StatelessWidget {
   final bool isSelected;
   final NavTabData item;
+  final void Function() onTap;
 
   const NavItem({
     Key? key,
     required this.item,
     required this.isSelected,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: EdgeInsets.symmetric(vertical: 4.0),
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
       decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: isSelected
-                  ? activeTabGradient
-                  : [foregroundColor, foregroundColor],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight),
+            colors: isSelected
+                ? kActiveTabGradient
+                : [kForegroundColor, kForegroundColor],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
           borderRadius: BorderRadius.circular(8.0)),
       child: ListTile(
+        onTap: onTap,
         selected: isSelected,
         leading: Icon(
           item.icon,
-          color: isSelected ? Colors.white : textColor,
+          color: isSelected ? Colors.white : kTextColor,
+          size: 18,
         ),
+        trailing: isSelected
+            ? Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: isSelected ? Colors.white : kTextColor,
+                size: 12,
+              )
+            : null,
         title: Text(
           item.title,
-          style: TextStyle(color: isSelected ? Colors.white : textColor,fontWeight: FontWeight.w600),
+          style: TextStyle(
+            color: isSelected ? Colors.white : kTextColor,
+            fontWeight: FontWeight.w400,
+            fontSize: 15,
+          ),
         ),
+        dense: true,
+        horizontalTitleGap: 4,
       ),
     );
   }

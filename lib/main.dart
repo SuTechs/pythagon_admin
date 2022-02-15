@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:pythagon_admin/data/database.dart';
-import 'package:pythagon_admin/screens/home_screen.dart';
+import 'package:pythagon_admin/screens/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,25 +23,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Pythagon',
-
-        theme: ThemeData(fontFamily: "Montserrat"),
-        home: HomeScreen());
-  }
-
-  void addCollege() async {
-    final c = College(
-      id: 'id',
-      name: 'name',
-      img: 'img',
-      subjectsIds: ['subjectsIds'],
-      visibility: 'visibility',
-      isActive: true,
-      createdAt: Timestamp.now(),
-      updatedAt: Timestamp.now(),
+      debugShowCheckedModeBanner: false,
+      title: 'Pythagon',
+      theme: ThemeData(fontFamily: "Montserrat"),
+      home: HomeScreen(),
     );
-
-    College.ref.doc(c.id).set(c);
   }
+
+  // void addCollege() async {
+  //   final c = College(
+  //     id: 'id',
+  //     name: 'name',
+  //     img: 'img',
+  //     subjectsIds: ['subjectsIds'],
+  //     visibility: 'visibility',
+  //     isActive: true,
+  //     createdAt: Timestamp.now(),
+  //     updatedAt: Timestamp.now(),
+  //   );
+  //
+  //   College.ref.doc(c.id).set(c);
+  // }
 }
