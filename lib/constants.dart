@@ -37,18 +37,6 @@ const List<String> workDetailsDataHeaders = [
   "ACTION",
 ];
 
-const List<String> teacherHeaders = [
-  "#",
-  "BASIC INFO",
-  "DATE",
-  "RATING",
-  "PAYMENT",
-  "DUE",
-  "STATUS",
-  "SUBJECT",
-  "ACTION",
-];
-
 const List<String> teacherDetailsHeaders1 = [
   "#",
   "BASIC INFO",
@@ -71,27 +59,6 @@ const List<String> teacherDetailsHeaders2 = [
   "ACTION",
 ];
 
-const List<String> studentHeaders = [
-  "#",
-  "BASIC INFO",
-  "DATE ADDED",
-  "TWORK",
-  "PWORK",
-  "PAYMENT",
-  "DUE",
-  "ACTION"
-];
-
-const List<String> studentListHeaders = [
-  "#",
-  "BASIC INFO",
-  "DATE",
-  "IS ACTIVE",
-  "UPDATED ON",
-  "VISIBILITY",
-  "ACTION"
-];
-
 const List<String> studentDetailsHeaders = [
   "#",
   "TYPE",
@@ -101,51 +68,4 @@ const List<String> studentDetailsHeaders = [
   "BALANCE",
   "STATUS",
   "COMMENT",
-];
-
-const List<String> courseListingHeaders = [
-  "□",
-  "#",
-  "COURSES",
-  "SUBJECTS",
-  "DATE",
-  "ISACTIVE",
-  "UPDATED ON",
-  "ACTION",
-];
-
-const List<String> collegeListingHeaders = [
-  "□",
-  "#",
-  "COLLEGE",
-  "ADDRESS",
-  "DATE",
-  "ACTION",
-];
-
-const List<String> adminHeaders = [
-  "#",
-  "ADMIN INFO",
-  "DATE",
-  "STATUS",
-  "ACTION",
-];
-
-const List<String> subjectsHeaders = [
-  "#",
-  "BASIC INFO",
-  "DATE",
-  "IS ACTIVE",
-  "UPDATED ON",
-  "VISIBILITY",
-  "ACTION",
-];
-const List<String> paymentHeaders = [
-  "#",
-  "STATUS",
-  "PAYMENT INFO",
-  "DATE",
-  "AMOUNT",
-  "COMMENT",
-  "ACTION",
 ];

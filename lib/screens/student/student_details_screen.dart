@@ -3,7 +3,6 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:pythagon_admin/constants.dart';
-import 'package:pythagon_admin/screens/student/student_list_screen.dart';
 import 'package:pythagon_admin/screens/work/workList.dart';
 
 class StudentDetailScreen extends StatefulWidget {
@@ -53,10 +52,7 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
                     children: [
                       IconButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => StudentListScreen()));
+                            print('Hello go to other page ig');
                           },
                           icon: Icon(
                             FeatherIcons.search,

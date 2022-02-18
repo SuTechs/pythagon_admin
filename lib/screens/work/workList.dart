@@ -1,25 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:pythagon_admin/constants.dart';
+import 'package:pythagon_admin/screens/work/work_details.dart';
 import 'package:pythagon_admin/widgets/CustomDataTable.dart';
+import 'package:pythagon_admin/widgets/customScaffold.dart';
 
-class WorkListScreen extends StatefulWidget {
+class WorkListScreen extends StatelessWidget {
   const WorkListScreen({Key? key}) : super(key: key);
-
-  @override
-  State<WorkListScreen> createState() => _WorkListScreenState();
-}
-
-class _WorkListScreenState extends State<WorkListScreen>
-    with SingleTickerProviderStateMixin {
-  late final TabController tabController =
-      TabController(length: _tabs.length, vsync: this);
-
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
-  }
 
   final _tabs = const <String>[
     'Pending',
@@ -34,39 +22,32 @@ class _WorkListScreenState extends State<WorkListScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          /// tabs
-
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            color: kForegroundColor,
+    return DefaultTabController(
+      length: _tabs.length,
+      child: CustomScaffold(
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: Align(
+            alignment: Alignment.centerLeft,
             child: TabBar(
+              indicator: BoxDecoration(
+                color: kBackgroundColor,
+              ),
               isScrollable: true,
-              indicatorColor: Colors.transparent,
               unselectedLabelColor: Color(0xff70697B),
               labelColor: kActiveColor,
               tabs: [
                 for (final tab in _tabs) Tab(text: tab),
               ],
-              controller: tabController,
               indicatorSize: TabBarIndicatorSize.tab,
             ),
           ),
-
-          /// tab view
-          Expanded(
-            child: TabBarView(
-              controller: tabController,
-              children: [
-                for (int i = 0; i < _tabs.length; i++) _DataList(),
-              ],
-            ),
-          )
-        ],
+        ),
+        body: TabBarView(
+          children: [
+            for (int i = 0; i < _tabs.length; i++) _DataList(),
+          ],
+        ),
       ),
     );
   }
@@ -94,7 +75,17 @@ class _DataList extends StatelessWidget {
             DataRow(
               cells: [
                 /// ID
-                CustomDataTable.getIdCell('6262'),
+                CustomDataTable.getIdCell(
+                  '6262',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (_) => WorkDetailScreen(),
+                      ),
+                    );
+                  },
+                ),
 
                 /// Type
                 CustomDataTable.getTypeCell(
@@ -106,6 +97,7 @@ class _DataList extends StatelessWidget {
                 CustomDataTable.getBasicInfoCell(
                   title: 'Tammy Sanchez',
                   subtitle: 'Python',
+                  noImageText: 'Py',
                 ),
 
                 /// Issue Date

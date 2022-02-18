@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 import '../constants.dart';
 
@@ -33,13 +34,16 @@ class CustomDataTable extends StatelessWidget {
     );
   }
 
-  static DataCell getIdCell(String id) => DataCell(
-        Text(
-          '#$id',
-          style: TextStyle(
-            fontSize: 14.0,
-            color: const Color(0xff834DF3),
-            fontWeight: FontWeight.w500,
+  static DataCell getIdCell(String id, {void Function()? onTap}) => DataCell(
+        InkWell(
+          onTap: onTap,
+          child: Text(
+            '#$id',
+            style: TextStyle(
+              fontSize: 14.0,
+              color: const Color(0xff834DF3),
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       );
@@ -54,17 +58,20 @@ class CustomDataTable extends StatelessWidget {
             size: 14,
           ),
         ),
+        placeholder: true,
       );
 
-  /// if [noImageText] is not provide [subtitle] first two char will be used
+  /// if [noImageText] is not provide [title] first two char will be used
   static DataCell getBasicInfoCell({
     required String title,
-    required String subtitle,
+    String? subtitle,
     String? imageUrl,
+    IconData? iconData,
     String? noImageText,
     Color color = const Color(0xff834DF3),
   }) {
-    if (noImageText == null) noImageText = subtitle.substring(0, 2);
+    if (imageUrl == null && noImageText == null)
+      noImageText = title.substring(0, 2);
 
     return DataCell(
       ListTile(
@@ -77,14 +84,20 @@ class CustomDataTable extends StatelessWidget {
           backgroundColor: color.withOpacity(0.12),
           child: imageUrl != null
               ? Image.network(imageUrl)
-              : Text(
-                  noImageText,
-                  style: TextStyle(
-                    color: color,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+              : iconData != null
+                  ? Icon(
+                      iconData,
+                      color: color,
+                      size: 14,
+                    )
+                  : Text(
+                      noImageText!,
+                      style: TextStyle(
+                        color: color,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
         ),
         title: Text(
           title,
@@ -94,14 +107,16 @@ class CustomDataTable extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(
-            color: Color(0xffb9b9c3),
-            fontSize: 11.9,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
+        subtitle: subtitle != null
+            ? Text(
+                subtitle,
+                style: TextStyle(
+                  color: Color(0xffb9b9c3),
+                  fontSize: 11.9,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+            : null,
       ),
     );
   }
@@ -152,6 +167,35 @@ class CustomDataTable extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      );
+
+  static DataCell getActionCell() => DataCell(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Icon(
+              FeatherIcons.send,
+              color: Colors.grey,
+              size: 16.0,
+            ),
+            SizedBox(
+              width: 4.0,
+            ),
+            Icon(
+              FeatherIcons.eye,
+              color: Colors.grey,
+              size: 16.0,
+            ),
+            SizedBox(
+              width: 4.0,
+            ),
+            Icon(
+              FeatherIcons.moreVertical,
+              color: Colors.grey,
+              size: 16.0,
+            ),
+          ],
         ),
       );
 }

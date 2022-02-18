@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
+import 'package:pythagon_admin/screens/work/workList.dart';
 
 import '../constants.dart';
-import '../widgets/drawer_body.dart';
-import '../widgets/profile_tile.dart';
-import '../widgets/web_drawer.dart';
-import 'admin/admin_screen.dart';
+import '../widgets/webDrawer.dart';
+import 'admin/adminList.dart';
 import 'analytics/analytics.dart';
-import 'college/college_screen.dart';
-import 'course/course_screen.dart';
-import 'payment/payment_screen.dart';
+import 'college/collegeList.dart';
+import 'course/courseList.dart';
+import 'payment/payment.dart';
 import 'settings/settings_screen.dart';
-import 'student/student_screen.dart';
-import 'subject/subject_screen.dart';
-import 'teacher/teacher_screen.dart';
-import 'work/workList.dart';
+import 'student/studentList.dart';
+import 'subject/subjectList.dart';
+import 'teacher/teacherList.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -26,60 +24,97 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late final List<NavTabData> _navTabList = [
-    NavTabData(
-      icon: FeatherIcons.briefcase,
-      title: 'Work',
+  late final List<_NavDrawerData> _drawerNavData = [
+    /// Work
+    _NavDrawerData(
+      tabData: NavTabData(
+        icon: FeatherIcons.briefcase,
+        title: 'Work',
+      ),
+      screen: WorkListScreen(),
+      // screen: WorkDetailScreen(),
     ),
-    NavTabData(
-      icon: FeatherIcons.home,
-      title: 'Dashboard',
-    ),
-    NavTabData(
-      icon: FeatherIcons.dollarSign,
-      title: 'Payment',
-    ),
-    NavTabData(
-      icon: FontAwesome5.chalkboard_teacher,
-      title: 'Teachers ',
-    ),
-    NavTabData(
-      icon: FontAwesome5.graduation_cap,
-      title: 'Students',
-    ),
-    NavTabData(
-      icon: FeatherIcons.book,
-      title: 'Subjects',
-    ),
-    NavTabData(
-      icon: Icons.lightbulb_outline_rounded,
-      title: 'Course',
-    ),
-    NavTabData(
-      icon: FontAwesome.bank,
-      title: 'College ',
-    ),
-    NavTabData(
-      icon: Icons.person,
-      title: 'Admin',
-    ),
-    NavTabData(
-      icon: FeatherIcons.settings,
-      title: 'Settings',
-    ),
-  ];
 
-  List<Widget> _pages = [
-    WorkListScreen(),
-    AnalyticsScreen(),
-    PaymentScreen(),
-    TeacherPageUtil(),
-    StudentPageUtil(),
-    SubjectScreen(),
-    CourseScreen(),
-    CollegeScreen(),
-    AdminScreen(),
-    SettingsScreen()
+    /// Analytics
+    _NavDrawerData(
+      tabData: NavTabData(
+        icon: FeatherIcons.barChart,
+        title: 'Analytics',
+      ),
+      screen: AnalyticsScreen(),
+    ),
+
+    /// Payment
+    _NavDrawerData(
+      tabData: NavTabData(
+        icon: FeatherIcons.dollarSign,
+        title: 'Payment',
+      ),
+      screen: PaymentScreen(),
+    ),
+
+    /// Teachers
+    _NavDrawerData(
+      tabData: NavTabData(
+        icon: FontAwesome5.chalkboard_teacher,
+        title: 'Teachers ',
+      ),
+      screen: TeacherList(),
+    ),
+
+    /// Students
+    _NavDrawerData(
+      tabData: NavTabData(
+        icon: FontAwesome.graduation_cap,
+        title: 'Students',
+      ),
+      screen: StudentList(),
+    ),
+
+    /// Subjects
+    _NavDrawerData(
+      tabData: NavTabData(
+        icon: FeatherIcons.book,
+        title: 'Subjects',
+      ),
+      screen: SubjectList(),
+    ),
+
+    /// Course
+    _NavDrawerData(
+      tabData: NavTabData(
+        icon: Icons.lightbulb_outline_rounded,
+        title: 'Course',
+      ),
+      screen: CourseList(),
+    ),
+
+    /// College
+    _NavDrawerData(
+      tabData: NavTabData(
+        icon: FontAwesome.bank,
+        title: 'College ',
+      ),
+      screen: CollegeList(),
+    ),
+
+    /// Admin
+    _NavDrawerData(
+      tabData: NavTabData(
+        icon: Icons.person,
+        title: 'Admin',
+      ),
+      screen: AdminList(),
+    ),
+
+    /// Setting
+    _NavDrawerData(
+      tabData: NavTabData(
+        icon: FeatherIcons.settings,
+        title: 'Settings',
+      ),
+      screen: SettingsScreen(),
+    ),
   ];
 
   int _currTab = 0;
@@ -87,11 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: kScaffoldKey,
-      drawerEnableOpenDragGesture: false,
-      endDrawer: Drawer(
-        child: DrawerBody(),
-      ),
+      backgroundColor: kBackgroundColor,
       body: Row(
         children: [
           /// navigation tabs
@@ -100,33 +131,20 @@ class _HomeScreenState extends State<HomeScreen> {
             child: WebDrawer(
               selectedIndex: _currTab,
               onTabChange: (index) => setState(() => _currTab = index),
-              tabs: _navTabList,
+              tabs: _drawerNavData.map((e) => e.tabData).toList(),
             ),
           ),
 
           /// page
           Expanded(
             flex: 5,
-            child: Container(
-              color: kBackgroundColor,
-              child: Column(
-                children: [
-                  /// profile tile
-                  ProfileTile(),
-
-                  /// page
-                  Expanded(
-                    flex: 4,
-                    child: Container(
-                      color: kBackgroundColor,
-                      child: Navigator(
-                        onGenerateRoute: (settings) => MaterialPageRoute(
-                          builder: (_) => _pages[_currTab],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+              child: Navigator(
+                onGenerateRoute: (settings) => MaterialPageRoute(
+                  builder: (_) => _drawerNavData[_currTab].screen,
+                ),
               ),
             ),
           )
@@ -134,4 +152,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+class _NavDrawerData {
+  final NavTabData tabData;
+  final Widget screen;
+
+  _NavDrawerData({required this.tabData, required this.screen});
 }
