@@ -27,16 +27,6 @@ const List<Color> kActiveTabGradient = [
 const Color kTextLightGrey = Color(0xffACA8B5);
 const Color kTextColor2 = Color(0xff70697B);
 
-const List<String> workDetailsDataHeaders = [
-  "□",
-  "#",
-  "INFO",
-  "RATING",
-  "PRICE",
-  "STATUS",
-  "ACTION",
-];
-
 const List<String> teacherDetailsHeaders1 = [
   "#",
   "BASIC INFO",

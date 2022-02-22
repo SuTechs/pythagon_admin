@@ -8,6 +8,12 @@ class CustomScaffold extends Scaffold {
   }) : super(
           body: body,
           appBar: AppBar(
+            title: Text(
+              'This is Heading',
+              style: TextStyle(
+                color: kActiveColor,
+              ),
+            ),
             iconTheme: IconThemeData(
               color: kActiveColor,
             ),
@@ -96,6 +102,8 @@ class CustomScaffold extends Scaffold {
               SizedBox(width: 16.0),
             ],
           ),
-          backgroundColor: Colors.transparent,
+          // backgroundColor: Colors.transparent,
+
+          backgroundColor: kBackgroundColor,
         );
 }

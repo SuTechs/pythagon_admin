@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:pythagon_admin/screens/work/workList.dart';
+import 'package:pythagon_admin/screens/work/workDetails.dart';
 
 import '../constants.dart';
 import '../widgets/webDrawer.dart';
@@ -31,8 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: FeatherIcons.briefcase,
         title: 'Work',
       ),
-      screen: WorkListScreen(),
-      // screen: WorkDetailScreen(),
+      // screen: WorkListScreen(),
+      screen: WorkDetails(),
     ),
 
     /// Analytics
@@ -139,8 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             flex: 5,
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+              padding: const EdgeInsets.all(24),
               child: Navigator(
                 onGenerateRoute: (settings) => MaterialPageRoute(
                   builder: (_) => _drawerNavData[_currTab].screen,

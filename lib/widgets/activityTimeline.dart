@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class Timeline extends StatelessWidget {
   const Timeline({
     Key? key,
@@ -103,7 +105,7 @@ class Timeline extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children:
-            isLeftAligned ? timelineTile : timelineTile.reversed.toList(),
+                isLeftAligned ? timelineTile : timelineTile.reversed.toList(),
           ),
         );
       },
@@ -126,10 +128,10 @@ class _TimelinePainter extends CustomPainter {
     required this.isLast,
     required this.itemGap,
   })  : linePaint = Paint()
-    ..color = lineColor
-    ..strokeCap = strokeCap
-    ..strokeWidth = strokeWidth
-    ..style = style,
+          ..color = lineColor
+          ..strokeCap = strokeCap
+          ..strokeWidth = strokeWidth
+          ..style = style,
         circlePaint = Paint()
           ..color = indicatorColor
           ..style = indicatorStyle;
@@ -178,5 +180,80 @@ class _TimelinePainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return false;
+  }
+}
+
+class TimelineTileData {
+  TimelineTileData({
+    required this.msgType,
+    required this.title,
+    required this.subtitle,
+    required this.timeAgo,
+  });
+
+  final int msgType;
+  final String title;
+  final String subtitle;
+  final String timeAgo;
+}
+
+class TimelineBuilder extends StatelessWidget {
+  final List<TimelineTileData> timeLineData;
+
+  const TimelineBuilder({Key? key, required this.timeLineData})
+      : super(key: key);
+
+  //0=> Purple //1=>Yellow
+  Widget getIndicator(int msgType) {
+    if (msgType == 0) {
+      return Container(
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: kActiveColor,
+            border: Border.all(width: 3, color: kPurpleBgColor)),
+      );
+    } else {
+      return Container(
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: kYellowActiveColor,
+            border: Border.all(width: 3, color: kYellowBgColor)),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Timeline(
+      indicatorSize: 20,
+      children: timeLineData
+          .map(
+            (e) => ListTile(
+              title: Text(
+                e.title,
+                style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w500,
+                    color: kTextDarkGrey),
+              ),
+              subtitle: Text(
+                e.subtitle,
+                style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w500,
+                    color: kTextLightGrey),
+              ),
+              trailing: Text(
+                e.timeAgo,
+                style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w500,
+                    color: kTextLightGrey),
+              ),
+            ),
+          )
+          .toList(),
+      indicators: timeLineData.map((e) => getIndicator(e.msgType)).toList(),
+    );
   }
 }

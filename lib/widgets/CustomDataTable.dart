@@ -18,6 +18,7 @@ class CustomDataTable extends StatelessWidget {
       dataRowHeight: 64.0,
       dividerThickness: 0.4,
       dataRowColor: MaterialStateProperty.all(kForegroundColor),
+      headingRowColor: MaterialStateProperty.all(const Color(0xfff3f2f7)),
       columns: [
         for (final label in headersLabel)
           DataColumn(

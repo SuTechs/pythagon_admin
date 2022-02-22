@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:pythagon_admin/constants.dart';
-import 'package:pythagon_admin/screens/work/work_details.dart';
+import 'package:pythagon_admin/screens/work/workDetails.dart';
 import 'package:pythagon_admin/widgets/CustomDataTable.dart';
 import 'package:pythagon_admin/widgets/customScaffold.dart';
 
@@ -31,7 +31,7 @@ class WorkListScreen extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: TabBar(
               indicator: BoxDecoration(
-                color: kBackgroundColor,
+                color: const Color(0xfff3f2f7),
               ),
               isScrollable: true,
               unselectedLabelColor: Color(0xff70697B),
@@ -81,7 +81,7 @@ class _DataList extends StatelessWidget {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                        builder: (_) => WorkDetailScreen(),
+                        builder: (_) => WorkDetails(),
                       ),
                     );
                   },
