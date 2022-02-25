@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pythagon_admin/widgets/customScaffold.dart';
 
 import '../../widgets/CustomDataTable.dart';
+import '../../widgets/customScaffold.dart';
 
 class AdminList extends StatelessWidget {
   const AdminList({Key? key}) : super(key: key);

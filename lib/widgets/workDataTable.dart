@@ -1,23 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 
-import '../../widgets/CustomDataTable.dart';
-import '../../widgets/customScaffold.dart';
-import 'studentDetails.dart';
+import '../screens/work/workDetails.dart';
+import 'CustomDataTable.dart';
 
-class StudentList extends StatelessWidget {
-  StudentList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomScaffold(
-      body: _DataList(),
-    );
-  }
-}
-
-class _DataList extends StatelessWidget {
-  const _DataList({Key? key}) : super(key: key);
+class WorkDataTable extends StatelessWidget {
+  const WorkDataTable({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +14,17 @@ class _DataList extends StatelessWidget {
       child: CustomDataTable(
         headersLabel: const [
           "#",
+          "TYPE",
           "BASIC INFO",
-          "DATE ADDED",
-          "WORK",
-          "PAYMENT",
-          "DUE",
+          "ISSUE DATE",
+          "DUE DATE",
+          "BALANCE",
           "STATUS",
-          "ACTION"
+          "COMMENT",
+          "ACTION",
         ],
         dataRows: [
-          for (int i = 0; i < 10; i++)
+          for (int i = 0; i < 20; i++)
             DataRow(
               cells: [
                 /// ID
@@ -44,35 +34,40 @@ class _DataList extends StatelessWidget {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                        builder: (_) => StudentDetails(),
+                        builder: (_) => WorkDetails(),
                       ),
                     );
                   },
                 ),
 
-                /// Basic Info
-                CustomDataTable.getBasicInfoCell(
-                  noImageText: 'Ta',
-                  title: 'Tammy Sanchez',
-                  subtitle: '+91 7667323338',
+                /// Type
+                CustomDataTable.getTypeCell(
+                  Colors.green,
+                  FontAwesome5.book_reader,
                 ),
 
-                /// Date Added
+                /// Basic Info
+                CustomDataTable.getBasicInfoCell(
+                  title: 'Tammy Sanchez',
+                  subtitle: 'Python',
+                  noImageText: 'Py',
+                ),
+
+                /// Issue Date
                 CustomDataTable.getTextCell('19 Apr 2022'),
 
-                /// Total Work
-                CustomDataTable.getTextCell('16/19'),
+                /// Due Date
+                CustomDataTable.getTextCell('23 Apr 2022'),
 
-                /// Payment
-                CustomDataTable.getTextCell('\$762'),
-
-                /// Due
+                /// Balance
                 CustomDataTable.getTextCell('\$762'),
 
                 /// Status
-                CustomDataTable.getChipCell(
-                  'Verified',
-                  const Color(0xff28c76f),
+                CustomDataTable.getChipCell('Paid', const Color(0xff28c76f)),
+
+                /// Comment
+                CustomDataTable.getCommentCell(
+                  'New Teacher Assigned For The Assignment',
                 ),
 
                 /// Action

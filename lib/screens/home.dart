@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:pythagon_admin/screens/work/workDetails.dart';
 
 import '../constants.dart';
 import '../widgets/webDrawer.dart';
@@ -15,6 +14,7 @@ import 'settings/settings_screen.dart';
 import 'student/studentList.dart';
 import 'subject/subjectList.dart';
 import 'teacher/teacherList.dart';
+import 'work/workList.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -31,8 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: FeatherIcons.briefcase,
         title: 'Work',
       ),
-      // screen: WorkListScreen(),
-      screen: WorkDetails(),
+      screen: WorkListScreen(),
     ),
 
     /// Analytics

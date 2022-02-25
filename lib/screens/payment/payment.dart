@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:pythagon_admin/constants.dart';
-import 'package:pythagon_admin/widgets/customScaffold.dart';
 
+import '../../constants.dart';
 import '../../widgets/CustomDataTable.dart';
+import '../../widgets/customScaffold.dart';
 
 class PaymentScreen extends StatelessWidget {
   const PaymentScreen({Key? key}) : super(key: key);
@@ -69,7 +69,7 @@ class _DataList extends StatelessWidget {
 
                 /// Status
                 CustomDataTable.getTypeCell(
-                  kGreenActiveColor,
+                  Colors.green,
                   FontAwesome5.book_reader,
                 ),
 
@@ -209,7 +209,7 @@ class _PaymentOverviewState extends State<_PaymentOverview> {
                     dense: true,
                     leading: Icon(
                       Icons.timer,
-                      color: kYellowActiveColor,
+                      color: Colors.yellow,
                     ),
                     title: Text(
                       "Pending",
@@ -222,7 +222,7 @@ class _PaymentOverviewState extends State<_PaymentOverview> {
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 16,
-                        color: kYellowActiveColor,
+                        color: Colors.yellow,
                       ),
                     ),
                   ),

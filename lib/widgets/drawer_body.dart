@@ -112,7 +112,7 @@ class _DrawerBodyState extends State<DrawerBody> {
               ),
               Icon(
                 FontAwesome5.check_double,
-                color: kGreenActiveColor,
+                color: _kGreenActiveColor,
                 size: 18.0,
               ),
               SizedBox(
@@ -212,11 +212,11 @@ class _DrawerBodyState extends State<DrawerBody> {
                         width: 24.0,
                         margin: EdgeInsets.symmetric(vertical: 24.0),
                         decoration: BoxDecoration(
-                            color: kRedBgColor, shape: BoxShape.circle),
+                            color: _kRedBgColor, shape: BoxShape.circle),
                         child: Center(
                           child: Icon(
                             FeatherIcons.dollarSign,
-                            color: kRedActiveColor,
+                            color: _kRedActiveColor,
                             size: 16.0,
                           ),
                         ),
@@ -288,12 +288,12 @@ class _DrawerBodyState extends State<DrawerBody> {
                     onTap: () {},
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 8.0),
-                      decoration: BoxDecoration(color: kRedBgColor),
+                      decoration: BoxDecoration(color: _kRedBgColor),
                       child: Center(
                           child: Text(
                         "Due",
                         style: TextStyle(
-                            color: kRedActiveColor,
+                            color: _kRedActiveColor,
                             fontWeight: FontWeight.w700),
                       )),
                     ),
@@ -378,13 +378,13 @@ class _DrawerBodyState extends State<DrawerBody> {
               padding: EdgeInsets.symmetric(vertical: 8.0),
               margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
               decoration: BoxDecoration(
-                  color: kGreenBgColor,
+                  color: _kGreenBgColor,
                   borderRadius: BorderRadius.circular(4.0)),
               child: Center(
                   child: Text(
                 "Save",
                 style: TextStyle(
-                    color: kGreenActiveColor, fontWeight: FontWeight.w700),
+                    color: _kGreenActiveColor, fontWeight: FontWeight.w700),
               )),
             ),
           ),
@@ -396,3 +396,8 @@ class _DrawerBodyState extends State<DrawerBody> {
     );
   }
 }
+
+const Color _kRedBgColor = Color(0xffFCCFCF);
+const Color _kRedActiveColor = Color(0xffEA5455);
+const Color _kGreenBgColor = Color(0xffE0F9EE);
+const Color _kGreenActiveColor = Color(0xff11D47B);

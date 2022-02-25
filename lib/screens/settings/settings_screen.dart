@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/iconic_icons.dart';
-import 'package:pythagon_admin/constants.dart';
+
+import '../../constants.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -109,7 +110,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 8.0),
                       decoration: BoxDecoration(
-                          color: kGreenActiveColor,
+                          color: Colors.green,
                           borderRadius: BorderRadius.circular(4.0)),
                       child: Center(
                           child: Text(

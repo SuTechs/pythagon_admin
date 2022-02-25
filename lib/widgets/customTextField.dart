@@ -201,3 +201,65 @@ class _DropdownPickerWithIconState extends State<DropdownPickerWithIcon> {
     );
   }
 }
+
+/// icon single line tex field
+class SingleLineIconTextField extends StatelessWidget {
+  final String? hintText;
+  final String labelText;
+  final IconData labelIcon;
+
+  final String? initialText;
+  final void Function(String?)? onChange;
+  final FormFieldValidator<String>? validator;
+  final bool autoFocus;
+
+  const SingleLineIconTextField({
+    Key? key,
+    this.initialText,
+    this.onChange,
+    this.hintText,
+    this.validator,
+    required this.labelText,
+    required this.labelIcon,
+    this.autoFocus = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      autofocus: autoFocus,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: validator,
+      style: TextStyle(
+        fontSize: 14,
+      ),
+      initialValue: initialText,
+      decoration: InputDecoration(
+        // contentPadding:
+        //     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        border: InputBorder.none,
+        isDense: true,
+        hintText: hintText,
+        label: Text(labelText),
+        icon: Icon(labelIcon),
+        iconColor: kTextDarkGrey,
+        // prefixIcon: Row(
+        //   mainAxisSize: MainAxisSize.min,
+        //   children: [
+        //     Icon(
+        //       prefixIcon,
+        //       color: kTextDarkGrey,
+        //     ),
+        //     SizedBox(width: 8),
+        //     Text(
+        //       prefixText,
+        //       style: TextStyle(color: kTextDarkGrey),
+        //     ),
+        //   ],
+        // ),
+        // prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+      ),
+      onChanged: onChange,
+    );
+  }
+}

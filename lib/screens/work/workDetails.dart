@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:pythagon_admin/constants.dart';
-import 'package:pythagon_admin/widgets/customScaffold.dart';
 
+import '../../constants.dart';
 import '../../widgets/CustomDataTable.dart';
 import '../../widgets/activityTimeline.dart';
+import '../../widgets/customScaffold.dart';
 import '../../widgets/customTextField.dart';
+import '../../widgets/detailPageComponents.dart';
 
 class WorkDetails extends StatelessWidget {
   const WorkDetails({Key? key}) : super(key: key);
@@ -74,149 +75,29 @@ class _BasicInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: kForegroundColor,
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          /// Subject name and description
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// Subject
-              Column(
-                children: [
-                  Image.asset(
-                    "assets/logo.png",
-                    width: 100.0,
-                    height: 100.0,
-                    fit: BoxFit.contain,
-                  ),
-                  Text(
-                    "PYTHON",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: kTextDarkGrey,
-                      fontSize: 16,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 2,
-                  ),
-                  Text(
-                    "COMP SCIENCE",
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      color: kTextDarkGrey,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(width: 16),
-
-              /// name & description
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    SingleLineTextField(
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xff70697B),
-                        fontSize: 18,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(maxHeight: 100),
-                      child: DescriptionTextField(
-                        onDescChanged: (_) {},
-                        hintText: 'Enter Description',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: kTextLightGrey,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-
-          Spacer(),
-
-          /// other info
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _getTile('\$300', 'Total', FeatherIcons.dollarSign, kActiveColor),
-              _getTile("29 Jan 2021", 'Due Date', Icons.calendar_today_sharp,
-                  Colors.red),
-              _getTile("Uchit Chakma", '8979767368',
-                  FontAwesome5.graduation_cap, Colors.green),
-            ],
-          ),
-        ],
-      ),
+    return DetailBasicInfoTile(
+      otherInfoData: [
+        OtherInfoIconTileData(
+          '\$300',
+          'Total',
+          FeatherIcons.dollarSign,
+          kActiveColor,
+        ),
+        OtherInfoIconTileData(
+          "29 Jan 2021",
+          'Due Date',
+          Icons.calendar_today_sharp,
+          Colors.red,
+        ),
+        OtherInfoIconTileData(
+          "Uchit Chakma",
+          '8979767368',
+          FontAwesome5.graduation_cap,
+          Colors.green,
+        ),
+      ],
     );
   }
-
-  Widget _getTile(String title, subtitle, IconData icon, Color color) =>
-      Flexible(
-        child: ListTile(
-          dense: true,
-          visualDensity: VisualDensity.compact,
-          leading: Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              color: color.withOpacity(0.12),
-            ),
-            child: Center(
-              child: Icon(
-                icon,
-                color: color,
-                size: 16.0,
-              ),
-            ),
-          ),
-          title: Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: kTextDarkGrey,
-              fontSize: 16,
-            ),
-          ),
-          subtitle: Text(
-            subtitle,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              color: kTextDarkGrey,
-              fontSize: 12,
-            ),
-          ),
-        ),
-      );
 }
 
 class _TeacherInfo extends StatelessWidget {
@@ -270,69 +151,22 @@ class _TeacherInfo extends StatelessWidget {
   }
 }
 
-class _PaymentInfo extends StatefulWidget {
+class _PaymentInfo extends StatelessWidget {
   const _PaymentInfo({Key? key}) : super(key: key);
 
   @override
-  State<_PaymentInfo> createState() => _PaymentInfoState();
-}
-
-class _PaymentInfoState extends State<_PaymentInfo>
-    with SingleTickerProviderStateMixin {
-  late TabController tabController = TabController(length: 3, vsync: this);
-
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return DetailTabView(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      tabTitles: [
+        'Overview',
+        'Transaction',
+        'New',
+      ],
       children: [
-        Container(
-          color: kForegroundColor,
-          child: TabBar(
-            // indicator: BoxDecoration(
-            //   color: const Color(0xfff3f2f7),
-            // ),
-            // isScrollable: true,
-            unselectedLabelColor: Color(0xff70697B),
-            labelColor: kActiveColor,
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorColor: kActiveColor,
-            indicatorWeight: 1.0,
-            tabs: const [
-              Tab(
-                text: "Overview",
-              ),
-              Tab(
-                text: "Transaction",
-              ),
-              Tab(
-                text: "New",
-              ),
-            ],
-            controller: tabController,
-          ),
-        ),
-        SizedBox(height: 8.0),
-        Expanded(
-          child: Container(
-            color: kForegroundColor,
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: TabBarView(
-              controller: tabController,
-              children: [
-                _PaymentOverview(),
-                _TransactionsTab(),
-                _NewTransactionTab(),
-              ],
-            ),
-          ),
-        ),
+        _PaymentOverview(),
+        _TransactionsTab(),
+        _NewTransactionTab(),
       ],
     );
   }

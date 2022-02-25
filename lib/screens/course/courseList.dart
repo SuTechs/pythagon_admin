@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pythagon_admin/widgets/customScaffold.dart';
 
 import '../../widgets/CustomDataTable.dart';
+import '../../widgets/customScaffold.dart';
 
 class CourseList extends StatelessWidget {
   const CourseList({Key? key}) : super(key: key);

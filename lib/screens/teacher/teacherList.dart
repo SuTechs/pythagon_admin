@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pythagon_admin/widgets/customScaffold.dart';
 
 import '../../widgets/CustomDataTable.dart';
+import '../../widgets/customScaffold.dart';
+import 'teacherDetails.dart';
 
 class TeacherList extends StatelessWidget {
   TeacherList({Key? key}) : super(key: key);
@@ -37,7 +39,17 @@ class _DataList extends StatelessWidget {
             DataRow(
               cells: [
                 /// ID
-                CustomDataTable.getIdCell('6262'),
+                CustomDataTable.getIdCell(
+                  '6262',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (_) => TeacherDetails(),
+                      ),
+                    );
+                  },
+                ),
 
                 /// Basic Info
                 CustomDataTable.getBasicInfoCell(

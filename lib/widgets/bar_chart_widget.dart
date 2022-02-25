@@ -157,14 +157,14 @@ class BarChartWidgetState extends State<BarChartWidget> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: kTextColor2,
+                        color: kTextColor,
                         fontSize: 20),
                   ),
                   Row(
                     children: [
                       Icon(
                         Icons.calendar_today_rounded,
-                        color: kTextColor2,
+                        color: kTextColor,
                         size: 16.0,
                       ),
                       SizedBox(
@@ -176,7 +176,7 @@ class BarChartWidgetState extends State<BarChartWidget> {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            color: kTextColor2,
+                            color: kTextColor,
                             fontSize: 14),
                       ),
                     ],

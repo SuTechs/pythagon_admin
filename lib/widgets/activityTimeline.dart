@@ -208,16 +208,24 @@ class TimelineBuilder extends StatelessWidget {
     if (msgType == 0) {
       return Container(
         decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: kActiveColor,
-            border: Border.all(width: 3, color: kPurpleBgColor)),
+          shape: BoxShape.circle,
+          color: kActiveColor,
+          border: Border.all(
+            width: 3,
+            color: kActiveColor.withOpacity(0.4),
+          ),
+        ),
       );
     } else {
       return Container(
         decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: kYellowActiveColor,
-            border: Border.all(width: 3, color: kYellowBgColor)),
+          shape: BoxShape.circle,
+          color: Colors.blue,
+          border: Border.all(
+            width: 3,
+            color: Colors.yellow,
+          ),
+        ),
       );
     }
   }
