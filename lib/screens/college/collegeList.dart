@@ -9,6 +9,9 @@ class CollegeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      drawer: Drawer(
+        child: Text('Hello Su Mit'),
+      ),
       body: _DataList(),
     );
   }
@@ -35,7 +38,12 @@ class _DataList extends StatelessWidget {
             DataRow(
               cells: [
                 /// ID
-                CustomDataTable.getIdCell('6262'),
+                CustomDataTable.getIdCell(
+                  '6262',
+                  onTap: () {
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                ),
 
                 /// College Basic Info
                 CustomDataTable.getBasicInfoCell(

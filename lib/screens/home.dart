@@ -24,6 +24,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late final GlobalKey<NavigatorState> _navigatorKey =
+      GlobalKey<NavigatorState>();
   late final List<_NavDrawerData> _drawerNavData = [
     /// Work
     _NavDrawerData(
@@ -116,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
-  int _currTab = 0;
+  int _currTab = 7;
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +131,10 @@ class _HomeScreenState extends State<HomeScreen> {
             flex: 1,
             child: WebDrawer(
               selectedIndex: _currTab,
-              onTabChange: (index) => setState(() => _currTab = index),
+              onTabChange: (index) {
+                setState(() => _currTab = index);
+                _navigatorKey.currentState?.maybePop();
+              },
               tabs: _drawerNavData.map((e) => e.tabData).toList(),
             ),
           ),
@@ -140,6 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Navigator(
+                key: _navigatorKey,
                 onGenerateRoute: (settings) => MaterialPageRoute(
                   builder: (_) => _drawerNavData[_currTab].screen,
                 ),

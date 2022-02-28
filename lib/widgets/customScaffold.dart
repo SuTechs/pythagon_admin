@@ -3,9 +3,13 @@ import 'package:pythagon_admin/constants.dart';
 
 class CustomScaffold extends Scaffold {
   CustomScaffold({
+    Key? key,
     required Widget body,
+    Widget? drawer,
     PreferredSizeWidget? bottom,
   }) : super(
+          key: key,
+          endDrawer: drawer,
           body: body,
           appBar: AppBar(
             title: Text(
@@ -102,8 +106,8 @@ class CustomScaffold extends Scaffold {
               SizedBox(width: 16.0),
             ],
           ),
-          // backgroundColor: Colors.transparent,
-
           backgroundColor: kBackgroundColor,
+          endDrawerEnableOpenDragGesture: false,
+          drawerScrimColor: Colors.transparent,
         );
 }
