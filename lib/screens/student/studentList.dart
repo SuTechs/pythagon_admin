@@ -26,7 +26,7 @@ class _DataList extends StatelessWidget {
         headersLabel: const [
           "#",
           "BASIC INFO",
-          "DATE ADDED",
+          "CREATED ON",
           "WORK",
           "PAYMENT",
           "DUE",

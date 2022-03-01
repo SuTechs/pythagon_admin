@@ -27,13 +27,13 @@ class TeacherDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   /// Basic Info
-                  Expanded(flex: 5, child: _BasicInfo()),
+                  Expanded(flex: 3, child: _BasicInfo()),
 
                   SizedBox(width: 24),
 
                   /// Payment & Transactions
                   Expanded(
-                    flex: 2,
+                    flex: 1,
                     child: _DocInfo(),
                   )
                 ],
@@ -66,93 +66,74 @@ class _BasicInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 2,
-          child: DetailBasicInfoTile(
-            isSubject: false,
-            otherInfoData: [
-              OtherInfoIconTileData(
-                '\$300',
-                'Total',
-                FeatherIcons.dollarSign,
-                kActiveColor,
-              ),
-              OtherInfoIconTileData(
-                "4.5(50)",
-                'Rating',
-                FeatherIcons.star,
-                Colors.red,
-              ),
-              OtherInfoIconTileData(
-                "Verified",
-                'Status',
-                Icons.done,
-                Colors.green,
-              ),
-            ],
-          ),
+    return StudentTeacherBasicInfo(
+      otherInfoData: [
+        OtherInfoIconTileData(
+          '\$300',
+          'Total',
+          FeatherIcons.dollarSign,
+          kActiveColor,
+        ),
+        OtherInfoIconTileData(
+          "4.5(50)",
+          'Rating',
+          FeatherIcons.star,
+          Colors.red,
+        ),
+        OtherInfoIconTileData(
+          "Verified",
+          'Status',
+          Icons.done,
+          Colors.green,
+        ),
+      ],
+      fields: [
+        /// username
+        IconTextField(
+          labelText: 'Username',
+          icon: FeatherIcons.user,
+          hintText: 'darksumit',
+          initialText: 'darkSuMit',
         ),
 
-        /// info
-        Expanded(
-          child: Container(
-            color: kForegroundColor,
-            child: ListView(
-              children: [
-                SizedBox(height: 16),
+        /// phone
+        IconTextField(
+          labelText: 'Phone',
+          icon: FeatherIcons.phone,
+          hintText: '987654321',
+          initialText: '+91 7667323338',
+        ),
 
-                /// username
-                SingleLineIconTextField(
-                  labelText: 'Username',
-                  labelIcon: FeatherIcons.user,
-                  hintText: 'darksumit',
-                  initialText: 'darkSuMit',
-                ),
+        /// email
+        IconTextField(
+          labelText: 'Email',
+          icon: FeatherIcons.mail,
+          hintText: 'example@mail.com',
+          initialText: 'sumit123210@gmail.com',
+        ),
 
-                /// phone
-                SingleLineIconTextField(
-                  labelText: 'Phone',
-                  labelIcon: FeatherIcons.phone,
-                  hintText: '987654321',
-                  initialText: '+91 7667323338',
-                ),
+        /// college
+        IconTextField(
+          labelText: 'College',
+          icon: FeatherIcons.home,
+          hintText: 'IIT Delhi',
+          initialText: 'Dark College',
+        ),
 
-                /// email
-                SingleLineIconTextField(
-                  labelText: 'Email',
-                  labelIcon: FeatherIcons.mail,
-                  hintText: 'example@mail.com',
-                  initialText: 'sumit123210@gmail.com',
-                ),
+        /// branch
+        IconTextField(
+          labelText: 'Branch',
+          icon: FeatherIcons.book,
+          hintText: 'Mechanical Eng',
+          initialText: 'CSE',
+        ),
 
-                /// college
-                SingleLineIconTextField(
-                  labelText: 'College',
-                  labelIcon: FeatherIcons.home,
-                  hintText: 'IIT Delhi',
-                  initialText: 'Dark College',
-                ),
-
-                /// branch
-                SingleLineIconTextField(
-                  labelText: 'Branch',
-                  labelIcon: FeatherIcons.book,
-                  hintText: 'Mechanical Eng',
-                  initialText: 'CSE',
-                ),
-
-                /// join on
-                SingleLineIconTextField(
-                  labelText: 'Join On',
-                  labelIcon: FeatherIcons.calendar,
-                  hintText: '24 Feb 2022',
-                  initialText: '2 March 2022',
-                ),
-              ],
-            ),
-          ),
+        /// join on
+        IconTextField(
+          labelText: 'Join On',
+          icon: FeatherIcons.calendar,
+          hintText: '24 Feb 2022',
+          initialText: '2 March 2022',
         ),
       ],
     );
@@ -192,27 +173,27 @@ class _AccountInfoTab extends StatelessWidget {
         SizedBox(height: 16),
 
         /// account no
-        SingleLineIconTextField(
+        IconTextField(
           labelText: 'Account No',
-          labelIcon: Icons.account_balance,
+          icon: Icons.account_balance,
         ),
 
         /// account no
-        SingleLineIconTextField(
+        IconTextField(
           labelText: 'Account Name',
-          labelIcon: Icons.person,
+          icon: Icons.person,
         ),
 
         /// IFSC no
-        SingleLineIconTextField(
+        IconTextField(
           labelText: 'IFSC No',
-          labelIcon: Icons.account_balance_wallet,
+          icon: Icons.account_balance_wallet,
         ),
 
         /// Pan no
-        SingleLineIconTextField(
+        IconTextField(
           labelText: 'Pan No',
-          labelIcon: Icons.key,
+          icon: Icons.key,
         ),
 
         Spacer(),

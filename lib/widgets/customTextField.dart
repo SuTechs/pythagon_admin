@@ -203,63 +203,160 @@ class _DropdownPickerWithIconState extends State<DropdownPickerWithIcon> {
 }
 
 /// icon single line tex field
-class SingleLineIconTextField extends StatelessWidget {
+class IconTextField extends StatelessWidget {
   final String? hintText;
   final String labelText;
-  final IconData labelIcon;
+  final IconData icon;
 
+  final bool isMultipleLine;
   final String? initialText;
-  final void Function(String?)? onChange;
-  final FormFieldValidator<String>? validator;
-  final bool autoFocus;
 
-  const SingleLineIconTextField({
+  final FormFieldValidator<String>? validator;
+
+  const IconTextField({
     Key? key,
-    this.initialText,
-    this.onChange,
-    this.hintText,
-    this.validator,
     required this.labelText,
-    required this.labelIcon,
-    this.autoFocus = false,
+    required this.icon,
+    this.hintText,
+    this.initialText,
+    this.validator,
+    this.isMultipleLine = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      autofocus: autoFocus,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: validator,
-      style: TextStyle(
-        fontSize: 14,
-      ),
+      maxLines: !isMultipleLine ? 1 : null,
       initialValue: initialText,
+      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      style: TextStyle(fontSize: 14),
       decoration: InputDecoration(
-        // contentPadding:
-        //     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         border: InputBorder.none,
         isDense: true,
         hintText: hintText,
-        label: Text(labelText),
-        icon: Icon(labelIcon),
-        iconColor: kTextDarkGrey,
-        // prefixIcon: Row(
-        //   mainAxisSize: MainAxisSize.min,
-        //   children: [
-        //     Icon(
-        //       prefixIcon,
-        //       color: kTextDarkGrey,
-        //     ),
-        //     SizedBox(width: 8),
-        //     Text(
-        //       prefixText,
-        //       style: TextStyle(color: kTextDarkGrey),
-        //     ),
-        //   ],
-        // ),
-        // prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+        labelText: labelText,
+        icon: Icon(icon),
       ),
-      onChanged: onChange,
     );
   }
 }
+
+/// drop down text field
+class DropdownTextField<T> extends StatefulWidget {
+  const DropdownTextField({
+    Key? key,
+    required this.options,
+    required this.icon,
+    required this.labelText,
+    this.hintText,
+    this.initialValue,
+  }) : super(key: key);
+
+  final List<T> options;
+  final IconData icon;
+  final String labelText;
+  final String? hintText;
+  final T? initialValue;
+
+  @override
+  State<DropdownTextField> createState() => _DropdownTextFieldState();
+}
+
+class _DropdownTextFieldState<T> extends State<DropdownTextField> {
+  late T? _value = widget.initialValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField<T>(
+      items: [
+        for (final v in widget.options)
+          DropdownMenuItem(
+            child: Text(
+              v,
+              style: TextStyle(fontSize: 14),
+            ),
+            value: v,
+          )
+      ],
+      value: _value,
+      onChanged: (v) {
+        setState(() {
+          _value = v;
+        });
+      },
+      style: TextTheme().subtitle1?.copyWith(fontSize: 14),
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        isDense: true,
+        hintText: widget.hintText,
+        labelText: widget.labelText,
+        icon: Icon(widget.icon),
+      ),
+    );
+  }
+}
+
+// class IconTextField0 extends StatelessWidget {
+//   final String labelText;
+//   final String hintText;
+//   final IconData icon;
+//   final bool readOnly;
+//   final bool obscureText;
+//   final TextEditingController controller;
+//   final void Function()? onTap;
+//   final void Function()? onSubmit;
+//   final TextInputAction textInputAction;
+//   final bool isRequired;
+//   final int? maxLine;
+//   final TextInputType? keyboardType;
+//   final Iterable<String>? autofillHints;
+//
+//   const IconTextField0(
+//       {Key? key,
+//       required this.labelText,
+//       required this.icon,
+//       required this.controller,
+//       this.hintText = '',
+//       this.readOnly = false,
+//       this.obscureText = false,
+//       this.textInputAction = TextInputAction.next,
+//       this.onTap,
+//       this.onSubmit,
+//       this.isRequired = false,
+//       this.maxLine = 1,
+//       this.keyboardType,
+//       this.autofillHints})
+//       : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListTile(
+//       leading: Icon(icon),
+//       title: TextFormField(
+//         autofillHints: autofillHints,
+//         keyboardType: keyboardType,
+//         maxLines: maxLine,
+//         onEditingComplete: onSubmit,
+//         validator: (v) {
+//           if (isRequired && (v == null || v.trim().length < 1))
+//             return '$labelText is required';
+//
+//           return null;
+//         },
+//         controller: controller,
+//         onTap: onTap,
+//         textInputAction: textInputAction,
+//         readOnly: readOnly,
+//         obscureText: obscureText,
+//         decoration: InputDecoration(
+//           contentPadding: EdgeInsets.all(0),
+//           border: InputBorder.none,
+//           isDense: true,
+//           hintText: hintText,
+//           labelText: labelText,
+//         ),
+//       ),
+//     );
+//   }
+// }

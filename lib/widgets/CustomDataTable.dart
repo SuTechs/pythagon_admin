@@ -80,25 +80,11 @@ class CustomDataTable extends StatelessWidget {
         visualDensity: VisualDensity.standard,
         contentPadding: EdgeInsets.all(0),
         horizontalTitleGap: 3,
-        leading: CircleAvatar(
-          radius: 16,
-          backgroundColor: color.withOpacity(0.12),
-          child: imageUrl != null
-              ? Image.network(imageUrl)
-              : iconData != null
-                  ? Icon(
-                      iconData,
-                      color: color,
-                      size: 14,
-                    )
-                  : Text(
-                      noImageText!,
-                      style: TextStyle(
-                        color: color,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+        leading: ProfileCircle(
+          iconData: iconData,
+          imageUrl: imageUrl,
+          noImageText: noImageText,
+          color: color,
         ),
         title: Text(
           title,
@@ -199,4 +185,81 @@ class CustomDataTable extends StatelessWidget {
           ],
         ),
       );
+}
+
+class ProfileCircle extends StatelessWidget {
+  final String? imageUrl;
+  final String? noImageText;
+  final IconData? iconData;
+  final Color color;
+  final double radius;
+
+  const ProfileCircle(
+      {Key? key,
+      this.imageUrl,
+      this.noImageText,
+      this.iconData,
+      this.color = kActiveColor,
+      this.radius = 16})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: radius,
+      backgroundColor: color.withOpacity(0.12),
+      child: imageUrl != null
+          ? Image.network(imageUrl!)
+          : iconData != null
+              ? Icon(
+                  iconData,
+                  color: color,
+                  size: 14,
+                )
+              : Text(
+                  noImageText!,
+                  style: TextStyle(
+                    color: color,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+    );
+  }
+}
+
+class DetailDrawerHeader extends StatelessWidget {
+  final VoidCallback? onPressed;
+
+  const DetailDrawerHeader({Key? key, this.onPressed}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        children: [
+          SizedBox(width: 12),
+          IconButton(
+            icon: Icon(
+              Icons.clear,
+              color: kActiveColor,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          Spacer(),
+          IconButton(
+            icon: Icon(
+              Icons.done,
+              color: kActiveColor,
+            ),
+            onPressed: onPressed,
+          ),
+          SizedBox(width: 12),
+        ],
+      ),
+    );
+  }
 }

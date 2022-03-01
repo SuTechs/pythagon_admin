@@ -209,10 +209,10 @@ class TimelineBuilder extends StatelessWidget {
       return Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: kActiveColor,
+          color: _kYellowActiveColor,
           border: Border.all(
-            width: 3,
-            color: kActiveColor.withOpacity(0.4),
+            width: 2,
+            color: _kYellowBgColor,
           ),
         ),
       );
@@ -220,10 +220,10 @@ class TimelineBuilder extends StatelessWidget {
       return Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.blue,
+          color: _kGreenActiveColor,
           border: Border.all(
-            width: 3,
-            color: Colors.yellow,
+            width: 2,
+            color: _kGreenBgColor,
           ),
         ),
       );
@@ -233,7 +233,7 @@ class TimelineBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Timeline(
-      indicatorSize: 20,
+      indicatorSize: 16,
       children: timeLineData
           .map(
             (e) => ListTile(
@@ -265,3 +265,11 @@ class TimelineBuilder extends StatelessWidget {
     );
   }
 }
+
+// const Color _kPurpleBgColor = Color(0xffDAC7FF);
+// const Color _kRedBgColor = Color(0xffFCCFCF);
+// const Color _kRedActiveColor = Color(0xffEA5455);
+const Color _kGreenBgColor = Color(0xffE0F9EE);
+const Color _kGreenActiveColor = Color(0xff11D47B);
+const Color _kYellowBgColor = Color(0xffFFE5C6);
+const Color _kYellowActiveColor = Color(0xffFF9B26);

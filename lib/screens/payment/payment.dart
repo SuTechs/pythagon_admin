@@ -209,7 +209,7 @@ class _PaymentOverviewState extends State<_PaymentOverview> {
                     dense: true,
                     leading: Icon(
                       Icons.timer,
-                      color: Colors.yellow,
+                      color: const Color(0xffFF9B26),
                     ),
                     title: Text(
                       "Pending",
@@ -220,10 +220,9 @@ class _PaymentOverviewState extends State<_PaymentOverview> {
                     subtitle: Text(
                       r"$ 472",
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: Colors.yellow,
-                      ),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          color: const Color(0xffFF9B26)),
                     ),
                   ),
                 ),

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pythagon_admin/screens/settings/settings.dart';
 
 import '../../widgets/CustomDataTable.dart';
 import '../../widgets/customScaffold.dart';
@@ -26,6 +28,10 @@ class _DataList extends StatelessWidget {
           "ADMIN INFO",
           "CREATED ON",
           "UPDATED ON",
+          "WORK",
+          "RECEIVED",
+          "TOTAL",
+          "DUE",
           "STATUS",
           "ACTION",
         ],
@@ -34,7 +40,15 @@ class _DataList extends StatelessWidget {
             DataRow(
               cells: [
                 /// ID
-                CustomDataTable.getIdCell('6262'),
+                CustomDataTable.getIdCell(
+                  '6262',
+                  onTap: () => Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (_) => Settings(),
+                    ),
+                  ),
+                ),
 
                 /// Admin Info
                 CustomDataTable.getBasicInfoCell(
@@ -47,6 +61,18 @@ class _DataList extends StatelessWidget {
 
                 /// Updated On
                 CustomDataTable.getTextCell('19 Apr 2022'),
+
+                /// Total Work
+                CustomDataTable.getTextCell('16/19'),
+
+                /// Payment Received
+                CustomDataTable.getTextCell('\$762'),
+
+                /// Payment Due
+                CustomDataTable.getTextCell('\$368'),
+
+                /// Total Payment
+                CustomDataTable.getTextCell('\$1100'),
 
                 /// Status
                 CustomDataTable.getChipCell(

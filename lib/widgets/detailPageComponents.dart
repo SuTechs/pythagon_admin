@@ -17,9 +17,8 @@ class DetailBasicInfoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: kForegroundColor,
-      padding: EdgeInsets.all(16.0),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -79,9 +78,7 @@ class DetailBasicInfoTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 8.0,
-                    ),
+                    SizedBox(height: 8.0),
                     SingleLineTextField(
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -89,9 +86,7 @@ class DetailBasicInfoTile extends StatelessWidget {
                         fontSize: 18,
                       ),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    SizedBox(height: 8),
                     ConstrainedBox(
                       constraints: BoxConstraints(maxHeight: 100),
                       child: DescriptionTextField(
@@ -103,6 +98,16 @@ class DetailBasicInfoTile extends StatelessWidget {
                           fontSize: 14,
                         ),
                       ),
+                    ),
+                    SizedBox(height: 8),
+
+                    /// Update Button
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: kActiveColor),
+                      ),
+                      onPressed: () {},
+                      child: Text('Update'),
                     ),
                   ],
                 ),
@@ -370,6 +375,134 @@ class _AttachmentListState extends State<AttachmentList> {
                 ),
         )
       ],
+    );
+  }
+}
+
+/// StudentTeacherBasic Info Tile
+
+class StudentTeacherBasicInfo extends StatelessWidget {
+  final List<OtherInfoIconTileData> otherInfoData;
+  final List<IconTextField> fields;
+
+  const StudentTeacherBasicInfo(
+      {Key? key, required this.otherInfoData, required this.fields})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: kForegroundColor,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: DetailBasicInfoTile(
+              isSubject: false,
+              otherInfoData: [
+                OtherInfoIconTileData(
+                  '\$300',
+                  'Total',
+                  FeatherIcons.dollarSign,
+                  kActiveColor,
+                ),
+                OtherInfoIconTileData(
+                  "45/50",
+                  'Work',
+                  FeatherIcons.briefcase,
+                  Colors.red,
+                ),
+                OtherInfoIconTileData(
+                  "Active",
+                  'Status',
+                  Icons.done,
+                  Colors.green,
+                ),
+              ],
+            ),
+          ),
+
+          SizedBox(width: 16),
+
+          /// info
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 16),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      /// username
+                      IconTextField(
+                        labelText: 'Username',
+                        icon: FeatherIcons.user,
+                        hintText: 'darksumit',
+                        initialText: 'darkSuMit',
+                      ),
+
+                      /// phone
+                      IconTextField(
+                        labelText: 'Phone',
+                        icon: FeatherIcons.phone,
+                        hintText: '987654321',
+                        initialText: '+91 7667323338',
+                      ),
+
+                      /// email
+                      IconTextField(
+                        labelText: 'Email',
+                        icon: FeatherIcons.mail,
+                        hintText: 'example@mail.com',
+                        initialText: 'sumit123210@gmail.com',
+                      ),
+
+                      /// college
+                      IconTextField(
+                        labelText: 'College',
+                        icon: FeatherIcons.home,
+                        hintText: 'IIT Delhi',
+                        initialText: 'Dark College',
+                      ),
+
+                      /// branch
+                      IconTextField(
+                        labelText: 'Branch',
+                        icon: FeatherIcons.book,
+                        hintText: 'Mechanical Eng',
+                        initialText: 'CSE',
+                      ),
+
+                      /// join on
+                      IconTextField(
+                        labelText: 'Join On',
+                        icon: FeatherIcons.calendar,
+                        hintText: '24 Feb 2022',
+                        initialText: '2 March 2022',
+                      ),
+                    ],
+                  ),
+                ),
+
+                /// Update Button
+
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: kActiveColor),
+                    padding: EdgeInsets.all(12),
+                  ),
+                  onPressed: () {},
+                  child: Text('Update'),
+                ),
+                SizedBox(height: 16),
+              ],
+            ),
+          ),
+
+          // empty space
+          SizedBox(width: 32),
+        ],
+      ),
     );
   }
 }

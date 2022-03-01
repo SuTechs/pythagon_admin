@@ -10,7 +10,7 @@ import 'analytics/analytics.dart';
 import 'college/collegeList.dart';
 import 'course/courseList.dart';
 import 'payment/payment.dart';
-import 'settings/settings_screen.dart';
+import 'settings/settings.dart';
 import 'student/studentList.dart';
 import 'subject/subjectList.dart';
 import 'teacher/teacherList.dart';
@@ -114,11 +114,11 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: FeatherIcons.settings,
         title: 'Settings',
       ),
-      screen: SettingsScreen(),
+      screen: Settings(),
     ),
   ];
 
-  int _currTab = 7;
+  int _currTab = 0;
 
   @override
   Widget build(BuildContext context) {

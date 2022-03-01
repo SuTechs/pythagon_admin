@@ -75,27 +75,30 @@ class _BasicInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DetailBasicInfoTile(
-      otherInfoData: [
-        OtherInfoIconTileData(
-          '\$300',
-          'Total',
-          FeatherIcons.dollarSign,
-          kActiveColor,
-        ),
-        OtherInfoIconTileData(
-          "29 Jan 2021",
-          'Due Date',
-          Icons.calendar_today_sharp,
-          Colors.red,
-        ),
-        OtherInfoIconTileData(
-          "Uchit Chakma",
-          '8979767368',
-          FontAwesome5.graduation_cap,
-          Colors.green,
-        ),
-      ],
+    return Container(
+      color: kForegroundColor,
+      child: DetailBasicInfoTile(
+        otherInfoData: [
+          OtherInfoIconTileData(
+            '\$300',
+            'Total',
+            FeatherIcons.dollarSign,
+            kActiveColor,
+          ),
+          OtherInfoIconTileData(
+            "29 Jan 2021",
+            'Due Date',
+            Icons.calendar_today_sharp,
+            Colors.red,
+          ),
+          OtherInfoIconTileData(
+            "Uchit Chakma",
+            '8979767368',
+            FontAwesome5.graduation_cap,
+            Colors.green,
+          ),
+        ],
+      ),
     );
   }
 }

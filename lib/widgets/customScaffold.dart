@@ -3,13 +3,26 @@ import 'package:pythagon_admin/constants.dart';
 
 class CustomScaffold extends Scaffold {
   CustomScaffold({
-    Key? key,
     required Widget body,
-    Widget? drawer,
+    Widget? drawerBody,
     PreferredSizeWidget? bottom,
   }) : super(
-          key: key,
-          endDrawer: drawer,
+          endDrawer: drawerBody != null
+              ? ConstrainedBox(
+                  constraints: BoxConstraints.expand(
+                    width: 400,
+                  ),
+                  child: Drawer(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: drawerBody,
+                    ),
+                  ),
+                )
+              : null,
           body: body,
           appBar: AppBar(
             title: Text(

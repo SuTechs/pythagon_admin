@@ -39,93 +39,74 @@ class _BasicInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 3,
-          child: DetailBasicInfoTile(
-            isSubject: false,
-            otherInfoData: [
-              OtherInfoIconTileData(
-                '\$300',
-                'Total',
-                FeatherIcons.dollarSign,
-                kActiveColor,
-              ),
-              OtherInfoIconTileData(
-                "45/50",
-                'Work',
-                FeatherIcons.briefcase,
-                Colors.red,
-              ),
-              OtherInfoIconTileData(
-                "Active",
-                'Status',
-                Icons.done,
-                Colors.green,
-              ),
-            ],
-          ),
+    return StudentTeacherBasicInfo(
+      otherInfoData: [
+        OtherInfoIconTileData(
+          '\$300',
+          'Total',
+          FeatherIcons.dollarSign,
+          kActiveColor,
+        ),
+        OtherInfoIconTileData(
+          "45/50",
+          'Work',
+          FeatherIcons.briefcase,
+          Colors.red,
+        ),
+        OtherInfoIconTileData(
+          "Active",
+          'Status',
+          Icons.done,
+          Colors.green,
+        ),
+      ],
+      fields: [
+        /// username
+        IconTextField(
+          labelText: 'Username',
+          icon: FeatherIcons.user,
+          hintText: 'darksumit',
+          initialText: 'darkSuMit',
         ),
 
-        /// info
-        Expanded(
-          child: Container(
-            color: kForegroundColor,
-            child: ListView(
-              children: [
-                SizedBox(height: 16),
+        /// phone
+        IconTextField(
+          labelText: 'Phone',
+          icon: FeatherIcons.phone,
+          hintText: '987654321',
+          initialText: '+91 7667323338',
+        ),
 
-                /// username
-                SingleLineIconTextField(
-                  labelText: 'Username',
-                  labelIcon: FeatherIcons.user,
-                  hintText: 'darksumit',
-                  initialText: 'darkSuMit',
-                ),
+        /// email
+        IconTextField(
+          labelText: 'Email',
+          icon: FeatherIcons.mail,
+          hintText: 'example@mail.com',
+          initialText: 'sumit123210@gmail.com',
+        ),
 
-                /// phone
-                SingleLineIconTextField(
-                  labelText: 'Phone',
-                  labelIcon: FeatherIcons.phone,
-                  hintText: '987654321',
-                  initialText: '+91 7667323338',
-                ),
+        /// college
+        IconTextField(
+          labelText: 'College',
+          icon: FeatherIcons.home,
+          hintText: 'IIT Delhi',
+          initialText: 'Dark College',
+        ),
 
-                /// email
-                SingleLineIconTextField(
-                  labelText: 'Email',
-                  labelIcon: FeatherIcons.mail,
-                  hintText: 'example@mail.com',
-                  initialText: 'sumit123210@gmail.com',
-                ),
+        /// branch
+        IconTextField(
+          labelText: 'Branch',
+          icon: FeatherIcons.book,
+          hintText: 'Mechanical Eng',
+          initialText: 'CSE',
+        ),
 
-                /// college
-                SingleLineIconTextField(
-                  labelText: 'College',
-                  labelIcon: FeatherIcons.home,
-                  hintText: 'IIT Delhi',
-                  initialText: 'Dark College',
-                ),
-
-                /// branch
-                SingleLineIconTextField(
-                  labelText: 'Branch',
-                  labelIcon: FeatherIcons.book,
-                  hintText: 'Mechanical Eng',
-                  initialText: 'CSE',
-                ),
-
-                /// join on
-                SingleLineIconTextField(
-                  labelText: 'Join On',
-                  labelIcon: FeatherIcons.calendar,
-                  hintText: '24 Feb 2022',
-                  initialText: '2 March 2022',
-                ),
-              ],
-            ),
-          ),
+        /// join on
+        IconTextField(
+          labelText: 'Join On',
+          icon: FeatherIcons.calendar,
+          hintText: '24 Feb 2022',
+          initialText: '2 March 2022',
         ),
       ],
     );
