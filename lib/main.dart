@@ -1,7 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pythagon_admin/data/bloc/collegeBloc.dart';
 import 'package:pythagon_admin/screens/home.dart';
 
 void main() async {
@@ -11,7 +12,7 @@ void main() async {
     print('Firebase init error = $e');
   });
 
-  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+  // FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
 
   runApp(MyApp());
 
@@ -22,15 +23,22 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Pythagon',
-      theme: ThemeData(
-        fontFamily: "Montserrat",
-        // colorSchemeSeed: kActiveColor,
-        primarySwatch: _kActiveSwatch,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (c) => CollegeBloc()),
+        Provider<BuildContext>(create: (c) => c),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Pythagon',
+        theme: ThemeData(
+          fontFamily: "Montserrat",
+          // colorSchemeSeed: kActiveColor,
+          useMaterial3: true,
+          primarySwatch: _kActiveSwatch,
+        ),
+        home: HomeScreen(),
       ),
-      home: HomeScreen(),
     );
   }
 

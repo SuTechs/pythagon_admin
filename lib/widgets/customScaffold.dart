@@ -4,6 +4,7 @@ import 'package:pythagon_admin/constants.dart';
 class CustomScaffold extends Scaffold {
   CustomScaffold({
     required Widget body,
+    String? title,
     Widget? drawerBody,
     PreferredSizeWidget? bottom,
   }) : super(
@@ -25,12 +26,14 @@ class CustomScaffold extends Scaffold {
               : null,
           body: body,
           appBar: AppBar(
-            title: Text(
-              'This is Heading',
-              style: TextStyle(
-                color: kActiveColor,
-              ),
-            ),
+            title: title != null
+                ? Text(
+                    title,
+                    style: TextStyle(
+                      color: kActiveColor,
+                    ),
+                  )
+                : null,
             iconTheme: IconThemeData(
               color: kActiveColor,
             ),

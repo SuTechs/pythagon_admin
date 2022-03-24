@@ -4,34 +4,90 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import '../constants.dart';
 
 class CustomDataTable extends StatelessWidget {
-  const CustomDataTable(
-      {Key? key, required this.headersLabel, required this.dataRows})
-      : super(key: key);
+  const CustomDataTable({
+    Key? key,
+    required this.headersLabel,
+    required this.dataRows,
+    this.hasTopMargin = true,
+    this.onAddNew,
+  }) : super(key: key);
 
   final List<String> headersLabel;
   final List<DataRow> dataRows;
+  final bool hasTopMargin;
+  final void Function()? onAddNew;
 
   @override
   Widget build(BuildContext context) {
-    return DataTable(
-      headingRowHeight: 40,
-      dataRowHeight: 64.0,
-      dividerThickness: 0.4,
-      dataRowColor: MaterialStateProperty.all(kForegroundColor),
-      headingRowColor: MaterialStateProperty.all(const Color(0xfff3f2f7)),
-      columns: [
-        for (final label in headersLabel)
-          DataColumn(
-            label: Text(
-              label,
-              style: TextStyle(
-                color: kTextDarkGrey,
-                fontSize: 12,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          margin: hasTopMargin ? EdgeInsets.only(top: 16) : null,
+          padding: EdgeInsets.all(16),
+          color: kForegroundColor,
+          child: Row(
+            children: [
+              /// add new button
+              ElevatedButton(
+                onPressed: onAddNew,
+                child: Text('Add New'),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(16),
+                ),
               ),
-            ),
+
+              Spacer(),
+
+              /// search
+              SizedBox(
+                width: 300,
+                child: TextField(
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 0.3,
+                        color: kTextLightGrey,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 0.8,
+                        color: kActiveColor,
+                      ),
+                    ),
+                    hintText: 'Search...',
+                  ),
+                ),
+              ),
+            ],
           ),
+        ),
+        DataTable(
+          headingRowHeight: 40,
+          dataRowHeight: 64.0,
+          dividerThickness: 0.4,
+          dataRowColor: MaterialStateProperty.all(kForegroundColor),
+          headingRowColor: MaterialStateProperty.all(const Color(0xfff3f2f7)),
+          columns: [
+            for (final label in headersLabel)
+              DataColumn(
+                label: Text(
+                  label,
+                  style: TextStyle(
+                    color: kTextDarkGrey,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+          ],
+          rows: dataRows,
+        ),
       ],
-      rows: dataRows,
     );
   }
 
@@ -229,37 +285,35 @@ class ProfileCircle extends StatelessWidget {
 }
 
 class DetailDrawerHeader extends StatelessWidget {
-  final VoidCallback? onPressed;
+  final VoidCallback? onDone;
+  final bool hasDoneButton;
 
-  const DetailDrawerHeader({Key? key, this.onPressed}) : super(key: key);
+  const DetailDrawerHeader({Key? key, this.onDone, this.hasDoneButton = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Row(
-        children: [
-          SizedBox(width: 12),
-          IconButton(
-            icon: Icon(
-              Icons.clear,
-              color: kActiveColor,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+    return Row(
+      children: [
+        IconButton(
+          icon: Icon(
+            Icons.clear,
+            color: kActiveColor,
           ),
-          Spacer(),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        Spacer(),
+        if (hasDoneButton)
           IconButton(
             icon: Icon(
               Icons.done,
               color: kActiveColor,
             ),
-            onPressed: onPressed,
+            onPressed: onDone,
           ),
-          SizedBox(width: 12),
-        ],
-      ),
+      ],
     );
   }
 }

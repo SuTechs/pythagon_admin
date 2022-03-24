@@ -115,6 +115,24 @@ class DetailBasicInfoTile extends StatelessWidget {
             ],
           ),
 
+          /// assignment type
+          if (isSubject)
+            DropdownPickerWithIcon(
+              hint: 'Select Type',
+              options: [
+                'Session',
+                'Assignment',
+              ],
+              colors: [
+                Colors.red,
+                Colors.green,
+              ],
+              optionsIcon: [
+                FeatherIcons.clock,
+                FeatherIcons.book,
+              ],
+            ),
+
           Spacer(),
 
           /// other info

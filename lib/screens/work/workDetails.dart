@@ -31,10 +31,10 @@ class WorkDetails extends StatelessWidget {
 
                   SizedBox(width: 24),
 
-                  /// Payment & Transactions
+                  /// assignment files
                   Expanded(
                     flex: 2,
-                    child: _PaymentInfo(),
+                    child: _AssignmentDocuments(),
                   )
                 ],
               ),
@@ -43,7 +43,7 @@ class WorkDetails extends StatelessWidget {
 
             /// teacher & activity
             SizedBox(
-              height: 600,
+              height: 700,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -58,7 +58,13 @@ class WorkDetails extends StatelessWidget {
                   /// activity timeline
                   Expanded(
                     flex: 2,
-                    child: _ActivityInfo(),
+                    child: Column(
+                      children: [
+                        Expanded(child: _PaymentInfo()),
+                        SizedBox(height: 24),
+                        Expanded(child: _ActivityInfo()),
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -110,6 +116,7 @@ class _TeacherInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: CustomDataTable(
+        hasTopMargin: false,
         headersLabel: const [
           "#",
           "INFO",
@@ -515,6 +522,36 @@ class _ActivityInfo extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _AssignmentDocuments extends StatelessWidget {
+  const _AssignmentDocuments({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DetailTabView(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      tabTitles: [
+        'Assignment',
+        'Reference',
+      ],
+      children: [
+        /// assignment
+        AttachmentList(
+          files: [],
+          onFileDelete: (s) async {},
+          onFilesUpload: (s) async {},
+        ),
+
+        /// reference
+        AttachmentList(
+          files: [],
+          onFileDelete: (s) async {},
+          onFilesUpload: (s) async {},
+        ),
+      ],
     );
   }
 }

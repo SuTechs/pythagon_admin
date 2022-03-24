@@ -178,6 +178,7 @@ class _DropdownPickerWithIconState extends State<DropdownPickerWithIcon> {
               child: ListTile(
                 contentPadding: EdgeInsets.all(0),
                 dense: true,
+                horizontalTitleGap: 0,
                 leading: CircleAvatar(
                   radius: 12,
                   backgroundColor: widget.colors[i].withOpacity(0.12),
@@ -197,6 +198,7 @@ class _DropdownPickerWithIconState extends State<DropdownPickerWithIcon> {
             value = index;
           });
         },
+        icon: SizedBox.shrink(),
       ),
     );
   }
@@ -213,6 +215,10 @@ class IconTextField extends StatelessWidget {
 
   final FormFieldValidator<String>? validator;
 
+  final bool readOnly;
+  final GestureTapCallback? onTap;
+  final ValueChanged<String>? onChanged;
+
   const IconTextField({
     Key? key,
     required this.labelText,
@@ -221,11 +227,16 @@ class IconTextField extends StatelessWidget {
     this.initialText,
     this.validator,
     this.isMultipleLine = false,
+    this.readOnly = false,
+    this.onTap,
+    this.onChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly,
+      onTap: onTap,
       maxLines: !isMultipleLine ? 1 : null,
       initialValue: initialText,
       validator: validator,
@@ -238,12 +249,13 @@ class IconTextField extends StatelessWidget {
         labelText: labelText,
         icon: Icon(icon),
       ),
+      onChanged: onChanged,
     );
   }
 }
 
 /// drop down text field
-class DropdownTextField<T> extends StatefulWidget {
+class DropdownTextField extends StatefulWidget {
   const DropdownTextField({
     Key? key,
     required this.options,
@@ -251,24 +263,26 @@ class DropdownTextField<T> extends StatefulWidget {
     required this.labelText,
     this.hintText,
     this.initialValue,
+    this.onChanged,
   }) : super(key: key);
 
-  final List<T> options;
+  final List<String> options;
   final IconData icon;
   final String labelText;
   final String? hintText;
-  final T? initialValue;
+  final String? initialValue;
+  final ValueChanged<String?>? onChanged;
 
   @override
   State<DropdownTextField> createState() => _DropdownTextFieldState();
 }
 
 class _DropdownTextFieldState<T> extends State<DropdownTextField> {
-  late T? _value = widget.initialValue;
+  late String? _value = widget.initialValue;
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<T>(
+    return DropdownButtonFormField<String>(
       items: [
         for (final v in widget.options)
           DropdownMenuItem(
@@ -284,6 +298,7 @@ class _DropdownTextFieldState<T> extends State<DropdownTextField> {
         setState(() {
           _value = v;
         });
+        if (widget.onChanged != null) widget.onChanged!(v);
       },
       style: TextTheme().subtitle1?.copyWith(fontSize: 14),
       decoration: InputDecoration(

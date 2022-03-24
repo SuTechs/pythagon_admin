@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:pythagon_admin/widgets/showRoundedBottomSheet.dart';
 
 import '../../widgets/CustomDataTable.dart';
 import '../../widgets/customScaffold.dart';
@@ -46,6 +47,7 @@ class _DataList extends StatelessWidget {
                 /// Basic Info
                 CustomDataTable.getBasicInfoCell(
                   title: 'Python',
+                  subtitle: 'CSE',
                 ),
 
                 /// Created On
@@ -92,7 +94,7 @@ class _DetailsDrawer extends StatelessWidget {
           /// drawer header
 
           DetailDrawerHeader(
-            onPressed: () {
+            onDone: () {
               if (_formKey.currentState!.validate()) {
                 print('Hello Su Mit call api here and update the database');
                 Navigator.maybePop(context);
@@ -114,19 +116,29 @@ class _DetailsDrawer extends StatelessWidget {
 
                 SizedBox(height: 32),
 
+                /// course
+                IconTextField(
+                  labelText: 'Course',
+                  icon: FeatherIcons.book,
+                  initialText: 'CSE',
+                  readOnly: true,
+                  onTap: () {
+                    showRoundedBottomSheet(
+                      context: context,
+                      child: SelectFromList<String>(
+                        items: [for (int i = 0; i < 10; i++) 'Hello $i'],
+                        onSelect: (_) {},
+                      ),
+                    );
+                  },
+                ),
+
                 /// name
                 IconTextField(
                   labelText: 'Name',
                   icon: FeatherIcons.type,
                   initialText: 'CSE',
                 ),
-
-                // /// subjects
-                // IconTextField(
-                //   labelText: 'Subjects',
-                //   hintText: 'C++, Math',
-                //   icon: FeatherIcons.mapPin,
-                // ),
 
                 /// status
                 DropdownTextField(

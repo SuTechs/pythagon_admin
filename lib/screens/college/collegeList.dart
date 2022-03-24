@@ -1,29 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:provider/provider.dart';
+import 'package:pythagon_admin/data/bloc/collegeBloc.dart';
 
+import '../../data/data.dart';
+import '../../data/utils/Utils.dart';
 import '../../widgets/CustomDataTable.dart';
 import '../../widgets/customScaffold.dart';
 import '../../widgets/customTextField.dart';
 
-class CollegeList extends StatelessWidget {
+class CollegeList extends StatefulWidget {
   const CollegeList({Key? key}) : super(key: key);
+
+  @override
+  State<CollegeList> createState() => _CollegeListState();
+}
+
+class _CollegeListState extends State<CollegeList> {
+  CollegeData? _selectedCollege;
+
+  bool _isLoading = true;
+
+  void fetchCollege() async {
+    await context.read<CollegeBloc>().getCollege();
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    fetchCollege();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      drawerBody: _DetailsDrawer(),
-      body: _DataList(),
+      drawerBody:
+          _DetailsDrawer(initialCollegeData: _selectedCollege ?? CollegeData()),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : _DataList(
+              colleges: context.watch<CollegeBloc>().colleges,
+              onAddNew: () {
+                setState(() {
+                  _selectedCollege = CollegeData();
+                });
+
+                print('hello noob');
+              },
+              onDetailClick: (college) {
+                setState(() {
+                  // _selectedCollege = CollegeData.fromJson(college.toJson());
+                  _selectedCollege = college;
+                });
+              },
+            ),
     );
   }
 }
 
 class _DataList extends StatelessWidget {
-  const _DataList({Key? key}) : super(key: key);
+  final List<CollegeData> colleges;
+  final void Function() onAddNew;
+  final void Function(CollegeData) onDetailClick;
+
+  const _DataList({
+    Key? key,
+    required this.colleges,
+    required this.onAddNew,
+    required this.onDetailClick,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: CustomDataTable(
+        onAddNew: () {
+          onAddNew();
+          Scaffold.of(context).openEndDrawer();
+        },
         headersLabel: const [
           "#",
           "College",
@@ -34,39 +91,40 @@ class _DataList extends StatelessWidget {
           "ACTION",
         ],
         dataRows: [
-          for (int i = 0; i < 10; i++)
+          for (final c in colleges)
             DataRow(
               cells: [
                 /// ID
                 CustomDataTable.getIdCell(
-                  '6262',
+                  c.id,
                   onTap: () {
+                    onDetailClick(c);
                     Scaffold.of(context).openEndDrawer();
                   },
                 ),
 
                 /// College Basic Info
                 CustomDataTable.getBasicInfoCell(
-                  title: 'HKBK College of Eng',
-                  subtitle: 'Planet Earth, Milky Way Galaxy, Universe 7',
+                  title: c.name,
+                  subtitle: c.address,
                 ),
 
                 /// Created On
-                CustomDataTable.getTextCell('19 Apr 2022'),
+                CustomDataTable.getTextCell(getShortFormattedTime(c.createdAt)),
 
                 /// Updated On
-                CustomDataTable.getTextCell('19 Apr 2022'),
+                CustomDataTable.getTextCell(getShortFormattedTime(c.updatedAt)),
 
                 /// Status
                 CustomDataTable.getChipCell(
-                  'Active',
-                  const Color(0xff28c76f),
+                  c.isActive ? 'Active' : 'InActive',
+                  c.isActive ? const Color(0xff28c76f) : Colors.red,
                 ),
 
                 /// Visibility
                 CustomDataTable.getChipCell(
-                  'Both',
-                  const Color(0xff28c76f),
+                  c.visibility,
+                  c.visibility == 'None' ? Colors.red : const Color(0xff28c76f),
                 ),
 
                 /// Action
@@ -79,12 +137,21 @@ class _DataList extends StatelessWidget {
   }
 }
 
-class _DetailsDrawer extends StatelessWidget {
-  const _DetailsDrawer({Key? key}) : super(key: key);
+class _DetailsDrawer extends StatefulWidget {
+  final CollegeData initialCollegeData;
 
-  // final TextEditingController _name = TextEditingController();
+  const _DetailsDrawer({Key? key, required this.initialCollegeData})
+      : super(key: key);
 
+  @override
+  State<_DetailsDrawer> createState() => _DetailsDrawerState();
+}
+
+class _DetailsDrawerState extends State<_DetailsDrawer> {
   static final _formKey = GlobalKey<FormState>();
+
+  late final _college =
+      CollegeData.fromJson(widget.initialCollegeData.toJson());
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +162,16 @@ class _DetailsDrawer extends StatelessWidget {
           /// drawer header
 
           DetailDrawerHeader(
-            onPressed: () {
+            hasDoneButton: widget.initialCollegeData.name != _college.name ||
+                widget.initialCollegeData.img != _college.img ||
+                widget.initialCollegeData.address != _college.address ||
+                widget.initialCollegeData.notes != _college.notes ||
+                widget.initialCollegeData.visibility != _college.visibility ||
+                widget.initialCollegeData.isActive != _college.isActive,
+            onDone: () {
               if (_formKey.currentState!.validate()) {
                 print('Hello Su Mit call api here and update the database');
+                context.read<CollegeBloc>().addCollege(_college);
                 Navigator.maybePop(context);
               }
             },
@@ -108,9 +182,12 @@ class _DetailsDrawer extends StatelessWidget {
             child: ListView(
               children: [
                 /// profile pic
+
                 Center(
                   child: ProfileCircle(
-                    noImageText: 'Su',
+                    noImageText: _college.name.length > 2
+                        ? _college.name.substring(0, 2)
+                        : _college.name,
                     radius: 56,
                   ),
                 ),
@@ -119,16 +196,33 @@ class _DetailsDrawer extends StatelessWidget {
 
                 /// name
                 IconTextField(
+                  validator: (s) {
+                    if (s == null) return 'Name is required';
+                    if (s.trim().isEmpty) return 'Name is required';
+                    return null;
+                  },
                   labelText: 'Name',
                   icon: FeatherIcons.type,
-                  initialText: 'IIT Delhi',
+                  initialText: widget.initialCollegeData.name,
+                  onChanged: (name) => setState(() {
+                    _college.name = name;
+                  }),
                 ),
 
                 /// address
                 IconTextField(
+                  validator: (s) {
+                    if (s == null) return 'Address is required';
+                    if (s.trim().isEmpty) return 'Address is required';
+                    return null;
+                  },
                   labelText: 'Address',
                   hintText: 'Bangalore, India',
                   icon: FeatherIcons.mapPin,
+                  initialText: widget.initialCollegeData.address,
+                  onChanged: (address) => setState(() {
+                    _college.address = address;
+                  }),
                 ),
 
                 /// status
@@ -136,7 +230,12 @@ class _DetailsDrawer extends StatelessWidget {
                   options: ['Active', 'InActive'],
                   labelText: 'Status',
                   icon: FeatherIcons.toggleRight,
-                  initialValue: 'Active',
+                  initialValue: widget.initialCollegeData.isActive
+                      ? 'Active'
+                      : 'InActive',
+                  onChanged: (isActive) => setState(() {
+                    _college.isActive = isActive == 'Active';
+                  }),
                 ),
 
                 /// visibility
@@ -144,7 +243,10 @@ class _DetailsDrawer extends StatelessWidget {
                   options: ['Student', 'Teacher', 'Both', 'None'],
                   labelText: 'Visibility',
                   icon: FeatherIcons.users,
-                  initialValue: 'None',
+                  initialValue: widget.initialCollegeData.visibility,
+                  onChanged: (v) => setState(() {
+                    _college.visibility = v!;
+                  }),
                 ),
 
                 /// Notes or Comments
@@ -153,6 +255,10 @@ class _DetailsDrawer extends StatelessWidget {
                   labelText: 'Notes',
                   hintText: 'Add Some notes here...',
                   icon: FeatherIcons.edit,
+                  initialText: widget.initialCollegeData.notes,
+                  onChanged: (n) => setState(() {
+                    _college.notes = n;
+                  }),
                 ),
               ],
             ),

@@ -6,103 +6,7 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import '../../constants.dart';
 import '../../widgets/CustomDataTable.dart';
 import '../../widgets/customScaffold.dart';
-
-class PaymentScreen extends StatelessWidget {
-  const PaymentScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomScaffold(
-      body: ListView(
-        children: [
-          SizedBox(height: 16),
-
-          /// payment overview
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _PaymentOverview(
-                total: 600,
-                pending: 86,
-              ),
-              SizedBox(width: 16),
-              _PaymentOverview(
-                total: 600,
-                pending: 86,
-                isExpenses: true,
-              ),
-            ],
-          ),
-
-          SizedBox(height: 16),
-
-          /// payment list
-          _DataList()
-        ],
-      ),
-    );
-  }
-}
-
-class _DataList extends StatelessWidget {
-  const _DataList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: CustomDataTable(
-        headersLabel: const [
-          "#",
-          "STATUS",
-          "PAYMENT INFO",
-          "DATE",
-          "AMOUNT",
-          "COMMENT",
-          "ACTION",
-        ],
-        dataRows: [
-          for (int i = 0; i < 10; i++)
-            DataRow(
-              cells: [
-                /// ID
-                CustomDataTable.getIdCell('6262'),
-
-                /// Status
-                CustomDataTable.getTypeCell(
-                  Colors.green,
-                  FontAwesome5.book_reader,
-                ),
-
-                /// Payment Info
-                CustomDataTable.getBasicInfoCell(
-                  title: 'Tammy Sanchez',
-                  subtitle: 'Python',
-                  iconData: i % 2 == 0
-                      ? FeatherIcons.arrowDownLeft
-                      : FeatherIcons.arrowUpRight,
-                  color: i % 2 == 0 ? Colors.green : Colors.red,
-                ),
-
-                /// Date
-                CustomDataTable.getTextCell('19 Apr 2022'),
-
-                /// Amount
-                CustomDataTable.getTextCell('\$762'),
-
-                /// Comment
-                CustomDataTable.getCommentCell(
-                  'New Teacher Assigned For The Assignment',
-                ),
-
-                /// Action
-                CustomDataTable.getActionCell(),
-              ],
-            ),
-        ],
-      ),
-    );
-  }
-}
+import '../../widgets/customTextField.dart';
 
 class _PaymentOverview extends StatefulWidget {
   final bool isExpenses;
@@ -231,6 +135,210 @@ class _PaymentOverviewState extends State<_PaymentOverview> {
             SizedBox(height: 8),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class PaymentScreen extends StatelessWidget {
+  const PaymentScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScaffold(
+      drawerBody: _DetailsDrawer(),
+      body: ListView(
+        children: [
+          SizedBox(height: 16),
+
+          /// payment overview
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _PaymentOverview(
+                total: 600,
+                pending: 86,
+              ),
+              SizedBox(width: 16),
+              _PaymentOverview(
+                total: 600,
+                pending: 86,
+                isExpenses: true,
+              ),
+            ],
+          ),
+
+          SizedBox(height: 16),
+
+          /// payment list
+          _DataList()
+        ],
+      ),
+    );
+  }
+}
+
+class _DataList extends StatelessWidget {
+  const _DataList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: CustomDataTable(
+        hasTopMargin: false,
+        headersLabel: const [
+          "#",
+          "STATUS",
+          "PAYMENT INFO",
+          "DATE",
+          "AMOUNT",
+          "COMMENT",
+          "ACTION",
+        ],
+        dataRows: [
+          for (int i = 0; i < 10; i++)
+            DataRow(
+              cells: [
+                /// ID
+                CustomDataTable.getIdCell(
+                  '6262',
+                  onTap: () => Scaffold.of(context).openEndDrawer(),
+                ),
+
+                /// Status
+                CustomDataTable.getTypeCell(
+                  Colors.green,
+                  FontAwesome5.book_reader,
+                ),
+
+                /// Payment Info
+                CustomDataTable.getBasicInfoCell(
+                  title: 'Tammy Sanchez',
+                  subtitle: 'Python',
+                  iconData: i % 2 == 0
+                      ? FeatherIcons.arrowDownLeft
+                      : FeatherIcons.arrowUpRight,
+                  color: i % 2 == 0 ? Colors.green : Colors.red,
+                ),
+
+                /// Date
+                CustomDataTable.getTextCell('19 Apr 2022'),
+
+                /// Amount
+                CustomDataTable.getTextCell('\$762'),
+
+                /// Comment
+                CustomDataTable.getCommentCell(
+                  'New Teacher Assigned For The Assignment',
+                ),
+
+                /// Action
+                CustomDataTable.getActionCell(),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DetailsDrawer extends StatelessWidget {
+  const _DetailsDrawer({Key? key}) : super(key: key);
+
+  // final TextEditingController _name = TextEditingController();
+
+  static final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// drawer header
+
+          DetailDrawerHeader(
+            onDone: () {
+              if (_formKey.currentState!.validate()) {
+                print('Hello Su Mit call api here and update the database');
+                Navigator.maybePop(context);
+              }
+            },
+          ),
+
+          SizedBox(height: 16),
+
+          Text(
+            "Add New Transaction",
+            style: TextStyle(
+              color: kTextColor2,
+            ),
+          ),
+
+          SizedBox(height: 16),
+          Divider(
+            height: 0.4,
+            color: kTextLightGrey.withOpacity(0.4),
+          ),
+
+          SizedBox(height: 16),
+
+          /// credit / debit
+          DropdownTextField(
+            options: ['Credit', 'Debit'],
+            labelText: 'Type',
+            icon: FeatherIcons.arrowDownLeft,
+            initialValue: 'Credit',
+          ),
+
+          /// currency
+          DropdownTextField(
+            options: ['USD', 'INR', 'CAD', 'GBP'],
+            labelText: 'Currency',
+            icon: FeatherIcons.dollarSign,
+            initialValue: 'INR',
+          ),
+
+          /// amount
+          IconTextField(
+            labelText: 'Amount',
+            icon: FeatherIcons.hash,
+          ),
+
+          /// notes or comments
+          IconTextField(
+            isMultipleLine: true,
+            labelText: 'Notes',
+            hintText: 'Add Some notes here...',
+            icon: FeatherIcons.edit,
+          ),
+
+          /// attachment
+          ListTile(
+            dense: true,
+            visualDensity: VisualDensity.standard,
+            contentPadding: EdgeInsets.all(0),
+            horizontalTitleGap: 3,
+            leading: CircleAvatar(
+              radius: 16,
+              backgroundColor: kActiveColor.withOpacity(0.12),
+              child: Icon(
+                FeatherIcons.uploadCloud,
+                color: kActiveColor,
+              ),
+            ),
+            title: Text(
+              "Upload Image",
+              style: TextStyle(
+                color: Color(0xff6e6b7b),
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            trailing: Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }

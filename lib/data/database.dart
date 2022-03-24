@@ -13,8 +13,8 @@ class College {
   late String name;
   late String img;
 
-  // subjects
-  late List<String> subjectsIds;
+  late String address;
+  late String notes;
 
   /// String -> Student, Teacher, Both
   late String visibility;
@@ -29,7 +29,8 @@ class College {
     required this.id,
     required this.name,
     required this.img,
-    required this.subjectsIds,
+    required this.address,
+    required this.notes,
     required this.visibility,
     required this.isActive,
     required this.createdAt,
@@ -40,7 +41,8 @@ class College {
         'id': id,
         'name': name,
         'img': img,
-        'subjectsIds': subjectsIds,
+        'address': address,
+        'notes': notes,
         'visibility': visibility,
         'isActive': isActive,
         'createdAt': createdAt,
@@ -52,7 +54,8 @@ class College {
           id: json['id'],
           name: json['name'],
           img: json['img'],
-          subjectsIds: json['subjectsIds'],
+          address: json['address'],
+          notes: json['notes'],
           visibility: json['visibility'],
           isActive: json['isActive'],
           createdAt: json['createdAt'],

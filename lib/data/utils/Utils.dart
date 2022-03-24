@@ -9,3 +9,7 @@ String getFormattedTimeWithAt(DateTime dateTime) {
   return DateFormat('MMM d At h${dateTime.minute != 0 ? ':mm' : ''} a')
       .format(dateTime);
 }
+
+String getShortFormattedTime(DateTime dateTime) {
+  return DateFormat('dd MMM yyyy').format(dateTime);
+}

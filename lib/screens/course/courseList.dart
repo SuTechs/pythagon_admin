@@ -98,7 +98,7 @@ class _DetailsDrawer extends StatelessWidget {
           /// drawer header
 
           DetailDrawerHeader(
-            onPressed: () {
+            onDone: () {
               if (_formKey.currentState!.validate()) {
                 print('Hello Su Mit call api here and update the database');
                 Navigator.maybePop(context);
