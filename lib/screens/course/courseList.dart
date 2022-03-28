@@ -1,33 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:provider/provider.dart';
+import 'package:pythagon_admin/data/bloc/collegeBloc.dart';
+import 'package:pythagon_admin/data/data.dart';
 
+import '../../data/utils/Utils.dart';
 import '../../widgets/CustomDataTable.dart';
 import '../../widgets/customScaffold.dart';
 import '../../widgets/customTextField.dart';
 
-class CourseList extends StatelessWidget {
+class CourseList extends StatefulWidget {
   const CourseList({Key? key}) : super(key: key);
+
+  @override
+  State<CourseList> createState() => _CourseListState();
+}
+
+class _CourseListState extends State<CourseList> {
+  CourseData? _selectedCourse;
+
+  bool _isLoading = true;
+
+  void fetchCourse() async {
+    await context.read<CourseBloc>().getCourses();
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    fetchCourse();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      drawerBody: _DetailsDrawer(),
-      body: _DataList(),
+      drawerBody:
+          _DetailsDrawer(initialCourseData: _selectedCourse ?? CourseData()),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : _DataList(
+              courses: context.watch<CourseBloc>().courses,
+              onAddNew: () {
+                setState(() {
+                  _selectedCourse = CourseData();
+                });
+              },
+              onDetailClick: (course) {
+                setState(() {
+                  _selectedCourse = course;
+                });
+              },
+            ),
     );
   }
 }
 
 class _DataList extends StatelessWidget {
-  const _DataList({Key? key}) : super(key: key);
+  final List<CourseData> courses;
+  final void Function() onAddNew;
+  final void Function(CourseData) onDetailClick;
+
+  const _DataList({
+    Key? key,
+    required this.courses,
+    required this.onAddNew,
+    required this.onDetailClick,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: CustomDataTable(
+        onAddNew: () {
+          onAddNew();
+          Scaffold.of(context).openEndDrawer();
+        },
         headersLabel: const [
           "#",
           "COURSE",
-          // "SUBJECTS",
           "CREATED ON",
           "UPDATED ON",
           "STATUS",
@@ -35,41 +88,39 @@ class _DataList extends StatelessWidget {
           "ACTION",
         ],
         dataRows: [
-          for (int i = 0; i < 10; i++)
+          for (final c in courses)
             DataRow(
               cells: [
                 /// ID
                 CustomDataTable.getIdCell(
-                  '6262',
-                  onTap: () => Scaffold.of(context).openEndDrawer(),
+                  c.id,
+                  onTap: () {
+                    onDetailClick(c);
+                    Scaffold.of(context).openEndDrawer();
+                  },
                 ),
 
                 /// Course Basic Info
                 CustomDataTable.getBasicInfoCell(
-                  title: 'CSE',
+                  title: c.name,
                 ),
 
-                // /// Subject
-                // CustomDataTable.getCommentCell(
-                //   'Py, C++, Physics, Maths, ML, MATLAB',
-                // ),
-
                 /// Created On
-                CustomDataTable.getTextCell('19 Apr 2022'),
+                CustomDataTable.getTextCell(getShortFormattedTime(c.createdAt)),
 
                 /// Updated On
-                CustomDataTable.getTextCell('19 Apr 2022'),
+                CustomDataTable.getTextCell(getShortFormattedTime(c.updatedAt)),
 
                 /// Status
                 CustomDataTable.getChipCell(
-                  'Active',
-                  const Color(0xff28c76f),
+                  c.isActive ? 'Active' : 'InActive',
+                  c.isActive ? const Color(0xff28c76f) : Colors.red,
                 ),
 
                 /// Visibility
                 CustomDataTable.getChipCell(
-                  'Both',
-                  const Color(0xff28c76f),
+                  c.visibility,
+                  c.visibility == 'None' ? Colors.red : const Color(0xff28c76f),
                 ),
 
                 /// Action
@@ -82,12 +133,20 @@ class _DataList extends StatelessWidget {
   }
 }
 
-class _DetailsDrawer extends StatelessWidget {
-  const _DetailsDrawer({Key? key}) : super(key: key);
+class _DetailsDrawer extends StatefulWidget {
+  final CourseData initialCourseData;
 
-  // final TextEditingController _name = TextEditingController();
+  const _DetailsDrawer({Key? key, required this.initialCourseData})
+      : super(key: key);
 
+  @override
+  State<_DetailsDrawer> createState() => _DetailsDrawerState();
+}
+
+class _DetailsDrawerState extends State<_DetailsDrawer> {
   static final _formKey = GlobalKey<FormState>();
+
+  late final _course = CourseData.fromJson(widget.initialCourseData.toJson());
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +157,16 @@ class _DetailsDrawer extends StatelessWidget {
           /// drawer header
 
           DetailDrawerHeader(
+            hasDoneButton: widget.initialCourseData.name != _course.name ||
+                widget.initialCourseData.img != _course.img ||
+                widget.initialCourseData.notes != _course.notes ||
+                widget.initialCourseData.visibility != _course.visibility ||
+                widget.initialCourseData.isActive != _course.isActive,
             onDone: () {
               if (_formKey.currentState!.validate()) {
                 print('Hello Su Mit call api here and update the database');
+
+                context.read<CourseBloc>().addCourse(_course);
                 Navigator.maybePop(context);
               }
             },
@@ -113,7 +179,9 @@ class _DetailsDrawer extends StatelessWidget {
                 /// profile pic
                 Center(
                   child: ProfileCircle(
-                    noImageText: 'Su',
+                    noImageText: _course.name.length > 2
+                        ? _course.name.substring(0, 2)
+                        : _course.name,
                     radius: 56,
                   ),
                 ),
@@ -122,24 +190,29 @@ class _DetailsDrawer extends StatelessWidget {
 
                 /// name
                 IconTextField(
+                  validator: (s) {
+                    if (s == null) return 'Name is required';
+                    if (s.trim().isEmpty) return 'Name is required';
+                    return null;
+                  },
                   labelText: 'Name',
                   icon: FeatherIcons.type,
-                  initialText: 'CSE',
+                  initialText: widget.initialCourseData.name,
+                  onChanged: (name) => setState(() {
+                    _course.name = name;
+                  }),
                 ),
-
-                // /// subjects
-                // IconTextField(
-                //   labelText: 'Subjects',
-                //   hintText: 'C++, Math',
-                //   icon: FeatherIcons.mapPin,
-                // ),
 
                 /// status
                 DropdownTextField(
                   options: ['Active', 'InActive'],
                   labelText: 'Status',
                   icon: FeatherIcons.toggleRight,
-                  initialValue: 'Active',
+                  initialValue:
+                      widget.initialCourseData.isActive ? 'Active' : 'InActive',
+                  onChanged: (isActive) => setState(() {
+                    _course.isActive = isActive == 'Active';
+                  }),
                 ),
 
                 /// visibility
@@ -147,15 +220,22 @@ class _DetailsDrawer extends StatelessWidget {
                   options: ['Student', 'Teacher', 'Both', 'None'],
                   labelText: 'Visibility',
                   icon: FeatherIcons.users,
-                  initialValue: 'None',
+                  initialValue: widget.initialCourseData.visibility,
+                  onChanged: (v) => setState(() {
+                    _course.visibility = v!;
+                  }),
                 ),
 
-                /// notes or comments
+                /// Notes or Comments
                 IconTextField(
                   isMultipleLine: true,
                   labelText: 'Notes',
                   hintText: 'Add Some notes here...',
                   icon: FeatherIcons.edit,
+                  initialText: widget.initialCourseData.notes,
+                  onChanged: (n) => setState(() {
+                    _course.notes = n;
+                  }),
                 ),
               ],
             ),

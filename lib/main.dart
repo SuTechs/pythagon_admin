@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (c) => CollegeBloc()),
+        ChangeNotifierProvider(create: (c) => CourseBloc()),
         Provider<BuildContext>(create: (c) => c),
       ],
       child: MaterialApp(

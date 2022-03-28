@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:pythagon_admin/screens/college/collegeList.dart';
 import 'package:pythagon_admin/widgets/showRoundedBottomSheet.dart';
 
 import '../../widgets/CustomDataTable.dart';
@@ -107,10 +108,20 @@ class _DetailsDrawer extends StatelessWidget {
             child: ListView(
               children: [
                 /// profile pic
-                Center(
-                  child: ProfileCircle(
-                    noImageText: 'Su',
-                    radius: 56,
+                GestureDetector(
+                  onTap: () async {
+                    final c = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => CollegeList(isSelect: true)));
+
+                    print('Selected course = $c');
+                  },
+                  child: Center(
+                    child: ProfileCircle(
+                      noImageText: 'Su',
+                      radius: 56,
+                    ),
                   ),
                 ),
 

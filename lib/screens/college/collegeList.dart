@@ -10,7 +10,9 @@ import '../../widgets/customScaffold.dart';
 import '../../widgets/customTextField.dart';
 
 class CollegeList extends StatefulWidget {
-  const CollegeList({Key? key}) : super(key: key);
+  final bool isSelect;
+
+  const CollegeList({Key? key, this.isSelect = false}) : super(key: key);
 
   @override
   State<CollegeList> createState() => _CollegeListState();
@@ -42,13 +44,12 @@ class _CollegeListState extends State<CollegeList> {
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : _DataList(
+              isSelect: widget.isSelect,
               colleges: context.watch<CollegeBloc>().colleges,
               onAddNew: () {
                 setState(() {
                   _selectedCollege = CollegeData();
                 });
-
-                print('hello noob');
               },
               onDetailClick: (college) {
                 setState(() {
@@ -62,6 +63,7 @@ class _CollegeListState extends State<CollegeList> {
 }
 
 class _DataList extends StatelessWidget {
+  final bool isSelect;
   final List<CollegeData> colleges;
   final void Function() onAddNew;
   final void Function(CollegeData) onDetailClick;
@@ -71,6 +73,7 @@ class _DataList extends StatelessWidget {
     required this.colleges,
     required this.onAddNew,
     required this.onDetailClick,
+    required this.isSelect,
   }) : super(key: key);
 
   @override
@@ -105,6 +108,11 @@ class _DataList extends StatelessWidget {
 
                 /// College Basic Info
                 CustomDataTable.getBasicInfoCell(
+                  onTap: isSelect
+                      ? () {
+                          Navigator.pop(context, c);
+                        }
+                      : null,
                   title: c.name,
                   subtitle: c.address,
                 ),

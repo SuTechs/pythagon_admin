@@ -2,173 +2,173 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 ///  College course subject
 
-class College {
-  static final ref =
-      FirebaseFirestore.instance.collection('College').withConverter<College>(
-            fromFirestore: (snapshot, _) => College.fromJson(snapshot.data()!),
-            toFirestore: (college, _) => college.toJson(),
-          );
+// class College {
+//   static final ref =
+//       FirebaseFirestore.instance.collection('College').withConverter<College>(
+//             fromFirestore: (snapshot, _) => College.fromJson(snapshot.data()!),
+//             toFirestore: (college, _) => college.toJson(),
+//           );
+//
+//   late final String id;
+//   late String name;
+//   late String img;
+//
+//   late String address;
+//   late String notes;
+//
+//   /// String -> Student, Teacher, Both
+//   late String visibility;
+//   late bool isActive;
+//
+//   // timeStamp
+//
+//   late final Timestamp createdAt;
+//   late Timestamp updatedAt;
+//
+//   College({
+//     required this.id,
+//     required this.name,
+//     required this.img,
+//     required this.address,
+//     required this.notes,
+//     required this.visibility,
+//     required this.isActive,
+//     required this.createdAt,
+//     required this.updatedAt,
+//   });
+//
+//   Map<String, dynamic> toJson() => {
+//         'id': id,
+//         'name': name,
+//         'img': img,
+//         'address': address,
+//         'notes': notes,
+//         'visibility': visibility,
+//         'isActive': isActive,
+//         'createdAt': createdAt,
+//         'updatedAt': updatedAt,
+//       };
+//
+//   College.fromJson(Map<String, dynamic> json)
+//       : this(
+//           id: json['id'],
+//           name: json['name'],
+//           img: json['img'],
+//           address: json['address'],
+//           notes: json['notes'],
+//           visibility: json['visibility'],
+//           isActive: json['isActive'],
+//           createdAt: json['createdAt'],
+//           updatedAt: json['updatedAt'],
+//         );
+// }
+//
+// class Course {
+//   static final ref =
+//       FirebaseFirestore.instance.collection('Course').withConverter<Course>(
+//             fromFirestore: (snapshot, _) => Course.fromJson(snapshot.data()!),
+//             toFirestore: (course, _) => course.toJson(),
+//           );
+//
+//   late final String id;
+//   late String name;
+//   late String img;
+//   late String location;
+//
+//   /// String -> Student, Teacher, Both
+//   late String visibility;
+//   late bool isActive;
+//
+//   // timeStamp
+//
+//   late final Timestamp createdAt;
+//   late Timestamp updatedAt;
+//
+//   Course({
+//     required this.id,
+//     required this.name,
+//     required this.img,
+//     required this.location,
+//     required this.visibility,
+//     required this.isActive,
+//     required this.createdAt,
+//     required this.updatedAt,
+//   });
+//
+//   Map<String, dynamic> toJson() => {
+//         'id': id,
+//         'name': name,
+//         'img': img,
+//         'location': location,
+//         'visibility': visibility,
+//         'isActive': isActive,
+//         'createdAt': createdAt,
+//         'updatedAt': updatedAt,
+//       };
+//
+//   Course.fromJson(Map<String, dynamic> json)
+//       : this(
+//           id: json['id'],
+//           name: json['name'],
+//           img: json['img'],
+//           location: json['location'],
+//           visibility: json['visibility'],
+//           isActive: json['isActive'],
+//           createdAt: json['createdAt'],
+//           updatedAt: json['updatedAt'],
+//         );
+// }
 
-  late final String id;
-  late String name;
-  late String img;
-
-  late String address;
-  late String notes;
-
-  /// String -> Student, Teacher, Both
-  late String visibility;
-  late bool isActive;
-
-  // timeStamp
-
-  late final Timestamp createdAt;
-  late Timestamp updatedAt;
-
-  College({
-    required this.id,
-    required this.name,
-    required this.img,
-    required this.address,
-    required this.notes,
-    required this.visibility,
-    required this.isActive,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'img': img,
-        'address': address,
-        'notes': notes,
-        'visibility': visibility,
-        'isActive': isActive,
-        'createdAt': createdAt,
-        'updatedAt': updatedAt,
-      };
-
-  College.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json['id'],
-          name: json['name'],
-          img: json['img'],
-          address: json['address'],
-          notes: json['notes'],
-          visibility: json['visibility'],
-          isActive: json['isActive'],
-          createdAt: json['createdAt'],
-          updatedAt: json['updatedAt'],
-        );
-}
-
-class Course {
-  static final ref =
-      FirebaseFirestore.instance.collection('Course').withConverter<Course>(
-            fromFirestore: (snapshot, _) => Course.fromJson(snapshot.data()!),
-            toFirestore: (course, _) => course.toJson(),
-          );
-
-  late final String id;
-  late String name;
-  late String img;
-  late String location;
-
-  /// String -> Student, Teacher, Both
-  late String visibility;
-  late bool isActive;
-
-  // timeStamp
-
-  late final Timestamp createdAt;
-  late Timestamp updatedAt;
-
-  Course({
-    required this.id,
-    required this.name,
-    required this.img,
-    required this.location,
-    required this.visibility,
-    required this.isActive,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'img': img,
-        'location': location,
-        'visibility': visibility,
-        'isActive': isActive,
-        'createdAt': createdAt,
-        'updatedAt': updatedAt,
-      };
-
-  Course.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json['id'],
-          name: json['name'],
-          img: json['img'],
-          location: json['location'],
-          visibility: json['visibility'],
-          isActive: json['isActive'],
-          createdAt: json['createdAt'],
-          updatedAt: json['updatedAt'],
-        );
-}
-
-class Subject {
-  static final ref =
-      FirebaseFirestore.instance.collection('Subject').withConverter<Subject>(
-            fromFirestore: (snapshot, _) => Subject.fromJson(snapshot.data()!),
-            toFirestore: (subject, _) => subject.toJson(),
-          );
-
-  late final String id;
-  late String name;
-  late String img;
-
-  /// String -> Student, Teacher, Both
-  late String visibility;
-  late bool isActive;
-
-  // timeStamp
-  late final Timestamp createdAt;
-  late Timestamp updatedAt;
-
-  Subject({
-    required this.id,
-    required this.name,
-    required this.img,
-    required this.visibility,
-    required this.isActive,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'img': img,
-        'visibility': visibility,
-        'isActive': isActive,
-        'createdAt': createdAt,
-        'updatedAt': updatedAt,
-      };
-
-  Subject.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json['id'],
-          name: json['name'],
-          img: json['img'],
-          visibility: json['visibility'],
-          isActive: json['isActive'],
-          createdAt: json['createdAt'],
-          updatedAt: json['updatedAt'],
-        );
-}
+// class Subject {
+//   static final ref =
+//       FirebaseFirestore.instance.collection('Subject').withConverter<Subject>(
+//             fromFirestore: (snapshot, _) => Subject.fromJson(snapshot.data()!),
+//             toFirestore: (subject, _) => subject.toJson(),
+//           );
+//
+//   late final String id;
+//   late String name;
+//   late String img;
+//
+//   /// String -> Student, Teacher, Both
+//   late String visibility;
+//   late bool isActive;
+//
+//   // timeStamp
+//   late final Timestamp createdAt;
+//   late Timestamp updatedAt;
+//
+//   Subject({
+//     required this.id,
+//     required this.name,
+//     required this.img,
+//     required this.visibility,
+//     required this.isActive,
+//     required this.createdAt,
+//     required this.updatedAt,
+//   });
+//
+//   Map<String, dynamic> toJson() => {
+//         'id': id,
+//         'name': name,
+//         'img': img,
+//         'visibility': visibility,
+//         'isActive': isActive,
+//         'createdAt': createdAt,
+//         'updatedAt': updatedAt,
+//       };
+//
+//   Subject.fromJson(Map<String, dynamic> json)
+//       : this(
+//           id: json['id'],
+//           name: json['name'],
+//           img: json['img'],
+//           visibility: json['visibility'],
+//           isActive: json['isActive'],
+//           createdAt: json['createdAt'],
+//           updatedAt: json['updatedAt'],
+//         );
+// }
 
 /// Student
 ///
@@ -176,247 +176,247 @@ class Subject {
 /// in different currency
 ///
 
-class Student {
-  static final ref =
-      FirebaseFirestore.instance.collection('Student').withConverter<Student>(
-            fromFirestore: (snapshot, _) => Student.fromJson(snapshot.data()!),
-            toFirestore: (student, _) => student.toJson(),
-          );
-
-  late final String id;
-  late String username;
-
-  // basic info
-  late String name;
-  late String profilePic;
-  late String bio;
-  late String dateOfBirth;
-  late String gender;
-  late String phone;
-  late String email;
-
-  // course detail
-  late String courseId;
-  late String collegeId;
-
-  // assignment & payment info
-
-  late double totalPaidAmount;
-  late double totalDueAmount;
-  late String totalWork;
-  late String totalPendingWork;
-
-  // timeStamp
-
-  late final Timestamp createdAt;
-  late Timestamp updatedAt;
-
-  Student({
-    required this.id,
-    required this.username,
-    required this.name,
-    required this.profilePic,
-    required this.bio,
-    required this.dateOfBirth,
-    required this.gender,
-    required this.phone,
-    required this.email,
-    required this.courseId,
-    required this.collegeId,
-    required this.totalPaidAmount,
-    required this.totalDueAmount,
-    required this.totalWork,
-    required this.totalPendingWork,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'username': username,
-        'name': name,
-        'profilePic': profilePic,
-        'bio': bio,
-        'dateOfBirth': dateOfBirth,
-        'gender': gender,
-        'phone': phone,
-        'email': email,
-        'courseId': courseId,
-        'collegeId': collegeId,
-        // ToDO: Something need to be done about amount
-        'totalPaidAmount': totalPaidAmount,
-        'totalDueAmount': totalDueAmount,
-        'totalWork': totalWork,
-        'totalPendingWork': totalPendingWork,
-        'createdAt': createdAt,
-        'updatedAt': updatedAt,
-      };
-
-  Student.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json['id'],
-          username: json['username'],
-          name: json['name'],
-          profilePic: json['profilePic'],
-          bio: json['bio'],
-          dateOfBirth: json['dateOfBirth'],
-          gender: json['gender'],
-          phone: json['phone'],
-          email: json['email'],
-          courseId: json['courseId'],
-          collegeId: json['collegeId'],
-          totalPaidAmount: json['totalPaidAmount'],
-          totalDueAmount: json['totalDueAmount'],
-          totalWork: json['totalWork'],
-          totalPendingWork: json['totalPendingWork'],
-          createdAt: json['createdAt'],
-          updatedAt: json['updatedAt'],
-        );
-}
+// class Student {
+//   static final ref =
+//       FirebaseFirestore.instance.collection('Student').withConverter<Student>(
+//             fromFirestore: (snapshot, _) => Student.fromJson(snapshot.data()!),
+//             toFirestore: (student, _) => student.toJson(),
+//           );
+//
+//   late final String id;
+//   late String username;
+//
+//   // basic info
+//   late String name;
+//   late String profilePic;
+//   late String bio;
+//   late String dateOfBirth;
+//   late String gender;
+//   late String phone;
+//   late String email;
+//
+//   // course detail
+//   late String courseId;
+//   late String collegeId;
+//
+//   // assignment & payment info
+//
+//   late double totalPaidAmount;
+//   late double totalDueAmount;
+//   late String totalWork;
+//   late String totalPendingWork;
+//
+//   // timeStamp
+//
+//   late final Timestamp createdAt;
+//   late Timestamp updatedAt;
+//
+//   Student({
+//     required this.id,
+//     required this.username,
+//     required this.name,
+//     required this.profilePic,
+//     required this.bio,
+//     required this.dateOfBirth,
+//     required this.gender,
+//     required this.phone,
+//     required this.email,
+//     required this.courseId,
+//     required this.collegeId,
+//     required this.totalPaidAmount,
+//     required this.totalDueAmount,
+//     required this.totalWork,
+//     required this.totalPendingWork,
+//     required this.createdAt,
+//     required this.updatedAt,
+//   });
+//
+//   Map<String, dynamic> toJson() => {
+//         'id': id,
+//         'username': username,
+//         'name': name,
+//         'profilePic': profilePic,
+//         'bio': bio,
+//         'dateOfBirth': dateOfBirth,
+//         'gender': gender,
+//         'phone': phone,
+//         'email': email,
+//         'courseId': courseId,
+//         'collegeId': collegeId,
+//         // ToDO: Something need to be done about amount
+//         'totalPaidAmount': totalPaidAmount,
+//         'totalDueAmount': totalDueAmount,
+//         'totalWork': totalWork,
+//         'totalPendingWork': totalPendingWork,
+//         'createdAt': createdAt,
+//         'updatedAt': updatedAt,
+//       };
+//
+//   Student.fromJson(Map<String, dynamic> json)
+//       : this(
+//           id: json['id'],
+//           username: json['username'],
+//           name: json['name'],
+//           profilePic: json['profilePic'],
+//           bio: json['bio'],
+//           dateOfBirth: json['dateOfBirth'],
+//           gender: json['gender'],
+//           phone: json['phone'],
+//           email: json['email'],
+//           courseId: json['courseId'],
+//           collegeId: json['collegeId'],
+//           totalPaidAmount: json['totalPaidAmount'],
+//           totalDueAmount: json['totalDueAmount'],
+//           totalWork: json['totalWork'],
+//           totalPendingWork: json['totalPendingWork'],
+//           createdAt: json['createdAt'],
+//           updatedAt: json['updatedAt'],
+//         );
+// }
 
 /// Admin
 
-class Admin {
-  static final adminRef =
-      FirebaseFirestore.instance.collection('Admin').withConverter<Admin>(
-            fromFirestore: (snapshot, _) => Admin.fromJson(snapshot.data()!),
-            toFirestore: (admin, _) => admin.toJson(),
-          );
-
-  late final String id;
-  late String username;
-
-  // basic info
-  late String name;
-  late String profilePic;
-  late String bio;
-  late String dateOfBirth;
-  late String gender;
-  late String phone;
-  late String email;
-
-  // admin role
-  late String role;
-
-  // timeStamp
-  late final Timestamp createdAt;
-  late Timestamp updatedAt;
-
-  Admin({
-    required this.id,
-    required this.username,
-    required this.name,
-    required this.profilePic,
-    required this.bio,
-    required this.dateOfBirth,
-    required this.gender,
-    required this.phone,
-    required this.email,
-    required this.role,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'username': username,
-        'name': name,
-        'profilePic': profilePic,
-        'bio': bio,
-        'dateOfBirth': dateOfBirth,
-        'gender': gender,
-        'phone': phone,
-        'email': email,
-        'role': role,
-        'createdAt': createdAt,
-        'updatedAt': updatedAt,
-      };
-
-  Admin.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json['id'],
-          username: json['username'],
-          name: json['name'],
-          profilePic: json['profilePic'],
-          bio: json['bio'],
-          dateOfBirth: json['dateOfBirth'],
-          gender: json['gender'],
-          phone: json['phone'],
-          email: json['email'],
-          role: json['role'],
-          createdAt: json['createdAt'],
-          updatedAt: json['updatedAt'],
-        );
-}
+// class Admin {
+//   static final adminRef =
+//       FirebaseFirestore.instance.collection('Admin').withConverter<Admin>(
+//             fromFirestore: (snapshot, _) => Admin.fromJson(snapshot.data()!),
+//             toFirestore: (admin, _) => admin.toJson(),
+//           );
+//
+//   late final String id;
+//   late String username;
+//
+//   // basic info
+//   late String name;
+//   late String profilePic;
+//   late String bio;
+//   late String dateOfBirth;
+//   late String gender;
+//   late String phone;
+//   late String email;
+//
+//   // admin role
+//   late String role;
+//
+//   // timeStamp
+//   late final Timestamp createdAt;
+//   late Timestamp updatedAt;
+//
+//   Admin({
+//     required this.id,
+//     required this.username,
+//     required this.name,
+//     required this.profilePic,
+//     required this.bio,
+//     required this.dateOfBirth,
+//     required this.gender,
+//     required this.phone,
+//     required this.email,
+//     required this.role,
+//     required this.createdAt,
+//     required this.updatedAt,
+//   });
+//
+//   Map<String, dynamic> toJson() => {
+//         'id': id,
+//         'username': username,
+//         'name': name,
+//         'profilePic': profilePic,
+//         'bio': bio,
+//         'dateOfBirth': dateOfBirth,
+//         'gender': gender,
+//         'phone': phone,
+//         'email': email,
+//         'role': role,
+//         'createdAt': createdAt,
+//         'updatedAt': updatedAt,
+//       };
+//
+//   Admin.fromJson(Map<String, dynamic> json)
+//       : this(
+//           id: json['id'],
+//           username: json['username'],
+//           name: json['name'],
+//           profilePic: json['profilePic'],
+//           bio: json['bio'],
+//           dateOfBirth: json['dateOfBirth'],
+//           gender: json['gender'],
+//           phone: json['phone'],
+//           email: json['email'],
+//           role: json['role'],
+//           createdAt: json['createdAt'],
+//           updatedAt: json['updatedAt'],
+//         );
+// }
 
 /// Transaction
 
-class Transaction {
-  static final ref = FirebaseFirestore.instance
-      .collection('Transaction')
-      .withConverter<Transaction>(
-        fromFirestore: (snapshot, _) => Transaction.fromJson(snapshot.data()!),
-        toFirestore: (transaction, _) => transaction.toJson(),
-      );
-
-  late final String id;
-  late double amount;
-  late String attachment;
-  late String comment;
-  late String type; // transaction type
-  late bool isExpense;
-  late bool isCredit;
-  late String adminId;
-  late String? assignmentId;
-  late String? teacherId;
-
-  // timeStamp
-  late final Timestamp createdAt;
-  late Timestamp updatedAt;
-
-  Transaction({
-    required this.id,
-    required this.amount,
-    required this.type,
-    required this.attachment,
-    required this.comment,
-    required this.isCredit,
-    required this.adminId,
-    this.assignmentId,
-    this.teacherId,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'amount': amount,
-        'type': type,
-        'attachment': attachment,
-        'comment': comment,
-        'isCredit': isCredit,
-        'adminId': adminId,
-        'assignmentId': assignmentId,
-        'teacherId': teacherId,
-        'createdAt': createdAt,
-        'updatedAt': updatedAt,
-      };
-
-  Transaction.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json['id'],
-          amount: json['amount'],
-          type: json['type'],
-          attachment: json['attachment'],
-          comment: json['comment'],
-          isCredit: json['isCredit'],
-          adminId: json['adminId'],
-          assignmentId: json['assignmentId'],
-          teacherId: json['teacherId'],
-          createdAt: json['createdAt'],
-          updatedAt: json['updatedAt'],
-        );
-}
+// class Transaction {
+//   static final ref = FirebaseFirestore.instance
+//       .collection('Transaction')
+//       .withConverter<Transaction>(
+//         fromFirestore: (snapshot, _) => Transaction.fromJson(snapshot.data()!),
+//         toFirestore: (transaction, _) => transaction.toJson(),
+//       );
+//
+//   late final String id;
+//   late double amount;
+//   late String attachment;
+//   late String comment;
+//   late String type; // transaction type
+//   late bool isExpense;
+//   late bool isCredit;
+//   late String adminId;
+//   late String? assignmentId;
+//   late String? teacherId;
+//
+//   // timeStamp
+//   late final Timestamp createdAt;
+//   late Timestamp updatedAt;
+//
+//   Transaction({
+//     required this.id,
+//     required this.amount,
+//     required this.type,
+//     required this.attachment,
+//     required this.comment,
+//     required this.isCredit,
+//     required this.adminId,
+//     this.assignmentId,
+//     this.teacherId,
+//     required this.createdAt,
+//     required this.updatedAt,
+//   });
+//
+//   Map<String, dynamic> toJson() => {
+//         'id': id,
+//         'amount': amount,
+//         'type': type,
+//         'attachment': attachment,
+//         'comment': comment,
+//         'isCredit': isCredit,
+//         'adminId': adminId,
+//         'assignmentId': assignmentId,
+//         'teacherId': teacherId,
+//         'createdAt': createdAt,
+//         'updatedAt': updatedAt,
+//       };
+//
+//   Transaction.fromJson(Map<String, dynamic> json)
+//       : this(
+//           id: json['id'],
+//           amount: json['amount'],
+//           type: json['type'],
+//           attachment: json['attachment'],
+//           comment: json['comment'],
+//           isCredit: json['isCredit'],
+//           adminId: json['adminId'],
+//           assignmentId: json['assignmentId'],
+//           teacherId: json['teacherId'],
+//           createdAt: json['createdAt'],
+//           updatedAt: json['updatedAt'],
+//         );
+// }
 
 ///
 ///

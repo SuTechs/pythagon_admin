@@ -23,10 +23,8 @@ class CollegeData extends BaseData {
 
   String name;
   String img;
-
   String address;
   String notes;
-
   String visibility;
   bool isActive;
 
@@ -79,24 +77,81 @@ class CollegeData extends BaseData {
           isActive: json['isActive'] as bool,
         );
 
-  // CollegeData.copy(CollegeData data)
-  //     : this(
-  //         id: data.id,
-  //         createdAt: data.createdAt,
-  //         updatedAt: data.updatedAt,
-  //         createdBy: data.createdBy,
-  //
-  //         ///
-  //
-  //         name: data.name,
-  //         img: data.img,
-  //         address: data.address,
-  //         notes: data.notes,
-  //         visibility: data.visibility,
-  //         isActive: data.isActive,
-  //       );
-
   static Future<List<CollegeData>> getAll() async =>
+      (await ref.orderBy('createdAt').get()).docs.map((e) => e.data()).toList();
+
+  Future<void> add() async {
+    updatedAt = DateTime.now();
+    await ref.doc(id).set(this);
+  }
+
+  @override
+  String toString() {
+    return 'id: $id, name: $name';
+  }
+}
+
+class CourseData extends BaseData {
+  static final ref = FirebaseFirestore.instance
+      .collection('CourseData')
+      .withConverter<CourseData>(
+        fromFirestore: (snapshot, _) => CourseData.fromJson(snapshot.data()!),
+        toFirestore: (course, _) => course.toJson(),
+      );
+
+  String name;
+  String img;
+  String notes;
+  String visibility;
+  bool isActive;
+
+  CourseData({
+    this.name = '',
+    this.img = '',
+    this.notes = '',
+    this.visibility = 'None',
+    this.isActive = false,
+
+    ///
+    String? id,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) : super(id, createdAt, updatedAt);
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'createdAt': createdAt,
+        'updatedAt': updatedAt,
+
+        ///
+
+        'name': name,
+        'img': img,
+        'notes': notes,
+        'visibility': visibility,
+        'isActive': isActive,
+      };
+
+  CourseData.fromJson(Map<String, dynamic> json)
+      : this(
+          id: json['id'] as String,
+          createdAt: json['createdAt'].runtimeType == Timestamp
+              ? (json['createdAt'] as Timestamp).toDate()
+              : json['createdAt'] as DateTime,
+          updatedAt: json['updatedAt'].runtimeType == Timestamp
+              ? (json['updatedAt'] as Timestamp).toDate()
+              : json['updatedAt'] as DateTime,
+
+          ///
+
+          name: json['name'] as String,
+          img: json['img'] as String,
+          notes: json['notes'] as String,
+          visibility: json['visibility'] as String,
+          isActive: json['isActive'] as bool,
+        );
+
+  static Future<List<CourseData>> getAll() async =>
       (await ref.get()).docs.map((e) => e.data()).toList();
 
   Future<void> add() async {

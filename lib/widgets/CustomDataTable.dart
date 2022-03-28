@@ -125,6 +125,7 @@ class CustomDataTable extends StatelessWidget {
     String? imageUrl,
     IconData? iconData,
     String? noImageText,
+    GestureTapCallback? onTap,
     Color color = const Color(0xff834DF3),
   }) {
     if (imageUrl == null && noImageText == null)
@@ -132,6 +133,7 @@ class CustomDataTable extends StatelessWidget {
 
     return DataCell(
       ListTile(
+        onTap: onTap,
         dense: true,
         visualDensity: VisualDensity.standard,
         contentPadding: EdgeInsets.all(0),
