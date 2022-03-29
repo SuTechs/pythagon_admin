@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:pythagon_admin/data/bloc/collegeBloc.dart';
-import 'package:pythagon_admin/data/data.dart';
 
+import '../../data/bloc/courseBloc.dart';
 import '../../data/utils/Utils.dart';
+import '../../data/utils/data/course.dart';
 import '../../widgets/CustomDataTable.dart';
 import '../../widgets/customScaffold.dart';
 import '../../widgets/customTextField.dart';
 
 class CourseList extends StatefulWidget {
-  const CourseList({Key? key}) : super(key: key);
+  final bool isSelect;
+
+  const CourseList({Key? key, this.isSelect = false}) : super(key: key);
 
   @override
   State<CourseList> createState() => _CourseListState();
@@ -22,7 +24,7 @@ class _CourseListState extends State<CourseList> {
   bool _isLoading = true;
 
   void fetchCourse() async {
-    await context.read<CourseBloc>().getCourses();
+    await context.read<CourseBloc>().get();
     setState(() {
       _isLoading = false;
     });
@@ -42,6 +44,7 @@ class _CourseListState extends State<CourseList> {
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : _DataList(
+              isSelect: widget.isSelect,
               courses: context.watch<CourseBloc>().courses,
               onAddNew: () {
                 setState(() {
@@ -59,6 +62,7 @@ class _CourseListState extends State<CourseList> {
 }
 
 class _DataList extends StatelessWidget {
+  final bool isSelect;
   final List<CourseData> courses;
   final void Function() onAddNew;
   final void Function(CourseData) onDetailClick;
@@ -68,6 +72,7 @@ class _DataList extends StatelessWidget {
     required this.courses,
     required this.onAddNew,
     required this.onDetailClick,
+    required this.isSelect,
   }) : super(key: key);
 
   @override
@@ -102,6 +107,11 @@ class _DataList extends StatelessWidget {
 
                 /// Course Basic Info
                 CustomDataTable.getBasicInfoCell(
+                  onTap: isSelect
+                      ? () {
+                          Navigator.pop(context, c);
+                        }
+                      : null,
                   title: c.name,
                 ),
 
@@ -166,7 +176,7 @@ class _DetailsDrawerState extends State<_DetailsDrawer> {
               if (_formKey.currentState!.validate()) {
                 print('Hello Su Mit call api here and update the database');
 
-                context.read<CourseBloc>().addCourse(_course);
+                context.read<CourseBloc>().add(_course);
                 Navigator.maybePop(context);
               }
             },

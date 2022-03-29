@@ -219,6 +219,8 @@ class IconTextField extends StatelessWidget {
   final GestureTapCallback? onTap;
   final ValueChanged<String>? onChanged;
 
+  final TextEditingController? controller;
+
   const IconTextField({
     Key? key,
     required this.labelText,
@@ -230,11 +232,13 @@ class IconTextField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.onChanged,
+    this.controller,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       readOnly: readOnly,
       onTap: onTap,
       maxLines: !isMultipleLine ? 1 : null,

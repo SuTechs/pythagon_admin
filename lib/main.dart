@@ -2,8 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pythagon_admin/data/bloc/collegeBloc.dart';
-import 'package:pythagon_admin/screens/home.dart';
+
+import 'data/bloc/collegeBloc.dart';
+import 'data/bloc/courseBloc.dart';
+import 'data/bloc/subjectBloc.dart';
+import 'screens/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +30,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (c) => CollegeBloc()),
         ChangeNotifierProvider(create: (c) => CourseBloc()),
+        ChangeNotifierProvider(create: (c) => SubjectBloc()),
         Provider<BuildContext>(create: (c) => c),
       ],
       child: MaterialApp(
@@ -42,21 +46,6 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-
-// void addCollege() async {
-//   final c = College(
-//     id: 'id',
-//     name: 'name',
-//     img: 'img',
-//     subjectsIds: ['subjectsIds'],
-//     visibility: 'visibility',
-//     isActive: true,
-//     createdAt: Timestamp.now(),
-//     updatedAt: Timestamp.now(),
-//   );
-//
-//   College.ref.doc(c.id).set(c);
-// }
 }
 
 const MaterialColor _kActiveSwatch =

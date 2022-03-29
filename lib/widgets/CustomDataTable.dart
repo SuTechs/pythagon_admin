@@ -129,7 +129,7 @@ class CustomDataTable extends StatelessWidget {
     Color color = const Color(0xff834DF3),
   }) {
     if (imageUrl == null && noImageText == null)
-      noImageText = title.substring(0, 2);
+      noImageText = title.length > 2 ? title.substring(0, 2) : title;
 
     return DataCell(
       ListTile(

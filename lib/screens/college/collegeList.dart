@@ -3,8 +3,8 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:pythagon_admin/data/bloc/collegeBloc.dart';
 
-import '../../data/data.dart';
 import '../../data/utils/Utils.dart';
+import '../../data/utils/data/college.dart';
 import '../../widgets/CustomDataTable.dart';
 import '../../widgets/customScaffold.dart';
 import '../../widgets/customTextField.dart';
@@ -24,7 +24,7 @@ class _CollegeListState extends State<CollegeList> {
   bool _isLoading = true;
 
   void fetchCollege() async {
-    await context.read<CollegeBloc>().getCollege();
+    await context.read<CollegeBloc>().get();
     setState(() {
       _isLoading = false;
     });
@@ -179,7 +179,7 @@ class _DetailsDrawerState extends State<_DetailsDrawer> {
             onDone: () {
               if (_formKey.currentState!.validate()) {
                 print('Hello Su Mit call api here and update the database');
-                context.read<CollegeBloc>().addCollege(_college);
+                context.read<CollegeBloc>().add(_college);
                 Navigator.maybePop(context);
               }
             },
