@@ -46,9 +46,23 @@ abstract class BaseData<T extends BaseData<T>> {
   /// static declaration of all ref name
 
   static const adminRefName = 'AdminDataClass';
+
+  /// assignment
+  static const assignmentRefName = 'AssignmentDataClass';
+  static const assignmentActivityRefName = 'AssignmentActivityDataDataClass';
+  static const teacherAssignmentRefName = 'TeacherAssignmentDataClass';
+
+  ///
   static const collegeRefName = 'CollegeDataClass';
   static const courseRefName = 'CourseDataClass';
   static const studentRefName = 'StudentDataClass';
   static const subjectRefName = 'SubjectDataClass';
+
+  /// teacher
+  static const teacherRefName = 'TeacherDataClass';
+  static const teacherAccountRefName = 'TeacherAccountDataClass';
+  static const teacherDocRefName = 'TeacherDocDataClass';
+  static const teacherSubjectRefName = 'TeacherSubjectDataClass';
+
   static const transactionRefName = 'TransactionDataClass';
 }
