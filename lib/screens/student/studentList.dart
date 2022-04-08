@@ -23,6 +23,14 @@ class _DataList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: CustomDataTable(
+        onAddNew: () {
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (_) => StudentDetails(),
+            ),
+          );
+        },
         headersLabel: const [
           "#",
           "BASIC INFO",
